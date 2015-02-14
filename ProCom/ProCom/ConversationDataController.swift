@@ -10,10 +10,17 @@ import UIKit
 
 class ConversationDataController: NSObject {
     
-    var conversationList: [Conversation] =
-        [
-            Conversation(conversationTitle = "Meetings"),
-            Conversation(conversationTitle = "Ideas"),
-            Conversation(conversationTitle = "Suggestions")
-        ]
+    lazy var conversationList = [Conversation]()
+    
+    override init() {
+        super.init()
+        
+        addDummyData()
+    }
+    
+    func addDummyData() {
+        var c1 = Conversation(title: "Ideas")
+        var c2 = Conversation(title: "Meetings")
+        var c3 = Conversation(title: "Suggestions")
+    }
 }

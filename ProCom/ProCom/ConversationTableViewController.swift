@@ -44,7 +44,7 @@ class ConversationTableViewController: UITableViewController {
 
         // Configure the cell...
         
-        cell.textLabel?.text = self.array[indexPath.row].conversationTitle
+        cell.textLabel?.text = self.array[indexPath.row].title
 
         return cell
     }

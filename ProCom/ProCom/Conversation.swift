@@ -10,7 +10,11 @@ import UIKit
 
 class Conversation: NSObject {
     
-    var conversationTitle: NSString = ""
+    var title: String = ""
     
     var messageArray = [Message]()
+    
+    init(title: String) {
+        self.title = title
+    }
 }
