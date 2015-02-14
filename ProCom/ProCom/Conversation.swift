@@ -9,5 +9,8 @@
 import UIKit
 
 class Conversation: NSObject {
+    
+    var conversationTitle: NSString = ""
+    
     var messageArray = [Message]()
 }
