@@ -43,6 +43,7 @@ class ConversationTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as UITableViewCell
 
         // Configure the cell...
+        
         cell.textLabel?.text = self.array[indexPath.row].conversationTitle
 
         return cell
