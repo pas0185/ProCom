@@ -1,5 +1,5 @@
 //
-//  Category.swift
+//  Message.swift
 //  ProCom
 //
 //  Created by Patrick Sheehan on 2/14/15.
@@ -8,6 +8,6 @@
 
 import UIKit
 
-class Category: NSObject {
-   var subCategoryArray = [Category]()
+class Blurb: NSObject {
+    var text : NSString?
 }

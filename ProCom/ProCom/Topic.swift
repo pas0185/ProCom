@@ -1,5 +1,5 @@
 //
-//  Message.swift
+//  Topic.swift
 //  ProCom
 //
 //  Created by Patrick Sheehan on 2/14/15.
@@ -8,6 +8,6 @@
 
 import UIKit
 
-class Message: NSObject {
-    var text : NSString?
+class Topic: NSObject {
+   var subTopicArray = [Topic]()
 }

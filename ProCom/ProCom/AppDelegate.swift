@@ -13,19 +13,19 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    let conversation
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
-        let navigationController = self.window!.rootViewController as UINavigationController
-        let controller = navigationController.topViewController as ConversationTableViewController
         
+        var convoView: ConvoTableViewController = ConvoTableViewController()
         
+        if let window = self.window{
+            window.rootViewController = convoView
+        }
         
-        // TODO: learn how to use ^^ managed object context if it can help later
+        // TODO: learn how to use managed object context if it can help later
         //        controller.managedObjectContext = self.managedObjectContext
 
-        
         
         return true
     }

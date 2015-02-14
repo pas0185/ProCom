@@ -1,5 +1,5 @@
 //
-//  Conversation.swift
+//  Convo.swift
 //  ProCom
 //
 //  Created by Patrick Sheehan on 2/14/15.
@@ -8,11 +8,11 @@
 
 import UIKit
 
-class Conversation: NSObject {
+class Convo: NSObject {
     
     var title: String = ""
     
-    var messageArray = [Message]()
+    var messageArray = [Blurb]()
     
     init(title: String) {
         self.title = title

@@ -1,5 +1,5 @@
 //
-//  ConversationTableViewController.swift
+//  ConvoTableViewController.swift
 //  ProCom
 //
 //  Created by Patrick Sheehan on 2/14/15.
@@ -8,13 +8,18 @@
 
 import UIKit
 
-class ConversationTableViewController: UITableViewController {
+class ConvoTableViewController: UITableViewController {
 
-    var array = [Conversation]()
+    var array = [Convo]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        // Add dummy data
+        array.append(Convo(title:"Ideas"))
+        array.append(Convo(title:"Meeting Times"))
+        array.append(Convo(title:"Suggestions"))
+        
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -40,9 +45,9 @@ class ConversationTableViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as UITableViewCell
-
-        // Configure the cell...
+//        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as UITableViewCell
+        
+        let cell = UITableViewCell()
         
         cell.textLabel?.text = self.array[indexPath.row].title
 

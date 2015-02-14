@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		539D3B141A8FDC7A0093533F /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539D3B131A8FDC7A0093533F /* Message.swift */; };
-		539D3B161A8FDCEC0093533F /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539D3B151A8FDCEC0093533F /* Category.swift */; };
-		539D3B181A8FDD980093533F /* Conversation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539D3B171A8FDD980093533F /* Conversation.swift */; };
-		539D3B1A1A8FDE6D0093533F /* ConversationTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539D3B191A8FDE6D0093533F /* ConversationTableViewController.swift */; };
-		539D3B1C1A8FE33A0093533F /* ConversationDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539D3B1B1A8FE33A0093533F /* ConversationDataController.swift */; };
+		539D3B141A8FDC7A0093533F /* Blurb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539D3B131A8FDC7A0093533F /* Blurb.swift */; };
+		539D3B161A8FDCEC0093533F /* Topic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539D3B151A8FDCEC0093533F /* Topic.swift */; };
+		539D3B181A8FDD980093533F /* Convo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539D3B171A8FDD980093533F /* Convo.swift */; };
+		539D3B1A1A8FDE6D0093533F /* ConvoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539D3B191A8FDE6D0093533F /* ConvoTableViewController.swift */; };
+		539D3B1C1A8FE33A0093533F /* ConvoDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539D3B1B1A8FE33A0093533F /* ConvoDataController.swift */; };
 		E27B3FE31A8D75B800AE18C5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27B3FE21A8D75B800AE18C5 /* AppDelegate.swift */; };
 		E27B3FE61A8D75B800AE18C5 /* ProCom.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E27B3FE41A8D75B800AE18C5 /* ProCom.xcdatamodeld */; };
 		E27B3FE81A8D75B800AE18C5 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27B3FE71A8D75B800AE18C5 /* MasterViewController.swift */; };
@@ -33,11 +33,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		539D3B131A8FDC7A0093533F /* Message.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
-		539D3B151A8FDCEC0093533F /* Category.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
-		539D3B171A8FDD980093533F /* Conversation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Conversation.swift; sourceTree = "<group>"; };
-		539D3B191A8FDE6D0093533F /* ConversationTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversationTableViewController.swift; sourceTree = "<group>"; };
-		539D3B1B1A8FE33A0093533F /* ConversationDataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConversationDataController.swift; sourceTree = "<group>"; };
+		539D3B131A8FDC7A0093533F /* Blurb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Blurb.swift; sourceTree = "<group>"; };
+		539D3B151A8FDCEC0093533F /* Topic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Topic.swift; sourceTree = "<group>"; };
+		539D3B171A8FDD980093533F /* Convo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Convo.swift; sourceTree = "<group>"; };
+		539D3B191A8FDE6D0093533F /* ConvoTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConvoTableViewController.swift; sourceTree = "<group>"; };
+		539D3B1B1A8FE33A0093533F /* ConvoDataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConvoDataController.swift; sourceTree = "<group>"; };
 		E27B3FDD1A8D75B800AE18C5 /* ProCom.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProCom.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E27B3FE11A8D75B800AE18C5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E27B3FE21A8D75B800AE18C5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -70,14 +70,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		539D3B1D1A8FE4E90093533F /* Conversation */ = {
+		539D3B1D1A8FE4E90093533F /* Convo */ = {
 			isa = PBXGroup;
 			children = (
-				539D3B171A8FDD980093533F /* Conversation.swift */,
-				539D3B1B1A8FE33A0093533F /* ConversationDataController.swift */,
-				539D3B191A8FDE6D0093533F /* ConversationTableViewController.swift */,
+				539D3B171A8FDD980093533F /* Convo.swift */,
+				539D3B1B1A8FE33A0093533F /* ConvoDataController.swift */,
+				539D3B191A8FDE6D0093533F /* ConvoTableViewController.swift */,
 			);
-			name = Conversation;
+			name = Convo;
+			sourceTree = "<group>";
+		};
+		539D3B1F1A8FFA9B0093533F /* Blurb */ = {
+			isa = PBXGroup;
+			children = (
+				539D3B131A8FDC7A0093533F /* Blurb.swift */,
+			);
+			name = Blurb;
+			sourceTree = "<group>";
+		};
+		539D3B201A8FFABA0093533F /* Topic */ = {
+			isa = PBXGroup;
+			children = (
+				539D3B151A8FDCEC0093533F /* Topic.swift */,
+			);
+			name = Topic;
 			sourceTree = "<group>";
 		};
 		E27B3FD41A8D75B800AE18C5 = {
@@ -102,11 +118,9 @@
 			isa = PBXGroup;
 			children = (
 				E27B3FE21A8D75B800AE18C5 /* AppDelegate.swift */,
-				539D3B1D1A8FE4E90093533F /* Conversation */,
-				E27B3FE71A8D75B800AE18C5 /* MasterViewController.swift */,
-				539D3B131A8FDC7A0093533F /* Message.swift */,
-				539D3B151A8FDCEC0093533F /* Category.swift */,
-				E27B3FE91A8D75B800AE18C5 /* DetailViewController.swift */,
+				539D3B1F1A8FFA9B0093533F /* Blurb */,
+				539D3B1D1A8FE4E90093533F /* Convo */,
+				539D3B201A8FFABA0093533F /* Topic */,
 				E27B3FEB1A8D75B800AE18C5 /* Main.storyboard */,
 				E27B3FEE1A8D75B800AE18C5 /* Images.xcassets */,
 				E27B3FF01A8D75B800AE18C5 /* LaunchScreen.xib */,
@@ -119,6 +133,8 @@
 		E27B3FE01A8D75B800AE18C5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				E27B3FE91A8D75B800AE18C5 /* DetailViewController.swift */,
+				E27B3FE71A8D75B800AE18C5 /* MasterViewController.swift */,
 				E27B3FE11A8D75B800AE18C5 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -243,13 +259,13 @@
 			files = (
 				E27B3FE31A8D75B800AE18C5 /* AppDelegate.swift in Sources */,
 				E27B3FE61A8D75B800AE18C5 /* ProCom.xcdatamodeld in Sources */,
-				539D3B1A1A8FDE6D0093533F /* ConversationTableViewController.swift in Sources */,
-				539D3B141A8FDC7A0093533F /* Message.swift in Sources */,
+				539D3B1A1A8FDE6D0093533F /* ConvoTableViewController.swift in Sources */,
+				539D3B141A8FDC7A0093533F /* Blurb.swift in Sources */,
 				E27B3FE81A8D75B800AE18C5 /* MasterViewController.swift in Sources */,
-				539D3B181A8FDD980093533F /* Conversation.swift in Sources */,
+				539D3B181A8FDD980093533F /* Convo.swift in Sources */,
 				E27B3FEA1A8D75B800AE18C5 /* DetailViewController.swift in Sources */,
-				539D3B1C1A8FE33A0093533F /* ConversationDataController.swift in Sources */,
-				539D3B161A8FDCEC0093533F /* Category.swift in Sources */,
+				539D3B1C1A8FE33A0093533F /* ConvoDataController.swift in Sources */,
+				539D3B161A8FDCEC0093533F /* Topic.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
