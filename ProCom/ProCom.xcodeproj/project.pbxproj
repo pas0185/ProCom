@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		539D3B141A8FDC7A0093533F /* Blurb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539D3B131A8FDC7A0093533F /* Blurb.swift */; };
-		539D3B161A8FDCEC0093533F /* Topic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539D3B151A8FDCEC0093533F /* Topic.swift */; };
+		539D3B161A8FDCEC0093533F /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539D3B151A8FDCEC0093533F /* Group.swift */; };
 		539D3B181A8FDD980093533F /* Convo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539D3B171A8FDD980093533F /* Convo.swift */; };
 		539D3B1A1A8FDE6D0093533F /* ConvoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539D3B191A8FDE6D0093533F /* ConvoTableViewController.swift */; };
 		539D3B1C1A8FE33A0093533F /* ConvoDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539D3B1B1A8FE33A0093533F /* ConvoDataController.swift */; };
@@ -16,7 +16,6 @@
 		E27B3FE61A8D75B800AE18C5 /* ProCom.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E27B3FE41A8D75B800AE18C5 /* ProCom.xcdatamodeld */; };
 		E27B3FE81A8D75B800AE18C5 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27B3FE71A8D75B800AE18C5 /* MasterViewController.swift */; };
 		E27B3FEA1A8D75B800AE18C5 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27B3FE91A8D75B800AE18C5 /* DetailViewController.swift */; };
-		E27B3FED1A8D75B800AE18C5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E27B3FEB1A8D75B800AE18C5 /* Main.storyboard */; };
 		E27B3FEF1A8D75B800AE18C5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E27B3FEE1A8D75B800AE18C5 /* Images.xcassets */; };
 		E27B3FF21A8D75B800AE18C5 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E27B3FF01A8D75B800AE18C5 /* LaunchScreen.xib */; };
 		E27B3FFE1A8D75B800AE18C5 /* ProComTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27B3FFD1A8D75B800AE18C5 /* ProComTests.swift */; };
@@ -34,7 +33,7 @@
 
 /* Begin PBXFileReference section */
 		539D3B131A8FDC7A0093533F /* Blurb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Blurb.swift; sourceTree = "<group>"; };
-		539D3B151A8FDCEC0093533F /* Topic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Topic.swift; sourceTree = "<group>"; };
+		539D3B151A8FDCEC0093533F /* Group.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
 		539D3B171A8FDD980093533F /* Convo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Convo.swift; sourceTree = "<group>"; };
 		539D3B191A8FDE6D0093533F /* ConvoTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConvoTableViewController.swift; sourceTree = "<group>"; };
 		539D3B1B1A8FE33A0093533F /* ConvoDataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConvoDataController.swift; sourceTree = "<group>"; };
@@ -44,7 +43,6 @@
 		E27B3FE51A8D75B800AE18C5 /* ProCom.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ProCom.xcdatamodel; sourceTree = "<group>"; };
 		E27B3FE71A8D75B800AE18C5 /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
 		E27B3FE91A8D75B800AE18C5 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
-		E27B3FEC1A8D75B800AE18C5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		E27B3FEE1A8D75B800AE18C5 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		E27B3FF11A8D75B800AE18C5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		E27B3FF71A8D75B800AE18C5 /* ProComTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ProComTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,12 +86,19 @@
 			name = Blurb;
 			sourceTree = "<group>";
 		};
-		539D3B201A8FFABA0093533F /* Topic */ = {
+		539D3B201A8FFABA0093533F /* Group */ = {
 			isa = PBXGroup;
 			children = (
-				539D3B151A8FDCEC0093533F /* Topic.swift */,
+				539D3B151A8FDCEC0093533F /* Group.swift */,
 			);
-			name = Topic;
+			name = Group;
+			sourceTree = "<group>";
+		};
+		539D3B211A912CFD0093533F /* Buddy */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Buddy;
 			sourceTree = "<group>";
 		};
 		E27B3FD41A8D75B800AE18C5 = {
@@ -118,10 +123,10 @@
 			isa = PBXGroup;
 			children = (
 				E27B3FE21A8D75B800AE18C5 /* AppDelegate.swift */,
-				539D3B1F1A8FFA9B0093533F /* Blurb */,
+				539D3B201A8FFABA0093533F /* Group */,
 				539D3B1D1A8FE4E90093533F /* Convo */,
-				539D3B201A8FFABA0093533F /* Topic */,
-				E27B3FEB1A8D75B800AE18C5 /* Main.storyboard */,
+				539D3B1F1A8FFA9B0093533F /* Blurb */,
+				539D3B211A912CFD0093533F /* Buddy */,
 				E27B3FEE1A8D75B800AE18C5 /* Images.xcassets */,
 				E27B3FF01A8D75B800AE18C5 /* LaunchScreen.xib */,
 				E27B3FE41A8D75B800AE18C5 /* ProCom.xcdatamodeld */,
@@ -237,7 +242,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E27B3FED1A8D75B800AE18C5 /* Main.storyboard in Resources */,
 				E27B3FF21A8D75B800AE18C5 /* LaunchScreen.xib in Resources */,
 				E27B3FEF1A8D75B800AE18C5 /* Images.xcassets in Resources */,
 			);
@@ -265,7 +269,7 @@
 				539D3B181A8FDD980093533F /* Convo.swift in Sources */,
 				E27B3FEA1A8D75B800AE18C5 /* DetailViewController.swift in Sources */,
 				539D3B1C1A8FE33A0093533F /* ConvoDataController.swift in Sources */,
-				539D3B161A8FDCEC0093533F /* Topic.swift in Sources */,
+				539D3B161A8FDCEC0093533F /* Group.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -288,14 +292,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		E27B3FEB1A8D75B800AE18C5 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				E27B3FEC1A8D75B800AE18C5 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		E27B3FF01A8D75B800AE18C5 /* LaunchScreen.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
