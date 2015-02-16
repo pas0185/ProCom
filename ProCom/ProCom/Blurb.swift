@@ -9,5 +9,8 @@
 import UIKit
 
 class Blurb: NSObject {
-    var text : NSString?
+    
+    // The text of this Blurb
+    // ex: "What's new for today", "Our next meeting is at noon today"
+    var text: String?
 }

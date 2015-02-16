@@ -94,11 +94,11 @@
 			name = Group;
 			sourceTree = "<group>";
 		};
-		539D3B211A912CFD0093533F /* Buddy */ = {
+		539D3B211A912CFD0093533F /* Buddy (TODO) */ = {
 			isa = PBXGroup;
 			children = (
 			);
-			name = Buddy;
+			name = "Buddy (TODO)";
 			sourceTree = "<group>";
 		};
 		E27B3FD41A8D75B800AE18C5 = {
@@ -126,7 +126,7 @@
 				539D3B201A8FFABA0093533F /* Group */,
 				539D3B1D1A8FE4E90093533F /* Convo */,
 				539D3B1F1A8FFA9B0093533F /* Blurb */,
-				539D3B211A912CFD0093533F /* Buddy */,
+				539D3B211A912CFD0093533F /* Buddy (TODO) */,
 				E27B3FEE1A8D75B800AE18C5 /* Images.xcassets */,
 				E27B3FF01A8D75B800AE18C5 /* LaunchScreen.xib */,
 				E27B3FE41A8D75B800AE18C5 /* ProCom.xcdatamodeld */,

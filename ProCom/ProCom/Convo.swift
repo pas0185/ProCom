@@ -10,18 +10,18 @@ import UIKit
 
 class Convo: NSObject {
     
-    // instance variables for the Convo
-    var title: String = ""
+    // The name of this Convo
+    // ex: "Suggestions", "OSHA Project"
+    var title: String?
+    
+    // The Blurbs (messages) that comprise this conversation
     let blurbArray = [Blurb]()
+    
+    // The Buddies (users) that are subscribed to this Convo
+    let buddyArray = [Buddy]()
     
     // initialize a new Convo, given an appropriate title
     init(title: String) {
         self.title = title
-    }
-    
-    // add a new Blurb to this conversation
-    func addBlurb(b: Blurb) {
-        
-        self.messageArray.append(b)
     }
 }

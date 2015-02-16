@@ -11,7 +11,7 @@ import UIKit
 class Group: NSObject {
     
     // The name of this Group
-    // ex: "iOS projects", "Paid Invoices", "Suggestions"
+    // ex: "iOS projects", "Finances"
     var title: String?
 
     // The sub categories within this Group
@@ -27,4 +27,7 @@ class Group: NSObject {
     // This variable is constant because Group always need to 
     // maintain a list of users, even if there aren't any
     let buddyArray = [Buddy]()
+
+    // TODO: a Group might like to know it's "lineage" that can be displayed to the user, like a file path
+    // ex: Abraid/iOS/ProCom/...
 }
