@@ -23,11 +23,6 @@ class Group: NSObject {
     // Convos are actual conversations containing text, users, pictures, etc
     lazy var convoArray = [Convo]()
     
-    // The users that are subscribed to this Group
-    // This variable is constant because Group always need to 
-    // maintain a list of users, even if there aren't any
-    let buddyArray = [Buddy]()
-
     // TODO: a Group might like to know it's "lineage" that can be displayed to the user, like a file path
     // ex: Abraid/iOS/ProCom/...
 }
