@@ -11,13 +11,13 @@ import UIKit
 class Convo: NSObject {
     
     // The user-friendly code used to join this conversation
-    var incode: Int
+    var incode: Int?
     
     // Time the conversation was created
-    var createdat: NSTime
+    var createdat: NSDate?
     
     // Time of the conversation's most recent message
-    var updatedat: NSTime
+    var updatedat: NSDate?
     
     // Title of this conversation
     var title: String?
