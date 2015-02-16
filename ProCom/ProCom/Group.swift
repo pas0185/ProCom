@@ -12,7 +12,7 @@ class Group: NSObject {
     
     // The name of this Group
     // ex: "iOS projects", "Finances"
-    var title: String?
+    var name: String?
 
     // The sub categories within this Group
     // "lazy var" because we won't create this array in memory until needed
@@ -22,6 +22,11 @@ class Group: NSObject {
     // The Convos stored in this Group
     // Convos are actual conversations containing text, users, pictures, etc
     lazy var convoArray = [Convo]()
+    
+    // initialize a new Convo, given an appropriate title
+    init(name: String) {
+        self.name = name
+    }
     
     // TODO: a Group might like to know it's "lineage" that can be displayed to the user, like a file path
     // ex: Abraid/iOS/ProCom/...

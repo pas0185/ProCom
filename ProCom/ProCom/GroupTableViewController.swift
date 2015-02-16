@@ -14,6 +14,10 @@ class GroupTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        array.append(Group(name: "Abraid"))
+        array.append(Group(name: "Questions"))
+        array.append(Group(name: "Meetings"))
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -44,7 +48,7 @@ class GroupTableViewController: UITableViewController {
         
         let cell = UITableViewCell()
         
-        cell.textLabel?.text = self.array[indexPath.row].title
+        cell.textLabel?.text = self.array[indexPath.row].name
 
         return cell
     }

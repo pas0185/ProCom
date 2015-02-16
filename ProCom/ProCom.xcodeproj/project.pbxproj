@@ -12,13 +12,10 @@
 		539D3B181A8FDD980093533F /* Convo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539D3B171A8FDD980093533F /* Convo.swift */; };
 		539D3B1A1A8FDE6D0093533F /* GroupTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539D3B191A8FDE6D0093533F /* GroupTableViewController.swift */; };
 		539D3B1C1A8FE33A0093533F /* GroupDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539D3B1B1A8FE33A0093533F /* GroupDataController.swift */; };
-		539D3B291A92B1AF0093533F /* iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 539D3B281A92B1AF0093533F /* iPhone.storyboard */; };
 		CBA7D4601A9285E50065AB70 /* BlurbViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBA7D45F1A9285E50065AB70 /* BlurbViewController.swift */; };
 		CBA7D4621A9285ED0065AB70 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBA7D4611A9285ED0065AB70 /* User.swift */; };
 		E27B3FE31A8D75B800AE18C5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27B3FE21A8D75B800AE18C5 /* AppDelegate.swift */; };
 		E27B3FE61A8D75B800AE18C5 /* ProCom.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E27B3FE41A8D75B800AE18C5 /* ProCom.xcdatamodeld */; };
-		E27B3FE81A8D75B800AE18C5 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27B3FE71A8D75B800AE18C5 /* MasterViewController.swift */; };
-		E27B3FEA1A8D75B800AE18C5 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27B3FE91A8D75B800AE18C5 /* DetailViewController.swift */; };
 		E27B3FEF1A8D75B800AE18C5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E27B3FEE1A8D75B800AE18C5 /* Images.xcassets */; };
 		E27B3FF21A8D75B800AE18C5 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E27B3FF01A8D75B800AE18C5 /* LaunchScreen.xib */; };
 		E27B3FFE1A8D75B800AE18C5 /* ProComTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27B3FFD1A8D75B800AE18C5 /* ProComTests.swift */; };
@@ -40,15 +37,12 @@
 		539D3B171A8FDD980093533F /* Convo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Convo.swift; sourceTree = "<group>"; };
 		539D3B191A8FDE6D0093533F /* GroupTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupTableViewController.swift; sourceTree = "<group>"; };
 		539D3B1B1A8FE33A0093533F /* GroupDataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupDataController.swift; sourceTree = "<group>"; };
-		539D3B281A92B1AF0093533F /* iPhone.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = iPhone.storyboard; sourceTree = "<group>"; };
 		CBA7D45F1A9285E50065AB70 /* BlurbViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlurbViewController.swift; sourceTree = "<group>"; };
 		CBA7D4611A9285ED0065AB70 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		E27B3FDD1A8D75B800AE18C5 /* ProCom.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProCom.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E27B3FE11A8D75B800AE18C5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E27B3FE21A8D75B800AE18C5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E27B3FE51A8D75B800AE18C5 /* ProCom.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ProCom.xcdatamodel; sourceTree = "<group>"; };
-		E27B3FE71A8D75B800AE18C5 /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
-		E27B3FE91A8D75B800AE18C5 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		E27B3FEE1A8D75B800AE18C5 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		E27B3FF11A8D75B800AE18C5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		E27B3FF71A8D75B800AE18C5 /* ProComTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ProComTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -131,14 +125,11 @@
 			isa = PBXGroup;
 			children = (
 				E27B3FE21A8D75B800AE18C5 /* AppDelegate.swift */,
-				539D3B281A92B1AF0093533F /* iPhone.storyboard */,
 				539D3B201A8FFABA0093533F /* Group */,
 				539D3B1D1A8FE4E90093533F /* Convo */,
 				539D3B1F1A8FFA9B0093533F /* Blurb */,
 				539D3B211A912CFD0093533F /* User */,
 				E27B3FEE1A8D75B800AE18C5 /* Images.xcassets */,
-				E27B3FF01A8D75B800AE18C5 /* LaunchScreen.xib */,
-				E27B3FE41A8D75B800AE18C5 /* ProCom.xcdatamodeld */,
 				E27B3FE01A8D75B800AE18C5 /* Supporting Files */,
 			);
 			path = ProCom;
@@ -147,8 +138,8 @@
 		E27B3FE01A8D75B800AE18C5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				E27B3FE91A8D75B800AE18C5 /* DetailViewController.swift */,
-				E27B3FE71A8D75B800AE18C5 /* MasterViewController.swift */,
+				E27B3FF01A8D75B800AE18C5 /* LaunchScreen.xib */,
+				E27B3FE41A8D75B800AE18C5 /* ProCom.xcdatamodeld */,
 				E27B3FE11A8D75B800AE18C5 /* Info.plist */,
 			);
 			name = "Supporting Files";
@@ -252,7 +243,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E27B3FF21A8D75B800AE18C5 /* LaunchScreen.xib in Resources */,
-				539D3B291A92B1AF0093533F /* iPhone.storyboard in Resources */,
 				E27B3FEF1A8D75B800AE18C5 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -275,9 +265,7 @@
 				E27B3FE61A8D75B800AE18C5 /* ProCom.xcdatamodeld in Sources */,
 				539D3B1A1A8FDE6D0093533F /* GroupTableViewController.swift in Sources */,
 				539D3B141A8FDC7A0093533F /* Blurb.swift in Sources */,
-				E27B3FE81A8D75B800AE18C5 /* MasterViewController.swift in Sources */,
 				539D3B181A8FDD980093533F /* Convo.swift in Sources */,
-				E27B3FEA1A8D75B800AE18C5 /* DetailViewController.swift in Sources */,
 				539D3B1C1A8FE33A0093533F /* GroupDataController.swift in Sources */,
 				CBA7D4601A9285E50065AB70 /* BlurbViewController.swift in Sources */,
 				539D3B161A8FDCEC0093533F /* Group.swift in Sources */,
