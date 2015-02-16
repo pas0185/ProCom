@@ -12,7 +12,8 @@
 		539D3B181A8FDD980093533F /* Convo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539D3B171A8FDD980093533F /* Convo.swift */; };
 		539D3B1A1A8FDE6D0093533F /* ConvoTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539D3B191A8FDE6D0093533F /* ConvoTableViewController.swift */; };
 		539D3B1C1A8FE33A0093533F /* ConvoDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539D3B1B1A8FE33A0093533F /* ConvoDataController.swift */; };
-		539D3B231A9281700093533F /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539D3B221A9281700093533F /* User.swift */; };
+		CBA7D4601A9285E50065AB70 /* BlurbViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBA7D45F1A9285E50065AB70 /* BlurbViewController.swift */; };
+		CBA7D4621A9285ED0065AB70 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBA7D4611A9285ED0065AB70 /* User.swift */; };
 		E27B3FE31A8D75B800AE18C5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27B3FE21A8D75B800AE18C5 /* AppDelegate.swift */; };
 		E27B3FE61A8D75B800AE18C5 /* ProCom.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E27B3FE41A8D75B800AE18C5 /* ProCom.xcdatamodeld */; };
 		E27B3FE81A8D75B800AE18C5 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27B3FE71A8D75B800AE18C5 /* MasterViewController.swift */; };
@@ -38,7 +39,8 @@
 		539D3B171A8FDD980093533F /* Convo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Convo.swift; sourceTree = "<group>"; };
 		539D3B191A8FDE6D0093533F /* ConvoTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConvoTableViewController.swift; sourceTree = "<group>"; };
 		539D3B1B1A8FE33A0093533F /* ConvoDataController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConvoDataController.swift; sourceTree = "<group>"; };
-		539D3B221A9281700093533F /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		CBA7D45F1A9285E50065AB70 /* BlurbViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlurbViewController.swift; sourceTree = "<group>"; };
+		CBA7D4611A9285ED0065AB70 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		E27B3FDD1A8D75B800AE18C5 /* ProCom.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProCom.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E27B3FE11A8D75B800AE18C5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E27B3FE21A8D75B800AE18C5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -84,6 +86,7 @@
 			isa = PBXGroup;
 			children = (
 				539D3B131A8FDC7A0093533F /* Blurb.swift */,
+				CBA7D45F1A9285E50065AB70 /* BlurbViewController.swift */,
 			);
 			name = Blurb;
 			sourceTree = "<group>";
@@ -99,7 +102,7 @@
 		539D3B211A912CFD0093533F /* User */ = {
 			isa = PBXGroup;
 			children = (
-				539D3B221A9281700093533F /* User.swift */,
+				CBA7D4611A9285ED0065AB70 /* User.swift */,
 			);
 			name = User;
 			sourceTree = "<group>";
@@ -272,8 +275,9 @@
 				539D3B181A8FDD980093533F /* Convo.swift in Sources */,
 				E27B3FEA1A8D75B800AE18C5 /* DetailViewController.swift in Sources */,
 				539D3B1C1A8FE33A0093533F /* ConvoDataController.swift in Sources */,
-				539D3B231A9281700093533F /* User.swift in Sources */,
+				CBA7D4601A9285E50065AB70 /* BlurbViewController.swift in Sources */,
 				539D3B161A8FDCEC0093533F /* Group.swift in Sources */,
+				CBA7D4621A9285ED0065AB70 /* User.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

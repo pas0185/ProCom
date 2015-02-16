@@ -10,7 +10,10 @@ import UIKit
 
 class Blurb: NSObject {
     
-    // The text of this Blurb
-    // ex: "What's new for today", "Our next meeting is at noon today"
-    var text: String?
+    let id : NSString?
+    let convoid : NSString?
+    let created : NSString?
+    let userid : NSString?
+    var text : NSString?
+    
 }
