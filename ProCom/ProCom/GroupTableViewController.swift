@@ -1,5 +1,5 @@
 //
-//  ConvoTableViewController.swift
+//  GroupTableViewController.swift
 //  ProCom
 //
 //  Created by Patrick Sheehan on 2/14/15.
@@ -8,18 +8,12 @@
 
 import UIKit
 
-class ConvoTableViewController: UITableViewController {
+class GroupTableViewController: UITableViewController {
 
-    var array = [Convo]()
+    var array = [Group]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Add dummy data
-        array.append(Convo(title:"Ideas"))
-        array.append(Convo(title:"Meeting Times"))
-        array.append(Convo(title:"Suggestions"))
-        
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
