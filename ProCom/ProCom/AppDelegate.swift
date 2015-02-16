@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         var convoView: ConvoTableViewController = ConvoTableViewController()
         
-        if let window = self.window{
+        if let window = self.window {
             window.rootViewController = convoView
         }
         

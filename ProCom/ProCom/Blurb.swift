@@ -9,6 +9,7 @@
 import UIKit
 
 class Blurb: NSObject {
+    
     let id : NSString?
     let convoid : NSString?
     let created : NSString?

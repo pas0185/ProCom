@@ -54,6 +54,11 @@ class ConvoTableViewController: UITableViewController {
 
         return cell
     }
+    
+//    func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
+//        NSLog("You selected cell #\(indexPath.row)!")
+//    }
+    
 
     /*
     // Override to support conditional editing of the table view.
