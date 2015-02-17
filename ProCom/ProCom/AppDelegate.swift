@@ -20,7 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         var basicGroupView: GroupTableViewController = GroupTableViewController()
         
-        self.navigationController.rootViewController = basicGroupView
+        self.navigationController.pushViewController(basicGroupView, animated: false)
         
         
         if let window = self.window {
