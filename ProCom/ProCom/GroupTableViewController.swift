@@ -10,6 +10,9 @@ import UIKit
 
 class GroupTableViewController: UITableViewController {
 
+    // Name of this group
+    var name: String?
+    
     // Subgroups - Section 0
     var subGroups = [Group]()
     
@@ -18,6 +21,10 @@ class GroupTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if let name = self.name {
+            self.navigationItem.title = name
+        }
         
         subGroups.append(Group(name: "Abraid"))
         subGroups.append(Group(name: "Questions"))
@@ -30,7 +37,7 @@ class GroupTableViewController: UITableViewController {
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+         self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
 
     override func didReceiveMemoryWarning() {
