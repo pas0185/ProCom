@@ -23,6 +23,9 @@ class GroupTableViewController: UITableViewController {
         subGroups.append(Group(name: "Questions"))
         subGroups.append(Group(name: "Meetings"))
 
+        convos.append(Convo(title: "Suggestions"))
+        convos.append(Convo(title: "Fun Talk"))
+
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
 
@@ -61,10 +64,10 @@ class GroupTableViewController: UITableViewController {
         let cell = UITableViewCell()
         
         if indexPath.section == 0 {
-            cell.textLabel?.text = self.subGroups[indexPath.row].name
+            cell.textLabel?.text = "[GROUP]: " + self.subGroups[indexPath.row].name!
         }
         else if indexPath.section == 1 {
-            cell.textLabel?.text = self.convos[indexPath.row].title
+            cell.textLabel?.text = "[CONVO]: " + self.convos[indexPath.row].title!
         }
         
         return cell
