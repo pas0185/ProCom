@@ -18,9 +18,17 @@ class ConvoDataController: NSObject {
         addDummyData()
     }
     
+    /*func loadConvo() {
+        while user.convo != nil
+        {
+            Convo(title: user.convo)
+        }
+    }*/
+    
+    
     func addDummyData() {
-        var c1 = Convo(title: "Ideas")
-        var c2 = Convo(title: "Meetings")
-        var c3 = Convo(title: "Suggestions")
+        var c1 = Blurb(text: "Ideas")
+        var c2 = Blurb(text:  "Meetings")
+        var c3 = Blurb(text:  "Suggestions")
     }
 }

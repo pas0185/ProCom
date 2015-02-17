@@ -7,10 +7,10 @@
 //
 
 import UIKit
-import MessageUI
 
 
-class MessageViewController: UIViewController {//MFMessageComposeViewController, UITableViewController{
+
+class MessageViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

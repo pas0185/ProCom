@@ -7,18 +7,21 @@
 //
 
 import UIKit
+import MessageUI
 
 class ConvoTableViewController: UITableViewController {
 
-    var array = [Convo]()
+    var convoArray = [Blurb]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Add dummy data
-        array.append(Convo(title:"Ideas"))
-        array.append(Convo(title:"Meeting Times"))
-        array.append(Convo(title:"Suggestions"))
+        //convoArray.append(Blurb(title:"Ideas"))
+        
+        convoArray.append(Blurb(text: "Ideas"));
+        convoArray.append(Blurb(text:  "Meetings"));
+        convoArray.append(Blurb(text:  "Suggestions"));
         
 
         // Uncomment the following line to preserve selection between presentations
@@ -42,7 +45,7 @@ class ConvoTableViewController: UITableViewController {
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // Return the number of rows in the section.
-        return array.count
+        return convoArray.count
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -50,10 +53,12 @@ class ConvoTableViewController: UITableViewController {
         
         let cell = UITableViewCell()
         
-        cell.textLabel?.text = self.array[indexPath.row].title
+        cell.textLabel?.text = self.convoArray[indexPath.row].text
 
         return cell
     }
+    
+    
     
 //    func tableView(tableView: UITableView!, didSelectRowAtIndexPath indexPath: NSIndexPath!) {
 //        NSLog("You selected cell #\(indexPath.row)!")
@@ -95,14 +100,13 @@ class ConvoTableViewController: UITableViewController {
     }
     */
 
-    /*
-    // MARK: - Navigation
-
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "showBlurb"{
+            //var blurbController = segue.destinationViewController as BlurbViewController
+        }
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
     }
-    */
 
 }
