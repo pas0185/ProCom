@@ -10,14 +10,18 @@ import UIKit
 
 class GroupTableViewController: UITableViewController {
 
-    var array = [Group]()
+    // Subgroups - Section 0
+    var subGroups = [Group]()
+    
+    // Conversations - Section 1
+    var convos = [Convo]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        array.append(Group(name: "Abraid"))
-        array.append(Group(name: "Questions"))
-        array.append(Group(name: "Meetings"))
+        subGroups.append(Group(name: "Abraid"))
+        subGroups.append(Group(name: "Questions"))
+        subGroups.append(Group(name: "Meetings"))
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -35,12 +39,20 @@ class GroupTableViewController: UITableViewController {
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // Return the number of sections.
-        return 1
+        return 2
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // Return the number of rows in the section.
-        return array.count
+        
+        if section == 0 {
+            return subGroups.count
+        }
+        else if section == 1 {
+            return convos.count
+        }
+        
+        return 0
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -48,8 +60,13 @@ class GroupTableViewController: UITableViewController {
         
         let cell = UITableViewCell()
         
-        cell.textLabel?.text = self.array[indexPath.row].name
-
+        if indexPath.section == 0 {
+            cell.textLabel?.text = self.subGroups[indexPath.row].name
+        }
+        else if indexPath.section == 1 {
+            cell.textLabel?.text = self.convos[indexPath.row].title
+        }
+        
         return cell
     }
     
