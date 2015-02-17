@@ -8,7 +8,10 @@
 
 import UIKit
 
-class Blurb: NSObject {
+class Blurb: PFObject(className: "Blurb") {
+
+    
+    Blurb
     
     let id : NSString?
     let convoid : NSString?
