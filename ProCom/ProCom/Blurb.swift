@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Blurb: PFObject(className: "Blurb") {
+/*class Blurb: PFObject(className: "Blurb") {
 
     
     Blurb
@@ -22,5 +22,8 @@ class Blurb: PFObject(className: "Blurb") {
     init(text: String) {
         self.text = text
     }
-    
 }
+    */
+
+
+

@@ -10,7 +10,7 @@ import UIKit
 
 class ConvoTableViewController: UITableViewController {
 
-    var convoArray = [Blurb]()
+    //var convoArray = [Blurb]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,10 +18,10 @@ class ConvoTableViewController: UITableViewController {
         // Add dummy data
         //convoArray.append(Blurb(title:"Ideas"))
         
-        convoArray.append(Blurb(text: "Ideas"));
+        /*convoArray.append(Blurb(text: "Ideas"));
         convoArray.append(Blurb(text:  "Meetings"));
         convoArray.append(Blurb(text:  "Suggestions"));
-        
+        */
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -44,7 +44,7 @@ class ConvoTableViewController: UITableViewController {
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // Return the number of rows in the section.
-        return convoArray.count
+        return 1 //convoArray.count
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -52,7 +52,7 @@ class ConvoTableViewController: UITableViewController {
         
         let cell = UITableViewCell()
         
-        cell.textLabel?.text = self.convoArray[indexPath.row].text
+        //cell.textLabel?.text = self.convoArray[indexPath.row].text
 
         return cell
     }

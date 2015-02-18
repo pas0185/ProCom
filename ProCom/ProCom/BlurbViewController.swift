@@ -11,7 +11,11 @@ import UIKit
 
 
 class MessageViewController: UIViewController {
-
+    
+    var Burb = PFObject(className: "Blurb")
+    let blurbid = Blurb.objectId
+    let blurbcreatedat = Blurb.createdAt
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
