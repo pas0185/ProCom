@@ -25,6 +25,9 @@ class GroupTableViewController: UITableViewController {
         if let name = self.name {
             self.navigationItem.title = name
         }
+        else {
+            self.navigationItem.title = "Groups"
+        }
         
         subGroups.append(Group(name: "Abraid"))
         subGroups.append(Group(name: "Questions"))
@@ -38,10 +41,6 @@ class GroupTableViewController: UITableViewController {
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-        
-        var createButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "createGroup")
-        self.navigationItem.rightBarButtonItem = createButton
-        
 
     }
 
@@ -76,6 +75,50 @@ class GroupTableViewController: UITableViewController {
         return 0
     }
 
+//    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+//        if section == 0 {
+//            return 80
+//        }
+//        
+//        return 0
+//    }
+//    
+//    override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//        if section == 0 {
+//            
+//            // TODO: UICollectionView
+//            var margin = 5.0
+//            var buttonWidth = 75 as CGFloat// (tableView.frame.size.width / 4.0) - 10.0// - (2.0 * margin) as Double
+//            
+//            let toolbar = UIView(frame: CGRectMake(0, 0, tableView.frame.size.width, 50))
+//            toolbar.backgroundColor = UIColor.blackColor()
+//            
+//            let createGroupButton = UIButton(frame: CGRectMake(5, 5, buttonWidth, 60))
+//            createGroupButton.backgroundColor = UIColor.redColor()
+//            createGroupButton.setTitle("New Group", forState: .Normal)
+//            
+//            let joinGroupButton = UIButton(frame: CGRectMake(135, 5, buttonWidth, 60))
+//            joinGroupButton.backgroundColor = UIColor.redColor()
+//            joinGroupButton.setTitle("Join Existing", forState: .Normal)
+//            
+//            let createConvoButton = UIButton(frame: CGRectMake(265, 5, buttonWidth, 60))
+//            createConvoButton.backgroundColor = UIColor.redColor()
+//            createConvoButton.setTitle("New Convo", forState: .Normal)
+//            
+//            let toggleSwitch = UISwitch(frame: CGRectMake(395, 5, buttonWidth, 60))
+//            
+//            toolbar.addSubview(createGroupButton)
+//            toolbar.addSubview(joinGroupButton)
+//            toolbar.addSubview(createConvoButton)
+//            toolbar.addSubview(toggleSwitch)
+//            
+//            return toolbar
+//            
+//        }
+//        
+//        return nil
+//    }
+    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 //        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as UITableViewCell
         
