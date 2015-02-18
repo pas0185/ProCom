@@ -23,7 +23,4 @@ import UIKit
         self.text = text
     }
 }
-    */
-
-
-
+*/
