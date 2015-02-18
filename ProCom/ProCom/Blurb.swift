@@ -8,7 +8,10 @@
 
 import UIKit
 
-class Blurb: NSObject {
+/*class Blurb: PFObject(className: "Blurb") {
+
+    
+    Blurb
     
     let id : NSString?
     let convoid : NSString?
@@ -16,4 +19,11 @@ class Blurb: NSObject {
     let userid : NSString?
     var text : NSString?
     
+    init(text: String) {
+        self.text = text
+    }
 }
+    */
+
+
+
