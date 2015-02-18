@@ -13,19 +13,9 @@ import CoreData
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
-    var navigationController = UINavigationController()
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
-        
-        var basicGroupView: GroupTableViewController = GroupTableViewController()
-        
-        self.navigationController.pushViewController(basicGroupView, animated: false)
-        
-        
-        if let window = self.window {
-            window.rootViewController = self.navigationController
-        }
         
         // TODO: learn how to use managed object context if it can help later
         //        controller.managedObjectContext = self.managedObjectContext

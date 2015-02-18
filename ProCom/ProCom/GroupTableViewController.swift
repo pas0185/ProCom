@@ -37,7 +37,12 @@ class GroupTableViewController: UITableViewController {
         // self.clearsSelectionOnViewWillAppear = false
 
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-         self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+        
+        var createButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "createGroup")
+        self.navigationItem.rightBarButtonItem = createButton
+        
+
     }
 
     override func didReceiveMemoryWarning() {
@@ -45,6 +50,12 @@ class GroupTableViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    // MARK: - User Controls
+    
+    func createButtonPressed() {
+        
+    }
+    
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
