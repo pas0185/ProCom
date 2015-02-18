@@ -8,7 +8,7 @@
 
 import UIKit
 
-class GroupTableViewController: UITableViewController {
+class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
 
     // Name of this group
     var name: String?
@@ -29,12 +29,12 @@ class GroupTableViewController: UITableViewController {
             self.navigationItem.title = "Groups"
         }
         
-        subGroups.append(Group(name: "Abraid"))
-        subGroups.append(Group(name: "Questions"))
-        subGroups.append(Group(name: "Meetings"))
-
-        convos.append(Convo(title: "Suggestions"))
-        convos.append(Convo(title: "Fun Talk"))
+//        subGroups.append(Group(name: "Abraid"))
+//        subGroups.append(Group(name: "Questions"))
+//        subGroups.append(Group(name: "Meetings"))
+//
+//        convos.append(Convo(title: "Suggestions"))
+//        convos.append(Convo(title: "Fun Talk"))
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -49,10 +49,33 @@ class GroupTableViewController: UITableViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
+        if buttonIndex == 1 {
+            
+            if alertView.title == "New Group" {
+                if let field = alertView.textFieldAtIndex(0) {
+                    if let title = field.text {
+                        // Make new group
+                        var g = Group(name: title)
+                    
+                        // TODO: add to a global data controller
+                        
+                        subGroups.append(g)
+                    }
+                }
+            }
+        }
+        
+        self.tableView.reloadData()
+    }
     // MARK: - User Controls
     
     @IBAction func createGroup(sender: AnyObject) {
         
+        // Prompt user for name of new group
+        var alertView = UIAlertView(title: "New Group", message: "Enter the title of your new group", delegate: self, cancelButtonTitle: "Cancel", otherButtonTitles: "OK")
+        alertView.alertViewStyle = UIAlertViewStyle.PlainTextInput
+        alertView.show()
     }
     
     @IBAction func notificationToggled(sender: AnyObject) {
@@ -62,6 +85,7 @@ class GroupTableViewController: UITableViewController {
     @IBAction func createConvo(sender: AnyObject) {
         
     }
+    
     @IBAction func joinExisting(sender: AnyObject) {
         
     }
