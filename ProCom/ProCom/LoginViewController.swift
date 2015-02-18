@@ -21,9 +21,9 @@ class LoginViewController: UIViewController, FBLoginViewDelegate  {
         
         self.fbLoginView.delegate = self
         self.fbLoginView.readPermissions = ["public_profile", "email", "user_friends"]
-        
+         
         var query = PFQuery(className: "User")
-        query.whereKey("username", equalto: loginUser)
+        query.whereKey("username", equalTo: loginUser)
         
 
         // Do any additional setup after loading the view.

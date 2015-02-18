@@ -21,7 +21,7 @@ class Group: NSObject {
     
     // The Convos stored in this Group
     // Convos are actual conversations containing text, users, pictures, etc
-    lazy var convoArray = [Convo]()
+    //lazy var convoArray = [Convo]()
     
     // TODO: a Group might like to know it's "lineage" that can be displayed to the user, like a file path
     // ex: Abraid/iOS/ProCom/...

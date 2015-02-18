@@ -10,7 +10,7 @@ import UIKit
 
 class ConvoDataController: NSObject {
     
-    lazy var convoList = [Convo]()
+    //lazy var convoList = [Convo]()
     
     override init() {
         super.init()
