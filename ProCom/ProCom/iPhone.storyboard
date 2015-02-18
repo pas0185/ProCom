@@ -27,6 +27,9 @@
                                     <state key="normal" title="Create Group">
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
+                                    <connections>
+                                        <action selector="createGroup:" destination="Eg0-7S-RZJ" eventType="touchUpInside" id="ZJN-g3-ZZM"/>
+                                    </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="4Oe-uR-PSI">
                                     <rect key="frame" x="434" y="12" width="75" height="75"/>
@@ -39,6 +42,9 @@
                                     <state key="normal" title="Join Existing">
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
+                                    <connections>
+                                        <action selector="joinExisting:" destination="Eg0-7S-RZJ" eventType="touchUpInside" id="Mri-8H-YaP"/>
+                                    </connections>
                                 </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="bXK-7v-fRr">
                                     <rect key="frame" x="351" y="12" width="75" height="75"/>
@@ -51,15 +57,19 @@
                                     <state key="normal" title="Create Convo">
                                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                     </state>
+                                    <connections>
+                                        <action selector="createConvo:" destination="Eg0-7S-RZJ" eventType="touchUpInside" id="1WW-we-70w"/>
+                                    </connections>
                                 </button>
                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Lb1-PM-sEC">
                                     <rect key="frame" x="8" y="34" width="51" height="31"/>
+                                    <connections>
+                                        <action selector="notificationToggled:" destination="Eg0-7S-RZJ" eventType="valueChanged" id="gxC-41-ffG"/>
+                                    </connections>
                                 </switch>
                             </subviews>
                             <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                             <constraints>
-                                <constraint firstAttribute="centerY" secondItem="Lb1-PM-sEC" secondAttribute="centerY" id="5cH-d1-t62"/>
-                                <constraint firstItem="Lb1-PM-sEC" firstAttribute="top" secondItem="bXK-7v-fRr" secondAttribute="top" id="7Lr-ez-VER"/>
                                 <constraint firstAttribute="centerY" secondItem="4Oe-uR-PSI" secondAttribute="centerY" id="DFL-ve-bHj"/>
                                 <constraint firstItem="Lb1-PM-sEC" firstAttribute="leading" secondItem="ABC-B7-35w" secondAttribute="leading" constant="8" id="Deq-vi-Bqj"/>
                                 <constraint firstAttribute="trailing" secondItem="6Pd-4R-itE" secondAttribute="trailing" constant="8" id="Gel-aW-E0n"/>
@@ -69,12 +79,6 @@
                                 <constraint firstAttribute="centerY" secondItem="6Pd-4R-itE" secondAttribute="centerY" id="ejc-f3-mlk"/>
                                 <constraint firstItem="4Oe-uR-PSI" firstAttribute="leading" secondItem="bXK-7v-fRr" secondAttribute="trailing" constant="8" id="lDA-QN-LQQ"/>
                             </constraints>
-                            <variation key="default">
-                                <mask key="constraints">
-                                    <exclude reference="5cH-d1-t62"/>
-                                    <exclude reference="7Lr-ez-VER"/>
-                                </mask>
-                            </variation>
                         </view>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="Zf5-fv-nsK">

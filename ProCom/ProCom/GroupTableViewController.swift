@@ -51,7 +51,18 @@ class GroupTableViewController: UITableViewController {
 
     // MARK: - User Controls
     
-    func createButtonPressed() {
+    @IBAction func createGroup(sender: AnyObject) {
+        
+    }
+    
+    @IBAction func notificationToggled(sender: AnyObject) {
+        
+    }
+    
+    @IBAction func createConvo(sender: AnyObject) {
+        
+    }
+    @IBAction func joinExisting(sender: AnyObject) {
         
     }
     
