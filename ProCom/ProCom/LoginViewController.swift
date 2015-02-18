@@ -8,21 +8,25 @@
 
 import UIKit
 
-class LoginViewController: UIViewController, FBLoginViewDelegate {
+class LoginViewController: UIViewController, FBLoginViewDelegate  {
 
     @IBOutlet var fbLoginView : FBLoginView!
+    @IBOutlet weak var loginUser: UITextField!
+    @IBOutlet weak var loginPass: UITextField!
+
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         self.fbLoginView.delegate = self
         self.fbLoginView.readPermissions = ["public_profile", "email", "user_friends"]
-        // Do any additional setup after loading the view.
-    }
+        
+        var query = PFQuery(className: "User")
+        query.whereKey("username", equalto: loginUser)
+        
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+        // Do any additional setup after loading the view.
     }
     
     func loginViewShowingLoggedInUser(loginView : FBLoginView!) {
@@ -41,6 +45,13 @@ class LoginViewController: UIViewController, FBLoginViewDelegate {
     func loginView(loginView : FBLoginView!, handleError:NSError) {
         println("Error: \(handleError.localizedDescription)")
     }
+
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
 
     /*
     // MARK: - Navigation

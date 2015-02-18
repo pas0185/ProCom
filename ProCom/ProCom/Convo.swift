@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Convo: NSObject {
+/*class Convo: NSObject {
     
     // The user-friendly code used to join this conversation
     var incode: Int?
@@ -23,16 +23,22 @@ class Convo: NSObject {
     var title: String?
     
     // The admin of this conversation; can add/remove users
-    var moderator: User?
+    
+    //var moderator: User?
     
     // The Blurbs (messages) that make up this conversation
     //let blurbArray = [Blurb]()
     
     // The users that are subscribed to this Convo
-    let members = [User]()
+    
+    //let members = [User]()
     
     // initialize a new Convo, given an appropriate title
     init(title: String) {
         self.title = title
     }
-}
+}*/
+
+var Convo = PFObject(className: "Convo")
+var convoid = Convo.objectId
+

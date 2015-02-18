@@ -25,5 +25,8 @@ import UIKit
 }
     */
 
+var Blurb = PFObject(className: "Blurb")
+let blurbtext = Blurb["text"] as String
+let blurbcreatedat = Blurb.createdAt
 
 

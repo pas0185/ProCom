@@ -1,13 +1,82 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Qhm-nb-Afa">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="80l-Tu-rxL">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <scenes>
         <!--Login View Controller-->
+        <scene sceneID="tji-ZL-Aqd">
+            <objects>
+                <viewController id="80l-Tu-rxL" customClass="LoginViewController" customModule="ProCom" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="WhF-Ul-ZAG"/>
+                        <viewControllerLayoutGuide type="bottom" id="RoK-1g-cUX"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="mvj-zL-dD9">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="der-p7-U45" customClass="FBLoginView">
+                                <rect key="frame" x="200" y="394" width="200" height="100"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TZJ-12-Dt5">
+                                <rect key="frame" x="237" y="525" width="126" height="30"/>
+                                <state key="normal" title="Don't have either?">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="Qhm-nb-Afa" kind="show" id="3AJ-mQ-4F1"/>
+                                </connections>
+                            </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="center" clearsOnBeginEditing="YES" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="fky-Tk-WzG">
+                                <rect key="frame" x="252" y="156" width="97" height="30"/>
+                                <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="17"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="RlI-YB-bUG">
+                                <rect key="frame" x="252" y="251" width="97" height="30"/>
+                                <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="17"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Please Login" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Bg-Ak-xvw">
+                                <rect key="frame" x="251" y="54" width="99" height="20.5"/>
+                                <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="9Bg-Ak-xvw" secondAttribute="centerX" id="5FT-jg-PJJ"/>
+                            <constraint firstAttribute="centerY" secondItem="RlI-YB-bUG" secondAttribute="centerY" constant="34" id="6Zd-lJ-PWp"/>
+                            <constraint firstAttribute="centerY" secondItem="9Bg-Ak-xvw" secondAttribute="centerY" constant="235.75" id="6jP-F8-AyL"/>
+                            <constraint firstAttribute="centerX" secondItem="der-p7-U45" secondAttribute="centerX" id="94M-VY-7WD"/>
+                            <constraint firstAttribute="centerY" secondItem="9Bg-Ak-xvw" secondAttribute="centerY" constant="232" id="Cx8-KO-ZYV"/>
+                            <constraint firstAttribute="centerX" secondItem="9Bg-Ak-xvw" secondAttribute="centerX" constant="-0.5" id="HLe-me-ZB6"/>
+                            <constraint firstAttribute="centerY" secondItem="fky-Tk-WzG" secondAttribute="centerY" constant="129" id="Mtb-YS-eh7"/>
+                            <constraint firstAttribute="centerX" secondItem="TZJ-12-Dt5" secondAttribute="centerX" constant="-0.5" id="Puf-N1-CXo"/>
+                            <constraint firstAttribute="centerX" secondItem="TZJ-12-Dt5" secondAttribute="centerX" constant="-0.5" id="ZCX-w8-deb"/>
+                            <constraint firstAttribute="centerY" secondItem="TZJ-12-Dt5" secondAttribute="centerY" constant="-240" id="bec-CU-keW"/>
+                            <constraint firstAttribute="centerX" secondItem="RlI-YB-bUG" secondAttribute="centerX" constant="-0.5" id="c7Q-v1-fAP"/>
+                            <constraint firstAttribute="centerY" secondItem="der-p7-U45" secondAttribute="centerY" constant="-144" id="h0I-Xf-1Vr"/>
+                            <constraint firstAttribute="centerX" secondItem="fky-Tk-WzG" secondAttribute="centerX" constant="-0.5" id="ibp-fo-dEc"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="fbLoginView" destination="der-p7-U45" id="5iS-ya-aeR"/>
+                        <outlet property="loginPass" destination="RlI-YB-bUG" id="zyC-Gg-0dG"/>
+                        <outlet property="loginUser" destination="fky-Tk-WzG" id="9y1-hy-mly"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yZS-cq-T1f" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-427" y="299"/>
+        </scene>
+        <!--Sign Up View Controller-->
         <scene sceneID="7qI-JT-vKD">
             <objects>
-                <viewController id="Qhm-nb-Afa" customClass="LoginViewController" customModule="ProCom" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="Qhm-nb-Afa" customClass="SignUpViewController" customModule="ProCom" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="67V-Ia-ed4"/>
                         <viewControllerLayoutGuide type="bottom" id="Ko5-aa-aDD"/>
@@ -16,20 +85,86 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="der-p7-U45" customClass="FBLoginView">
-                                <rect key="frame" x="200" y="392" width="200" height="100"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Username" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="ZRo-ma-nxu">
+                                <rect key="frame" x="222" y="135" width="156" height="30"/>
+                                <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="17"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Password" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="Iv9-HV-Hli">
+                                <rect key="frame" x="222" y="192" width="156" height="30"/>
+                                <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="17"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Confirm Password" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="cYv-JO-QbY">
+                                <rect key="frame" x="222" y="256" width="156" height="30"/>
+                                <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="17"/>
+                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                            </textField>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Email" textAlignment="center" minimumFontSize="17" clearButtonMode="whileEditing" translatesAutoresizingMaskIntoConstraints="NO" id="5cp-b4-7e6">
+                                <rect key="frame" x="222" y="76" width="156" height="30"/>
+                                <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="17"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h9E-ul-NSD">
+                                <rect key="frame" x="200" y="331" width="200" height="40"/>
+                                <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="20"/>
+                                <state key="normal" title="Create an Account">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="loginVerifyButton:" destination="Qhm-nb-Afa" eventType="touchUpInside" id="zzw-bU-Bp3"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Please Login" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qAM-9o-S1a">
+                                <rect key="frame" x="252" y="28" width="98.5" height="21"/>
+                                <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Num-7Q-G51">
+                                <rect key="frame" x="275" y="489" width="43" height="36"/>
+                                <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="17"/>
+                                <state key="normal" title="Login">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="80l-Tu-rxL" kind="show" id="JtT-ru-fg2"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="centerX" secondItem="5cp-b4-7e6" secondAttribute="centerX" constant="-0.5" id="22J-kG-1gy"/>
+                            <constraint firstAttribute="centerX" secondItem="h9E-ul-NSD" secondAttribute="centerX" id="FvZ-EX-axF"/>
+                            <constraint firstItem="5cp-b4-7e6" firstAttribute="width" secondItem="ZRo-ma-nxu" secondAttribute="width" id="Fx5-Xz-xCr"/>
+                            <constraint firstAttribute="centerX" secondItem="qAM-9o-S1a" secondAttribute="centerX" constant="-1.25" id="K49-5G-zC4"/>
+                            <constraint firstItem="cYv-JO-QbY" firstAttribute="width" secondItem="Iv9-HV-Hli" secondAttribute="width" id="MW0-ph-uGG"/>
+                            <constraint firstAttribute="centerX" secondItem="ZRo-ma-nxu" secondAttribute="centerX" constant="-0.5" id="P8M-Rk-crG"/>
+                            <constraint firstAttribute="centerY" secondItem="Num-7Q-G51" secondAttribute="centerY" constant="-207" id="Sfc-XU-fXm"/>
+                            <constraint firstAttribute="centerX" secondItem="Iv9-HV-Hli" secondAttribute="centerX" constant="-0.5" id="TwH-aG-vQU"/>
+                            <constraint firstItem="ZRo-ma-nxu" firstAttribute="width" secondItem="Iv9-HV-Hli" secondAttribute="width" id="YzL-xP-2bd"/>
+                            <constraint firstAttribute="centerY" secondItem="qAM-9o-S1a" secondAttribute="centerY" constant="261.5" id="aNr-gX-1lu"/>
+                            <constraint firstAttribute="centerY" secondItem="ZRo-ma-nxu" secondAttribute="centerY" constant="150" id="fo4-Yv-Ug8"/>
+                            <constraint firstAttribute="centerX" secondItem="cYv-JO-QbY" secondAttribute="centerX" constant="-0.5" id="gMG-Wo-FVI"/>
+                            <constraint firstAttribute="centerY" secondItem="h9E-ul-NSD" secondAttribute="centerY" constant="-51" id="hHs-Dm-ZNG"/>
+                            <constraint firstAttribute="centerY" secondItem="cYv-JO-QbY" secondAttribute="centerY" constant="29" id="n5J-ob-dqh"/>
+                            <constraint firstAttribute="centerY" secondItem="Iv9-HV-Hli" secondAttribute="centerY" constant="91" id="uQe-Xp-w4N"/>
+                            <constraint firstAttribute="centerX" secondItem="Num-7Q-G51" secondAttribute="centerX" constant="3.5" id="vHi-fq-9xl"/>
+                            <constraint firstAttribute="centerY" secondItem="5cp-b4-7e6" secondAttribute="centerY" constant="209" id="xie-q0-82D"/>
+                        </constraints>
                     </view>
                     <connections>
+                        <outlet property="confirmTextField" destination="cYv-JO-QbY" id="5wb-T1-rw9"/>
+                        <outlet property="emailTextField" destination="5cp-b4-7e6" id="fvJ-Dk-PTC"/>
                         <outlet property="fbLoginView" destination="der-p7-U45" id="meT-yh-jnC"/>
+                        <outlet property="messageLabel" destination="qAM-9o-S1a" id="ih0-50-x0b"/>
+                        <outlet property="passwordTextField" destination="Iv9-HV-Hli" id="oTW-Ka-vFL"/>
+                        <outlet property="usernameTextField" destination="ZRo-ma-nxu" id="E6z-bl-6Pg"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f7y-fS-Ga6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="439" y="325"/>
+            <point key="canvasLocation" x="308" y="296"/>
         </scene>
     </scenes>
 </document>
