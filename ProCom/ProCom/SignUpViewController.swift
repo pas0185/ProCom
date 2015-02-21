@@ -30,6 +30,7 @@ class SignUpViewController: UIViewController{
             user.username = usrEntered
             user.password = pwdEntered
             user.email = emlEntered
+            user.save()
             
             user.signUpInBackgroundWithBlock {
                 (succeeded: Bool!, error: NSError!) -> Void in

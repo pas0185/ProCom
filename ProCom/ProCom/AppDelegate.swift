@@ -19,18 +19,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //Parse key set up
         Parse.setApplicationId("n3twpTW37Eh9SkLFRWM41bjmw2IoYPdb2dh3OAQC", clientKey: "TG5IOJyDtOkkijqBt3BXlSa1gKtxUm7k2dXBYxuF")
         
-        //----------------FB Login-------------------//
+        /*//----------------FB Login-------------------//
         
         FBLoginView.self
-        FBProfilePictureView.self
+        FBProfilePictureView.self*/
         
-        /*var convoView: ConvoTableViewController = ConvoTableViewController()
-        
-        if let window = self.window {
-            window.rootViewController = convoView
-        }*/
-        
-        return true
+        if ((PFUser.currentUser()) != nil) // if user logged in.
+        {
+            let homeViewController = GroupViewController()
+        }
+        else
+        {
+           let loginViewController = LoginViewController()
+        }
+      return true
     }
 
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: NSString?, annotation: AnyObject) -> Bool {

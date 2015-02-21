@@ -7,31 +7,62 @@
 //
 
 import UIKit
+import ParseUI
 
-class LoginViewController: UIViewController, FBLoginViewDelegate  {
+class LoginViewController: UIViewController, FBLoginViewDelegate, PFLogInViewControllerDelegate{
 
     @IBOutlet var fbLoginView : FBLoginView!
     @IBOutlet weak var loginUser: UITextField!
     @IBOutlet weak var loginPass: UITextField!
 
+    @IBAction func login(sender: AnyObject) {
+        if ((PFUser.logInWithUsername(loginUser.text, password: loginPass.text)) != nil){
+            navigationController?.popToViewController(GroupViewController(), animated: true)
+            var user = PFUser.currentUser()
+            user.save()
+        }
+        
+    }
     
+    /*func logInViewController(logInController: PFLogInViewController!, didLogInUser user: PFUser!) -> Void
+    {
+        FBRequestConnection.startForMeWithCompletionHandler({connection, result, error in
+            if (true)
+            {
+                PFUser.currentUser().setObject("User", forKey: "objectId")
+                PFUser.currentUser().save()
+            }
+            else
+            {
+                println("Error")
+            }
+        })
+    }*/
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.fbLoginView.delegate = self
+
+        //Facebook Integration
+        /*self.fbLoginView.delegate = self
         self.fbLoginView.readPermissions = ["public_profile", "email", "user_friends"]
+        println("User: \(loginUser.text)")*/
+        
+        
          
         var query = PFQuery(className: "User")
-        query.whereKey("username", equalTo: loginUser)
+        query.whereKey("username", equalTo: loginUser.text)
+        query.whereKey("password", equalTo: loginPass.text)
         
 
         // Do any additional setup after loading the view.
     }
     
+    /* -----Facebook Integration
     func loginViewShowingLoggedInUser(loginView : FBLoginView!) {
         println("User Logged In")
         println("This is where you perform a segue.")
+        self.performSegueWithIdentifier("showGroup", sender: LoginViewController())
     }
     
     func loginViewFetchedUserInfo(loginView : FBLoginView!, user: FBGraphUser){
@@ -44,8 +75,7 @@ class LoginViewController: UIViewController, FBLoginViewDelegate  {
     
     func loginView(loginView : FBLoginView!, handleError:NSError) {
         println("Error: \(handleError.localizedDescription)")
-    }
-
+    }*/
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

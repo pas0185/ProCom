@@ -16,10 +16,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="der-p7-U45" customClass="FBLoginView">
-                                <rect key="frame" x="200" y="394" width="200" height="100"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
                             <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TZJ-12-Dt5">
                                 <rect key="frame" x="272" y="525" width="55" height="30"/>
                                 <state key="normal" title="Sign Up">
@@ -45,33 +41,43 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vfq-Md-dyw">
+                                <rect key="frame" x="279" y="304" width="43" height="36"/>
+                                <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="17"/>
+                                <state key="normal" title="Login">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="login:" destination="80l-Tu-rxL" eventType="touchUpInside" id="mDV-uU-afd"/>
+                                    <segue destination="xMv-PM-1vp" kind="show" identifier="showGroup" id="BdK-bx-qCK"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="9Bg-Ak-xvw" secondAttribute="centerX" id="5FT-jg-PJJ"/>
                             <constraint firstAttribute="centerY" secondItem="RlI-YB-bUG" secondAttribute="centerY" constant="34" id="6Zd-lJ-PWp"/>
                             <constraint firstAttribute="centerY" secondItem="9Bg-Ak-xvw" secondAttribute="centerY" constant="235.75" id="6jP-F8-AyL"/>
-                            <constraint firstAttribute="centerX" secondItem="der-p7-U45" secondAttribute="centerX" id="94M-VY-7WD"/>
                             <constraint firstAttribute="centerY" secondItem="9Bg-Ak-xvw" secondAttribute="centerY" constant="232" id="Cx8-KO-ZYV"/>
                             <constraint firstAttribute="centerX" secondItem="9Bg-Ak-xvw" secondAttribute="centerX" constant="-0.5" id="HLe-me-ZB6"/>
                             <constraint firstAttribute="centerY" secondItem="fky-Tk-WzG" secondAttribute="centerY" constant="129" id="Mtb-YS-eh7"/>
                             <constraint firstAttribute="centerX" secondItem="TZJ-12-Dt5" secondAttribute="centerX" constant="-0.5" id="Puf-N1-CXo"/>
+                            <constraint firstAttribute="centerX" secondItem="Vfq-Md-dyw" secondAttribute="centerX" constant="-0.5" id="Upg-3Y-UZ6"/>
                             <constraint firstAttribute="centerX" secondItem="TZJ-12-Dt5" secondAttribute="centerX" constant="-0.5" id="ZCX-w8-deb"/>
                             <constraint firstAttribute="centerY" secondItem="TZJ-12-Dt5" secondAttribute="centerY" constant="-240" id="bec-CU-keW"/>
                             <constraint firstAttribute="centerX" secondItem="RlI-YB-bUG" secondAttribute="centerX" constant="-0.5" id="c7Q-v1-fAP"/>
-                            <constraint firstAttribute="centerY" secondItem="der-p7-U45" secondAttribute="centerY" constant="-144" id="h0I-Xf-1Vr"/>
                             <constraint firstAttribute="centerX" secondItem="fky-Tk-WzG" secondAttribute="centerX" constant="-0.5" id="ibp-fo-dEc"/>
+                            <constraint firstAttribute="centerY" secondItem="Vfq-Md-dyw" secondAttribute="centerY" constant="-22" id="xh2-v3-wCz"/>
                         </constraints>
                     </view>
                     <connections>
-                        <outlet property="fbLoginView" destination="der-p7-U45" id="5iS-ya-aeR"/>
                         <outlet property="loginPass" destination="RlI-YB-bUG" id="zyC-Gg-0dG"/>
                         <outlet property="loginUser" destination="fky-Tk-WzG" id="9y1-hy-mly"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="yZS-cq-T1f" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-427" y="299"/>
+            <point key="canvasLocation" x="-427" y="296"/>
         </scene>
         <!--Sign Up View Controller-->
         <scene sceneID="7qI-JT-vKD">
@@ -122,9 +128,9 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Num-7Q-G51">
-                                <rect key="frame" x="275" y="489" width="43" height="36"/>
+                                <rect key="frame" x="199" y="489" width="194" height="36"/>
                                 <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="17"/>
-                                <state key="normal" title="Login">
+                                <state key="normal" title="I already have an account">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
@@ -156,7 +162,6 @@
                     <connections>
                         <outlet property="confirmTextField" destination="cYv-JO-QbY" id="5wb-T1-rw9"/>
                         <outlet property="emailTextField" destination="5cp-b4-7e6" id="fvJ-Dk-PTC"/>
-                        <outlet property="fbLoginView" destination="der-p7-U45" id="meT-yh-jnC"/>
                         <outlet property="messageLabel" destination="qAM-9o-S1a" id="ih0-50-x0b"/>
                         <outlet property="passwordTextField" destination="Iv9-HV-Hli" id="oTW-Ka-vFL"/>
                         <outlet property="usernameTextField" destination="ZRo-ma-nxu" id="E6z-bl-6Pg"/>
@@ -166,5 +171,45 @@
             </objects>
             <point key="canvasLocation" x="308" y="296"/>
         </scene>
+        <!--Group View Controller-->
+        <scene sceneID="SKS-H8-yPZ">
+            <objects>
+                <viewController id="xMv-PM-1vp" customClass="GroupViewController" customModule="ProCom" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="pUM-yb-T3l"/>
+                        <viewControllerLayoutGuide type="bottom" id="yaM-TE-fsR"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="bTQ-9q-L3c">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="oIm-Gy-hfn"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Y6A-DS-5N7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="308" y="1056"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="qcM-tb-vRq">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="wle-tB-2Am" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="mHW-gs-VSM">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="xMv-PM-1vp" kind="relationship" relationship="rootViewController" id="rCe-an-VpJ"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="X6S-7F-w4a" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-427" y="1056"/>
+        </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="rCe-an-VpJ"/>
+    </inferredMetricsTieBreakers>
 </document>
