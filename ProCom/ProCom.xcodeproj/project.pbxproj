@@ -55,6 +55,7 @@
 		CD52A43B1A954B2300550DA1 /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = CD52A4281A954B2300550DA1 /* AFURLResponseSerialization.m */; };
 		CD52A43C1A954B2300550DA1 /* AFURLSessionManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CD52A4291A954B2300550DA1 /* AFURLSessionManager.h */; };
 		CD52A43D1A954B2300550DA1 /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = CD52A42A1A954B2300550DA1 /* AFURLSessionManager.m */; };
+		CDF952E91A99AF7B002D8B6E /* SDAFParseAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = CDF952E81A99AF7B002D8B6E /* SDAFParseAPIClient.swift */; };
 		E27B3FE31A8D75B800AE18C5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27B3FE21A8D75B800AE18C5 /* AppDelegate.swift */; };
 		E27B3FE61A8D75B800AE18C5 /* ProCom.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E27B3FE41A8D75B800AE18C5 /* ProCom.xcdatamodeld */; };
 		E27B3FEF1A8D75B800AE18C5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E27B3FEE1A8D75B800AE18C5 /* Images.xcassets */; };
@@ -121,6 +122,7 @@
 		CD52A4281A954B2300550DA1 /* AFURLResponseSerialization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLResponseSerialization.m; sourceTree = "<group>"; };
 		CD52A4291A954B2300550DA1 /* AFURLSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLSessionManager.h; sourceTree = "<group>"; };
 		CD52A42A1A954B2300550DA1 /* AFURLSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLSessionManager.m; sourceTree = "<group>"; };
+		CDF952E81A99AF7B002D8B6E /* SDAFParseAPIClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SDAFParseAPIClient.swift; sourceTree = "<group>"; };
 		E27B3FDD1A8D75B800AE18C5 /* ProCom.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProCom.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E27B3FE11A8D75B800AE18C5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E27B3FE21A8D75B800AE18C5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -284,6 +286,7 @@
 		E27B3FDF1A8D75B800AE18C5 /* ProCom */ = {
 			isa = PBXGroup;
 			children = (
+				CDF952E81A99AF7B002D8B6E /* SDAFParseAPIClient.swift */,
 				CD52A4011A95010300550DA1 /* iPhone.storyboard */,
 				CB33DD8E1A94E85800AE8FCF /* Main.storyboard */,
 				CB5711081A94EE80001FA72F /* LoginViewController.swift */,
@@ -452,6 +455,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CD52A4371A954B2300550DA1 /* AFURLConnectionOperation.m in Sources */,
+				CDF952E91A99AF7B002D8B6E /* SDAFParseAPIClient.swift in Sources */,
 				CB5711091A94EE80001FA72F /* LoginViewController.swift in Sources */,
 				CD52A4351A954B2300550DA1 /* AFSecurityPolicy.m in Sources */,
 				E27B3FE31A8D75B800AE18C5 /* AppDelegate.swift in Sources */,
