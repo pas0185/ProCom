@@ -14,6 +14,8 @@ class Group: NSObject {
     // ex: "iOS projects", "Finances"
     var name: String?
 
+    var objectId: String?
+    
     var parentId: String?
     
     // The sub categories within this Group
@@ -40,13 +42,14 @@ class Group: NSObject {
                 NSLog("Successfully retrieved group from the network")
                 
                 let name = groupObject["name"] as String
+                let objectId = groupObject["objectId"] as String
                 let parentId = groupObject["parentId"] as String
                 let subGroups = groupObject["subGroups"] as [String]
-                
+
                 let group = Group(name: name, parentId: parentId)
                 for subGroupId in subGroups {
                     if let subGroup = self.retrieveFromNetwork(subGroupId) {
-                        group.childGroupArray.append(subGroup)
+                        group.subGroups.append(subGroup)
                     }
                 }
             }

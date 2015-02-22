@@ -73,14 +73,17 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
                 if let field = alertView.textFieldAtIndex(0) {
                     if let title = field.text {
                         // Make new group
-                        var subGroup = Group(name: title)
+                        var subGroup = Group(name: title, parentId: "")
                         if let group = self.group {
                             group.addSubGroup(subGroup)
+                            subGroup.parentId = group.objectId
                         }
                         else {
                             // No group assigned for this view yet. Assign the new group
                             self.assignGroup(subGroup)
                         }
+                        
+                        subGroup.saveToNetwork()
                     }
                 }
             }
