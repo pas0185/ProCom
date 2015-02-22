@@ -4,7 +4,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
     <scenes>
-        <!--Groups-->
+        <!--Group Not Found-->
         <scene sceneID="Hse-au-4Ao">
             <objects>
                 <tableViewController id="Eg0-7S-RZJ" customClass="GroupTableViewController" customModule="ProCom" customModuleProvider="target" sceneMemberID="viewController">
@@ -81,7 +81,7 @@
                             </constraints>
                         </view>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="Zf5-fv-nsK">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="reuseIdentifier" id="Zf5-fv-nsK">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Zf5-fv-nsK" id="koA-3z-z6E">
                                     <autoresizingMask key="autoresizingMask"/>
@@ -93,7 +93,7 @@
                             <outlet property="delegate" destination="Eg0-7S-RZJ" id="leH-xe-eVZ"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Groups" id="BtH-wz-Q6v"/>
+                    <navigationItem key="navigationItem" title="Group Not Found" id="BtH-wz-Q6v"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tXy-ZX-tBk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

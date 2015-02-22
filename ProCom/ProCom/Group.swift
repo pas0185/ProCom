@@ -17,15 +17,22 @@ class Group: NSObject {
     // The sub categories within this Group
     // "lazy var" because we won't create this array in memory until needed
     // ex: think common file directory structure
-    lazy var childGroupArray = [Group]()
+    lazy var subGroups = [Group]()
     
     // The Convos stored in this Group
     // Convos are actual conversations containing text, users, pictures, etc
-    lazy var convoArray = [Convo]()
+    lazy var convos = [Convo]()
     
     // initialize a new Convo, given an appropriate title
     init(name: String) {
         self.name = name
+    }
+    
+    func addSubGroup(group: Group) {
+        
+        // TODO: sync with Parse here
+        
+        self.subGroups.append(group)
     }
     
     // TODO: a Group might like to know it's "lineage" that can be displayed to the user, like a file path
