@@ -7,11 +7,16 @@
 //
 
 import UIKit
-import MessageUI
 
 
-class MessageViewController: UIViewController {//MFMessageComposeViewController, UITableViewController{
 
+class MessageViewController: UIViewController {
+    
+//    let blurb = PFObject(className: "Blurb")
+//    
+//    var blurbid = blurb["objectId"] as String
+//    var blurbcreatedat = blurb["createdAt"] as String
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

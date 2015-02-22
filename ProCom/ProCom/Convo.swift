@@ -26,7 +26,7 @@ class Convo: NSObject {
     var moderator: User?
     
     // The Blurbs (messages) that make up this conversation
-    let blurbArray = [Blurb]()
+    //let blurbArray = [Blurb]()
     
     // The users that are subscribed to this Convo
     let members = [User]()
