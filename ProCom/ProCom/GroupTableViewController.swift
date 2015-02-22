@@ -153,6 +153,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
             if indexPath.section == 0 {
                 if let subGroup = group.subGroups[indexPath.row] as Group? {
                     
+                    
                     var subGroupViewController = GroupTableViewController(group: subGroup)
                     
                     self.navigationController?.pushViewController(subGroupViewController, animated: true)
