@@ -9,7 +9,7 @@
 import UIKit
 
 class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
-
+    
     // The Group being displayed
     var group: Group?
     
@@ -33,6 +33,15 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //----- Test network group retrieval ----//
+        if group == nil {
+            NSLog("Using default testing group")
+            
+            let testingGroupId = "wZKihkdhRB"
+            self.group = Group(networkObjectId: testingGroupId)
+        }
+        //--------------------------------------//
         
         if let name = self.group?.name {
             self.navigationItem.title = name
@@ -101,7 +110,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     }
     
     @IBAction func joinExisting(sender: AnyObject) {
-        
+        self.tableView.reloadData()
     }
     
     // MARK: - Table view data source

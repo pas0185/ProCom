@@ -34,32 +34,33 @@ class Group: NSObject {
         super.init()
     }
     
-    func retrieveFromNetwork(objectId: String) -> Group? {
+    init(networkObjectId: String) {
+        super.init()
+        
         var query = PFQuery(className: "Group")
-        query.getObjectInBackgroundWithId(objectId) {
-            (groupObject: PFObject!, error: NSError!) -> Void in
-            if error == nil {
+        if let groupObject = query.getObjectWithId(networkObjectId) {
+        
+//        query.getObjectInBackgroundWithId(networkObjectId) {
+//            (groupObject: PFObject!, error: NSError!) -> Void in
+//            if error == nil {
                 NSLog("Successfully retrieved group from the network")
                 
-                let name = groupObject["name"] as String
-                let objectId = groupObject["objectId"] as String
-                let parentId = groupObject["parentId"] as String
+                self.name = groupObject["name"] as? String
+                self.objectId = groupObject.objectId
+                self.parentId = groupObject["parentId"] as? String
                 let subGroups = groupObject["subGroups"] as [String]
-
-                let group = Group(name: name, parentId: parentId)
-                for subGroupId in subGroups {
-                    if let subGroup = self.retrieveFromNetwork(subGroupId) {
-                        group.subGroups.append(subGroup)
-                    }
-                }
+                
+//                for subGroupId in subGroups {
+//                    let subGroup = Group(networkObjectId: subGroupId)
+//                    self.subGroups.append(subGroup)
+//                }
             }
             else {
-                NSLog("Failed to retrieve group from the network: %@", error.description)
+                NSLog("Failed to retrieve group from the network")
             }
-        }
         
-        return nil
     }
+    
     func saveToNetwork() {
         
         var groupObject = PFObject(className: "Group")
