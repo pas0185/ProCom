@@ -30,12 +30,12 @@ class SignUpViewController: UIViewController{
             user.username = usrEntered
             user.password = pwdEntered
             user.email = emlEntered
-            user.save()
             
             user.signUpInBackgroundWithBlock {
                 (succeeded: Bool!, error: NSError!) -> Void in
                 if error == nil {
                     self.messageLabel.text = "Sign Up Success!";
+                    self.performSegueWithIdentifier("showGroup", sender: self)
                 } else {
                     // Show the errorString somewhere and let the user try again.
                 }
