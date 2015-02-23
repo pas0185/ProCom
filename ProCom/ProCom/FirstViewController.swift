@@ -9,6 +9,7 @@
 import UIKit
 
 class FirstViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
 
     @IBOutlet var tblTasks: UITableView!
     
@@ -60,6 +61,7 @@ class FirstViewController: UIViewController, UITableViewDelegate, UITableViewDat
     }
 
 
+    var type = UIUserNotificationType.Badge | UIUserNotificationType.Alert | UIUserNotificationType.Sound
 
 
 }
