@@ -19,9 +19,9 @@
 		CB33DD9A1A94E96100AE8FCF /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB33DD951A94E96100AE8FCF /* ParseUI.framework */; };
 		CB5711061A94EC21001FA72F /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB5711041A94EC21001FA72F /* FacebookSDK.framework */; };
 		CB5711071A94EC21001FA72F /* FBAudienceNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB5711051A94EC21001FA72F /* FBAudienceNetwork.framework */; };
-		CB5711091A94EE80001FA72F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB5711081A94EE80001FA72F /* LoginViewController.swift */; };
+		CB5711091A94EE80001FA72F /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB5711081A94EE80001FA72F /* SignUpViewController.swift */; };
+		CB57110B1A951BB8001FA72F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB57110A1A951BB8001FA72F /* LoginViewController.swift */; };
 		CBA7D4601A9285E50065AB70 /* BlurbViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBA7D45F1A9285E50065AB70 /* BlurbViewController.swift */; };
-		CBA7D4621A9285ED0065AB70 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBA7D4611A9285ED0065AB70 /* User.swift */; };
 		CBA7D4701A92BE600065AB70 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CBA7D46E1A92BE4D0065AB70 /* libsqlite3.dylib */; };
 		CBA7D48B1A92C0B00065AB70 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBA7D4891A92C0910065AB70 /* SystemConfiguration.framework */; };
 		CBA7D48C1A92C0B00065AB70 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBA7D4871A92C0840065AB70 /* Security.framework */; };
@@ -34,7 +34,6 @@
 		CBA7D4931A92C0B00065AB70 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBA7D4791A92C0370065AB70 /* CFNetwork.framework */; };
 		CBA7D4941A92C0B00065AB70 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBA7D4771A92C02D0065AB70 /* AudioToolbox.framework */; };
 		CBA7D4A31A92D0820065AB70 /* ProCom-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = CBA7D49F1A92D0120065AB70 /* ProCom-Bridging-Header.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CD52A4021A95010300550DA1 /* iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CD52A4011A95010300550DA1 /* iPhone.storyboard */; };
 		CD52A42B1A954B2300550DA1 /* AFHTTPRequestOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = CD52A4181A954B2300550DA1 /* AFHTTPRequestOperation.h */; };
 		CD52A42C1A954B2300550DA1 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = CD52A4191A954B2300550DA1 /* AFHTTPRequestOperation.m */; };
 		CD52A42D1A954B2300550DA1 /* AFHTTPRequestOperationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CD52A41A1A954B2300550DA1 /* AFHTTPRequestOperationManager.h */; };
@@ -85,9 +84,9 @@
 		CB33DD951A94E96100AE8FCF /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseUI.framework; sourceTree = "<group>"; };
 		CB5711041A94EC21001FA72F /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		CB5711051A94EC21001FA72F /* FBAudienceNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBAudienceNetwork.framework; sourceTree = "<group>"; };
-		CB5711081A94EE80001FA72F /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		CB5711081A94EE80001FA72F /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		CB57110A1A951BB8001FA72F /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		CBA7D45F1A9285E50065AB70 /* BlurbViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlurbViewController.swift; sourceTree = "<group>"; };
-		CBA7D4611A9285ED0065AB70 /* User.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		CBA7D46E1A92BE4D0065AB70 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		CBA7D4771A92C02D0065AB70 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		CBA7D4791A92C0370065AB70 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -100,7 +99,6 @@
 		CBA7D4871A92C0840065AB70 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		CBA7D4891A92C0910065AB70 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		CBA7D49F1A92D0120065AB70 /* ProCom-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ProCom-Bridging-Header.h"; sourceTree = "<group>"; };
-		CD52A4011A95010300550DA1 /* iPhone.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = iPhone.storyboard; sourceTree = "<group>"; };
 		CD52A4181A954B2300550DA1 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
 		CD52A4191A954B2300550DA1 /* AFHTTPRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPRequestOperation.m; sourceTree = "<group>"; };
 		CD52A41A1A954B2300550DA1 /* AFHTTPRequestOperationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperationManager.h; sourceTree = "<group>"; };
@@ -194,14 +192,6 @@
 			name = Group;
 			sourceTree = "<group>";
 		};
-		539D3B211A912CFD0093533F /* User */ = {
-			isa = PBXGroup;
-			children = (
-				CBA7D4611A9285ED0065AB70 /* User.swift */,
-			);
-			name = User;
-			sourceTree = "<group>";
-		};
 		CB33DD901A94E93D00AE8FCF /* Parse Framework */ = {
 			isa = PBXGroup;
 			children = (
@@ -212,6 +202,14 @@
 				CB33DD951A94E96100AE8FCF /* ParseUI.framework */,
 			);
 			name = "Parse Framework";
+			sourceTree = "<group>";
+		};
+		CB57110C1A951BBD001FA72F /* UserHandling */ = {
+			isa = PBXGroup;
+			children = (
+				CB57110A1A951BB8001FA72F /* LoginViewController.swift */,
+			);
+			name = UserHandling;
 			sourceTree = "<group>";
 		};
 		CBA7D46D1A92BDF10065AB70 /* Frameworks */ = {
@@ -284,14 +282,13 @@
 			isa = PBXGroup;
 			children = (
 				CDF952E81A99AF7B002D8B6E /* SDAFParseAPIClient.swift */,
-				CD52A4011A95010300550DA1 /* iPhone.storyboard */,
 				CB33DD8E1A94E85800AE8FCF /* Main.storyboard */,
-				CB5711081A94EE80001FA72F /* LoginViewController.swift */,
+				CB5711081A94EE80001FA72F /* SignUpViewController.swift */,
+				CB57110C1A951BBD001FA72F /* UserHandling */,
 				E27B3FE21A8D75B800AE18C5 /* AppDelegate.swift */,
 				539D3B201A8FFABA0093533F /* Group */,
 				539D3B1D1A8FE4E90093533F /* Convo */,
 				539D3B1F1A8FFA9B0093533F /* Blurb */,
-				539D3B211A912CFD0093533F /* User */,
 				E27B3FEE1A8D75B800AE18C5 /* Images.xcassets */,
 				E27B3FE01A8D75B800AE18C5 /* Supporting Files */,
 			);
@@ -432,7 +429,6 @@
 			files = (
 				CB33DD8F1A94E85800AE8FCF /* Main.storyboard in Resources */,
 				E27B3FF21A8D75B800AE18C5 /* LaunchScreen.xib in Resources */,
-				CD52A4021A95010300550DA1 /* iPhone.storyboard in Resources */,
 				E27B3FEF1A8D75B800AE18C5 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -453,12 +449,12 @@
 			files = (
 				CD52A4371A954B2300550DA1 /* AFURLConnectionOperation.m in Sources */,
 				CDF952E91A99AF7B002D8B6E /* SDAFParseAPIClient.swift in Sources */,
-				CB5711091A94EE80001FA72F /* LoginViewController.swift in Sources */,
+				CB5711091A94EE80001FA72F /* SignUpViewController.swift in Sources */,
 				CD52A4351A954B2300550DA1 /* AFSecurityPolicy.m in Sources */,
 				E27B3FE31A8D75B800AE18C5 /* AppDelegate.swift in Sources */,
 				CD52A42E1A954B2300550DA1 /* AFHTTPRequestOperationManager.m in Sources */,
 				E27B3FE61A8D75B800AE18C5 /* ProCom.xcdatamodeld in Sources */,
-				539D3B1A1A8FDE6D0093533F /* ConvoTableViewController.swift in Sources */,
+				539D3B1A1A8FDE6D0093533F /* GroupTableViewController.swift in Sources */,
 				539D3B141A8FDC7A0093533F /* Blurb.swift in Sources */,
 				539D3B181A8FDD980093533F /* Convo.swift in Sources */,
 				CD52A43D1A954B2300550DA1 /* AFURLSessionManager.m in Sources */,
@@ -467,9 +463,9 @@
 				539D3B161A8FDCEC0093533F /* Group.swift in Sources */,
 				CD52A4391A954B2300550DA1 /* AFURLRequestSerialization.m in Sources */,
 				CD52A4331A954B2300550DA1 /* AFNetworkReachabilityManager.m in Sources */,
-				CBA7D4621A9285ED0065AB70 /* User.swift in Sources */,
 				CD52A42C1A954B2300550DA1 /* AFHTTPRequestOperation.m in Sources */,
 				CD52A4301A954B2300550DA1 /* AFHTTPSessionManager.m in Sources */,
+				CB57110B1A951BB8001FA72F /* LoginViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

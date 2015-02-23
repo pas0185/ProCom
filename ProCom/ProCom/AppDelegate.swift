@@ -19,19 +19,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //Parse key set up
         Parse.setApplicationId("n3twpTW37Eh9SkLFRWM41bjmw2IoYPdb2dh3OAQC", clientKey: "TG5IOJyDtOkkijqBt3BXlSa1gKtxUm7k2dXBYxuF")
         
-        //----------------FB Login-------------------//
+        /*//----------------FB Login-------------------//
         
         FBLoginView.self
-        FBProfilePictureView.self
-        
-        // TODO: learn how to use managed object context if it can help later
-        //        controller.managedObjectContext = self.managedObjectContext
-
-        /*var convoView: ConvoTableViewController = ConvoTableViewController()
-        
-        if let window = self.window {
-            window.rootViewController = convoView
-        }*/
+        FBProfilePictureView.self*/
         
         return true
     }
