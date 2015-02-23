@@ -207,6 +207,7 @@
 		CB57110C1A951BBD001FA72F /* UserHandling */ = {
 			isa = PBXGroup;
 			children = (
+				CB5711081A94EE80001FA72F /* SignUpViewController.swift */,
 				CB57110A1A951BB8001FA72F /* LoginViewController.swift */,
 			);
 			name = UserHandling;
@@ -282,10 +283,9 @@
 			isa = PBXGroup;
 			children = (
 				CDF952E81A99AF7B002D8B6E /* SDAFParseAPIClient.swift */,
-				CB33DD8E1A94E85800AE8FCF /* Main.storyboard */,
-				CB5711081A94EE80001FA72F /* SignUpViewController.swift */,
-				CB57110C1A951BBD001FA72F /* UserHandling */,
 				E27B3FE21A8D75B800AE18C5 /* AppDelegate.swift */,
+				CB33DD8E1A94E85800AE8FCF /* Main.storyboard */,
+				CB57110C1A951BBD001FA72F /* UserHandling */,
 				539D3B201A8FFABA0093533F /* Group */,
 				539D3B1D1A8FE4E90093533F /* Convo */,
 				539D3B1F1A8FFA9B0093533F /* Blurb */,

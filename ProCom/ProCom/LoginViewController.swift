@@ -19,6 +19,7 @@ class LoginViewController: UIViewController, FBLoginViewDelegate, PFLogInViewCon
         if ((PFUser.logInWithUsername(loginUser.text, password: loginPass.text)) != nil){
             var user = PFUser.currentUser()
             user.save()
+            self.performSegueWithIdentifier("showGroup", sender: self)
         }
         
     }
