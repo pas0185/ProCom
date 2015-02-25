@@ -1,4 +1,3 @@
-
 require('cloud/blurb.js')
 require('cloud/userConvo.js')
 require('cloud/userGroups.js')
@@ -13,20 +12,4 @@ Parse.Cloud.define("testRelation", function(request, response) {
 
 	qUser.first({
 		success: function(user) {
-
-			var newConvo = new Convo();
-			newConvo.set("incode", "jsTesterIncode2");
-			var relation = newConvo.relation("users");
-			relation.add(user);
-			newConvo.save();
-
-			response.success("Success");
-		},
-		error: function() {
-			response.error("Failure");
-		}
-	});
-
 });
-
-
