@@ -24,15 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FBLoginView.self
         FBProfilePictureView.self*/
         
-        if ((PFUser.currentUser()) != nil) // if user logged in.
-        {
-            let homeViewController = GroupViewController()
-        }
-        else
-        {
-           let loginViewController = LoginViewController()
-        }
-      return true
+        return true
     }
 
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: NSString?, annotation: AnyObject) -> Bool {
