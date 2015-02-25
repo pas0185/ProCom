@@ -1,8 +1,12 @@
 
-// Use Parse.Cloud.define to define as many cloud functions as you want.
-// For example:
-Parse.Cloud.define("hello", function(request, response) {
-	response.success("Hello world!");
+// Add an existing user to an existing conversation
+Parse.cloud.define("addUserToConvo", function(request, response) {
+
+});
+
+// Create a new conversation
+Parse.cloud.define("createNewConvo" function(request, response) {
+
 });
 
 Parse.Cloud.define("testRelation", function(request, response) {
@@ -28,7 +32,6 @@ Parse.Cloud.define("testRelation", function(request, response) {
 			response.error("Failure");
 		}
 	});
-
 });
 
 Parse.Cloud.define("userConvos", function(request, response) {
