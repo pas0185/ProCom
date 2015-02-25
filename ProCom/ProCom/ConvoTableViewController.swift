@@ -12,8 +12,15 @@ class ConvoTableViewController: UITableViewController {
 
     //var convoArray = [Blurb]()
     
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        var blurb = NSMutableData.alloc()
+        
+        
+        
 
         // Add dummy data
         //convoArray.append(Blurb(title:"Ideas"))
@@ -50,7 +57,7 @@ class ConvoTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 //        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as UITableViewCell
         
-        let cell = UITableViewCell()
+        let cell = BlurbCell()
         
         //cell.textLabel?.text = self.convoArray[indexPath.row].text
 

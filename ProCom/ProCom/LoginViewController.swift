@@ -11,7 +11,7 @@ import ParseUI
 
 class LoginViewController: UIViewController, FBLoginViewDelegate, PFLogInViewControllerDelegate{
 
-    @IBOutlet var fbLoginView : FBLoginView!
+    //@IBOutlet var fbLoginView : FBLoginView!
     @IBOutlet weak var loginUser: UITextField!
     @IBOutlet weak var loginPass: UITextField!
 
