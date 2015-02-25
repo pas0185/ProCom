@@ -28,7 +28,6 @@ Parse.Cloud.define("addUserToConvo", function(request, response) {
 				},
 				error: function(convo, error) {
 					response.error("Failed to retrieve convo: " + error);
-
 				}
 			});
 		},
