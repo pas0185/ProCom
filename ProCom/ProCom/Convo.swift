@@ -22,6 +22,7 @@ class Convo: NSObject {
     // Title of this conversation
     var title: String?
     
+    
     // The admin of this conversation; can add/remove users
     
     //var moderator: User?

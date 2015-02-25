@@ -9,7 +9,27 @@
 import UIKit
 
 class BlurbTableViewController: UITableViewController {
+    
+    var blurb: Blurb?
+    
+    init(blurb: Blurb) {
+        self.blurb = blurb
+        
+        super.init()
+    }
+    
+    override init(style: UITableViewStyle) {
+        super.init(style: style)
+    }
 
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    }
+    
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -30,13 +50,14 @@ class BlurbTableViewController: UITableViewController {
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Potentially incomplete method implementation.
         // Return the number of sections.
-        return 0
+        return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete method implementation.
-        // Return the number of rows in the section.
-        return 0
+        let blurb = self.blurb as Blurb?
+        let count = blurb?.blurbs.count as Int?
+        
+        return count!
     }
 
     /*

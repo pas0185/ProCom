@@ -17,16 +17,21 @@ class Blurb: NSObject {
     
     var created: NSDate?
     
-    var convoid: String?
+    var convoid: AnyObject?
+    
+    
+    var currentUser = PFUser.currentUser().objectId
+    //var currentConvo =
     
     lazy var blurbs = [Blurb]()
     
     
     // initialize a blurb
-    init(text: String, user: String, created: NSDate) {
+    init(text: String, user: String, created: NSDate, convoid: AnyObject?) {
         self.text = text
         self.user = user
         self.created = created
+        self.convoid = convoid
         super.init()
     }
     
@@ -35,14 +40,17 @@ class Blurb: NSObject {
         
         //TODO: Create a query for convoids based on user
         
-                var query = PFQuery(className: "Blurb")
+        
+        //var blurbs = PFCloud.callFunction("getBlurb", withParameters: ["convoId": convoid.objectId])
+        
+        var query = PFQuery(className: "Blurb")
         if let blurbObject = query.getObjectWithId(networkObjectId) {
             
             NSLog("Successfully retrieved blurbs from the network")
             
             self.text = blurbObject["text"] as? String
             self.user = blurbObject["userId"] as? String
-            self.convoid = blurbObject["convoId"] as? String
+            self.convoid = blurbObject["convoId"]
             self.created = blurbObject.createdAt
         }
         else {
@@ -57,7 +65,7 @@ class Blurb: NSObject {
         
         var blurbObject = PFObject(className: "Blurb")
         blurbObject["text"] = self.text
-        blurbObject["userId"] = PFUser.currentUser()
+        blurbObject["userId"] = currentUser
         blurbObject.saveInBackgroundWithBlock {
             (success: Bool, error: NSError!) -> Void in
             if (success) {
