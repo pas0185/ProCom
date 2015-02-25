@@ -5,12 +5,41 @@ Parse.Cloud.define("hello", function(request, response) {
 	response.success("Hello world!");
 });
 
-Parse.Cloud.define("userConvos", function(request, response) {
-	var query = new Parse.Query("User");
-	
-	query.equalTo("objectId", request.params.objectId);
+Parse.Cloud.define("testRelation", function(request, response) {
 
-	query.first({
+	var Convo = Parse.Object.extend("Convo");
+
+	// Get the User by its objectId
+	var qUser = new Parse.Query("User");
+	qUser.equalTo("objectId", request.params.objectId);
+
+	qUser.first({
+		success: function(user) {
+
+			var newConvo = new Convo();
+			newConvo.set("incode", "jsTesterIncode2");
+			var relation = newConvo.relation("users");
+			relation.add(user);
+			newConvo.save();
+
+			response.success("Success");
+		},
+		error: function() {
+			response.error("Failure");
+		}
+	});
+
+});
+
+Parse.Cloud.define("userConvos", function(request, response) {
+
+	// Get the User by its objectId
+	var qUser = new Parse.Query("User");
+	qUser.equalTo("objectId", request.params.objectId);
+
+	var qConvo = new Parse.Query("Convo");
+
+	qUser.first({
 		success: function(user) {
 			convoIds = user.get("convoIds");
 			response.success(convoIds);

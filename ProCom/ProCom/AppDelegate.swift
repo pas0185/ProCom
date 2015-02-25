@@ -19,6 +19,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //Parse key set up
         Parse.setApplicationId("n3twpTW37Eh9SkLFRWM41bjmw2IoYPdb2dh3OAQC", clientKey: "TG5IOJyDtOkkijqBt3BXlSa1gKtxUm7k2dXBYxuF")
         
+        self.testConvoTableWithUserRelationColumn()
+        
         /*//----------------FB Login-------------------//
         
         FBLoginView.self
@@ -26,7 +28,50 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         return true
     }
+    
+    func testConvoTableWithUserRelationColumn() {
+        
+        var patrickUserId = "kRaibtYs3r"
+        var query = PFQuery(className: "User")
+        
+        if let userPatrick = query.getObjectWithId(patrickUserId) {
+            
+            // Make Convo
+            var abraidConvo = PFObject(className: "Convo")
+            
+            
+            // Make Convo's relation to the Users
+            var relation: PFRelation = abraidConvo.relationForKey("users")
+            relation.addObject(userPatrick)
+            
+            // Save the new convo
+            abraidConvo.saveInBackgroundWithTarget(nil, selector: nil)
+            
+        }
 
+        
+        // Make Users
+//        var userPatrick = PFObject(className: "User")
+//        userPatrick["username"] = "patrick123"
+//        
+//        var userMeshach = PFObject(className: "User")
+//        userMeshach["username"] = "meshach123"
+//        
+//        var userRobert = PFObject(className: "User")
+//        userRobert["username"] = "robert123"
+        
+        // Make Convo
+//        var abraidConvo = PFObject(className: "Convo")
+//        abraidConvo["incode"] = "abraidConvo123"
+//        
+//        // Make Convo's relation to the Users
+//        var relation = abraidConvo.relationForKey("users") as PFRelation
+//        relation.addObject(userPatrick)
+//        relation.addObject(userMeshach)
+//        relation.addObject(userRobert)
+        
+    }
+    
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: NSString?, annotation: AnyObject) -> Bool {
         
         var wasHandled:Bool = FBAppCall.handleOpenURL(url, sourceApplication: sourceApplication)
