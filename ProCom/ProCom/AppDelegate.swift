@@ -18,13 +18,41 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         //Parse key set up
         Parse.setApplicationId("n3twpTW37Eh9SkLFRWM41bjmw2IoYPdb2dh3OAQC", clientKey: "TG5IOJyDtOkkijqBt3BXlSa1gKtxUm7k2dXBYxuF")
-                
+        
+        self.testGetConvosForUser()
+        
         /*//----------------FB Login-------------------//
         
         FBLoginView.self
         FBProfilePictureView.self*/
         
         return true
+    }
+    
+    func testGetConvosForUser() {
+        
+        let patrickUserId = "kRaibtYs3r"
+        let userQuery = PFQuery(className: "_User")
+        
+        userQuery.getObjectInBackgroundWithId(patrickUserId, block:{(PFObject user, NSError error) in
+            
+            if (user != nil) {
+            
+                let queryConvo = PFQuery(className: "Convo")
+                queryConvo.whereKey("users", equalTo: user)
+                queryConvo.findObjectsInBackgroundWithBlock({(NSArray convos, NSError error) in
+                    if (error != nil) {
+                        NSLog("error " + error.localizedDescription)
+                    }
+                    else {
+                        NSLog("convos %@", convos as NSArray)
+                        
+                        // Found Convos for this user
+                        
+                    }
+                })
+            }
+        })
     }
     
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: NSString?, annotation: AnyObject) -> Bool {

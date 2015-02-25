@@ -6,7 +6,6 @@ var User = Parse.Object.extend("User");
 // @params: 'userId' and 'convoId' 
 Parse.Cloud.define("addUserToConvo", function(request, response) {
 
-	// Get the User
 	var queryUser = new Parse.Query("User");
 	var queryConvo = new Parse.Query("Convo");
 
@@ -35,55 +34,6 @@ Parse.Cloud.define("addUserToConvo", function(request, response) {
 		},
 		error: function(user, error) {
 			response.error("Failed to retrieve user: " + error);
-		}
-	});
-});
-
-// Create a new conversation
-// Parse.cloud.define("createNewConvo" function(request, response) {
-
-// });
-
-Parse.Cloud.define("testRelation", function(request, response) {
-
-	var Convo = Parse.Object.extend("Convo");
-
-	// Get the User by its objectId
-	var qUser = new Parse.Query("User");
-	qUser.equalTo("objectId", request.params.objectId);
-
-	qUser.first({
-		success: function(user) {
-
-			var newConvo = new Convo();
-			newConvo.set("incode", "jsTesterIncode2");
-			var relation = newConvo.relation("users");
-			relation.add(user);
-			newConvo.save();
-
-			response.success("Success");
-		},
-		error: function() {
-			response.error("Failure");
-		}
-	});
-});
-
-Parse.Cloud.define("userConvos", function(request, response) {
-
-	// Get the User by its objectId
-	var qUser = new Parse.Query("User");
-	qUser.equalTo("objectId", request.params.objectId);
-
-	var qConvo = new Parse.Query("Convo");
-
-	qUser.first({
-		success: function(user) {
-			convoIds = user.get("convoIds");
-			response.success(convoIds);
-		},
-		error: function() {
-			response.error("No convos found for this user");
 		}
 	});
 });
