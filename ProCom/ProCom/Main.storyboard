@@ -303,7 +303,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="60" id="F90-G2-T7i" customClass="BlurbCell" customModule="ProCom" customModuleProvider="target">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="blurbCell" rowHeight="60" id="F90-G2-T7i" customClass="BlurbCell" customModule="ProCom" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="F90-G2-T7i" id="Kch-zK-xis">
@@ -348,10 +348,10 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8An-ib-zHh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1054" y="1132"/>
+            <point key="canvasLocation" x="498" y="958"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="KhH-70-jfu"/>
+        <segue reference="9Bu-OV-6vH"/>
     </inferredMetricsTieBreakers>
 </document>
