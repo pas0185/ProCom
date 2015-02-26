@@ -13,6 +13,8 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     // The Group being displayed
     var group: Group?
     
+    var user: PFUser?
+    
     init(group: Group) {
         self.group = group
         
@@ -31,8 +33,66 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         super.init(coder: aDecoder)
     }
     
+    // Fetch conversations for a user
+    func getConvosForUser(userId: String) -> NSArray {
+        
+        let userQuery = PFQuery(className: "_User")
+        
+        var convos = NSArray()
+        
+        userQuery.getObjectInBackgroundWithId(userId, block:{(PFObject user, NSError error) in
+            
+            if (user != nil) {
+                
+                let queryConvo = PFQuery(className: "Convo")
+                queryConvo.whereKey("users", equalTo: user)
+                queryConvo.findObjectsInBackgroundWithBlock({(NSArray array, NSError error) in
+                    if (error != nil) {
+                        NSLog("error " + error.localizedDescription)
+                    }
+                    else {
+                        NSLog("convos %@", array as NSArray)
+                        
+                        // Found Convos for this user
+                        convos = array
+                    }
+                })
+            }
+        })
+        
+        return convos
+    }
+    
+    func getHomeGroupsForUser(userId: String) { //-> NSArray {
+        
+        
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        if let user = self.user {
+            // If a user is assigned for this Group View
+            
+            // OPTION 1
+            // Go get all convoIds for this user
+            let userId: String = user.objectId
+            
+            var homeGroups = self.getHomeGroupsForUser(userId)
+            
+            var convos = self.getConvosForUser(userId)
+            
+            // TODO: Build Group heirarchy based off of convos
+            //          1) get their groupIds
+            //          2) recursively get each group's parent until parent == nil
+            
+            
+            // OPTION 2
+            // Go get full User's /Group/Group/Convo heirarchy
+            
+            
+        }
+        
         
         //----- Test network group retrieval ----//
         if group == nil {

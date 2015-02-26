@@ -174,8 +174,6 @@
 			isa = PBXGroup;
 			children = (
 				539D3B171A8FDD980093533F /* Convo.swift */,
-				539D3B1B1A8FE33A0093533F /* ConvoDataController.swift */,
-				539D3B191A8FDE6D0093533F /* ConvoTableViewController.swift */,
 				CB66A1CE1A9950C300EF85A0 /* BlurbCell.swift */,
 			);
 			name = Convo;
