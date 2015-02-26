@@ -17,8 +17,7 @@ class Blurb: NSObject {
     
     var created: NSDate?
     
-    var convoid: AnyObject?
-    
+    var convoid: String?
     
     var currentUser = PFUser.currentUser().objectId
     //var currentConvo =
@@ -27,7 +26,7 @@ class Blurb: NSObject {
     
     
     // initialize a blurb
-    init(text: String, user: String, created: NSDate, convoid: AnyObject?) {
+    init(text: String, user: String, created: NSDate, convoid: String?) {
         self.text = text
         self.user = user
         self.created = created
@@ -40,22 +39,6 @@ class Blurb: NSObject {
         
         //TODO: Create a query for convoids based on user
         
-        
-        //var blurbs = PFCloud.callFunction("getBlurb", withParameters: ["convoId": convoid.objectId])
-        
-        var query = PFQuery(className: "Blurb")
-        if let blurbObject = query.getObjectWithId(networkObjectId) {
-            
-            NSLog("Successfully retrieved blurbs from the network")
-            
-            self.text = blurbObject["text"] as? String
-            self.user = blurbObject["userId"] as? String
-            self.convoid = blurbObject["convoId"]
-            self.created = blurbObject.createdAt
-        }
-        else {
-            NSLog("Failed to retrieve blurbs from the network")
-        }
         
     }
     
@@ -75,6 +58,24 @@ class Blurb: NSObject {
                 NSLog("Failed to save blurb: %@", error.description)
             }
         }
+    }
+    
+    func retrieveBlurb(convoid: String){
+        
+        var query = PFQuery(className: "Blurb")
+        if let blurbObject = query.getObjectWithId(convoid) {
+            
+            NSLog("Successfully retrieved blurbs from the network")
+            NSLog("Blurbs", blurbObject)
+            self.text = blurbObject["text"] as? String
+            self.user = blurbObject["userId"] as? String
+            self.convoid = blurbObject["convoId"] as? String
+            self.created = blurbObject.createdAt
+        }
+        else {
+            NSLog("Failed to retrieve blurbs from the network")
+        }
+        
     }
     
 }
