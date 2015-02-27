@@ -20,6 +20,7 @@ class LoginViewController: UIViewController, FBLoginViewDelegate, PFLogInViewCon
             var user = PFUser.currentUser()
             user.save()
             self.performSegueWithIdentifier("showGroup", sender: self)
+            PFUser.logInWithUsernameInBackground(loginUser.text, password: loginPass.text, block: nil)
         }
         
     }

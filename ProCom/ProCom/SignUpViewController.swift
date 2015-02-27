@@ -44,6 +44,7 @@ class SignUpViewController: UIViewController{
         
         if usrEntered != "" && pwdEntered != "" && emlEntered != "" && pwdEntered == conEntered {
             userSignUp()
+            PFUser.logInWithUsernameInBackground(usrEntered, password: pwdEntered, block: nil)
         } else {
             self.messageLabel.text = "All Fields Required"
         }
