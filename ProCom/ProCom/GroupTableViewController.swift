@@ -63,9 +63,17 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         return convos
     }
     
-    func getHomeGroupsForUser(userId: String) { //-> NSArray {
+    func getGroupsForConvos(convos: NSArray) -> NSArray {
+        var groups: [PFObject] = []
+
+        for convo in convos {
+            if let c = convo as? PFObject {
+                var parentGroup = c["groupId"] as PFObject
+                groups.append(parentGroup)
+            }
+        }
         
-        
+        return groups
     }
     
     override func viewDidLoad() {
@@ -78,29 +86,26 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
             // Go get all convoIds for this user
             let userId: String = user.objectId
             
-            var homeGroups = self.getHomeGroupsForUser(userId)
+            var convos = self.getConvosForUser(userId)
+            var groups = self.getGroupsForConvos(convos)
+            
+        }
+        else {
+            
+            // Just test data
+            let userId: String = "kRaibtYs3r"
             
             var convos = self.getConvosForUser(userId)
-            
-            // TODO: Build Group heirarchy based off of convos
-            //          1) get their groupIds
-            //          2) recursively get each group's parent until parent == nil
-            
-            
-            // OPTION 2
-            // Go get full User's /Group/Group/Convo heirarchy
-            
-            
+            var groups = self.getGroupsForConvos(convos)
         }
-        
         
         //----- Test network group retrieval ----//
-        if group == nil {
-            NSLog("Using default testing group")
-            
-            let testingGroupId = "wZKihkdhRB"
-            self.group = Group(networkObjectId: testingGroupId)
-        }
+//        if group == nil {
+//            NSLog("Using default testing group")
+//            
+//            let testingGroupId = "wZKihkdhRB"
+//            self.group = Group(networkObjectId: testingGroupId)
+//        }
         //--------------------------------------//
         
         if let name = self.group?.name {
