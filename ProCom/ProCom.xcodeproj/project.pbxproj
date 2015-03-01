@@ -174,7 +174,6 @@
 			isa = PBXGroup;
 			children = (
 				539D3B171A8FDD980093533F /* Convo.swift */,
-				CB66A1CE1A9950C300EF85A0 /* BlurbCell.swift */,
 			);
 			name = Convo;
 			sourceTree = "<group>";
@@ -182,6 +181,7 @@
 		539D3B1F1A8FFA9B0093533F /* Blurb */ = {
 			isa = PBXGroup;
 			children = (
+				CB66A1CE1A9950C300EF85A0 /* BlurbCell.swift */,
 				CBF01B511A9AE53300364AB6 /* BlurbTableViewController.swift */,
 				539D3B131A8FDC7A0093533F /* Blurb.swift */,
 				CBA7D45F1A9285E50065AB70 /* BlurbViewController.swift */,

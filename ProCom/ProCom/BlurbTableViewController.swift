@@ -12,6 +12,7 @@ class BlurbTableViewController: UITableViewController {
     
     var blurbconvoid: String?
     var user = PFUser.currentUser().objectId
+    var blurbs = NSArray()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,8 +43,6 @@ class BlurbTableViewController: UITableViewController {
         
         let userQuery = PFQuery(className: "_User")
         
-        var blurbs = NSArray()
-        
         userQuery.getObjectInBackgroundWithId(user, block:{(PFObject user, NSError error) in
             
             if (user != nil) {
@@ -58,7 +57,7 @@ class BlurbTableViewController: UITableViewController {
                         NSLog("blurbs %@", array as NSArray)
                         
                         //blurbs for this convo
-                        blurbs = array
+                        self.blurbs = array
                     }
                 })
             }
@@ -67,15 +66,15 @@ class BlurbTableViewController: UITableViewController {
         return blurbs.count
     }
 
-    /*
+    
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as UITableViewCell
-
-        // Configure the cell...
-
+        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as BlurbCell
+        
+        cell.setCell(blurbs[indexPath.row], timeStamp: blurbs[indexPath.row], blurb: blurbs[indexPath.row])
+        
         return cell
     }
-    */
+
 
     /*
     // Override to support conditional editing of the table view.

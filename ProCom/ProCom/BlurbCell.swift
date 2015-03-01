@@ -23,5 +23,12 @@ class BlurbCell: UITableViewCell {
 
         // Configure the view for the selected state
     }
+    
+    func setCell(userName: AnyObject, timeStamp: AnyObject, blurb: AnyObject){
+        println("setCell called")
+        self.userName?.text = userName as? String
+        self.timeStamp?.text = timeStamp as? String
+        self.blurb?.text = blurb as? String
+    }
 
 }
