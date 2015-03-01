@@ -35,7 +35,7 @@
 		CBA7D4941A92C0B00065AB70 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBA7D4771A92C02D0065AB70 /* AudioToolbox.framework */; };
 		CBA7D4A31A92D0820065AB70 /* ProCom-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = CBA7D49F1A92D0120065AB70 /* ProCom-Bridging-Header.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CBF01B521A9AE53300364AB6 /* BlurbTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF01B511A9AE53300364AB6 /* BlurbTableViewController.swift */; };
-		CBF01B681AA1701600364AB6 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF01B671AA1701600364AB6 /* SignUpViewController.swift */; };
+		CBF01B6A1AA3BD8900364AB6 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF01B691AA3BD8900364AB6 /* SignUpViewController.swift */; };
 		CD52A42B1A954B2300550DA1 /* AFHTTPRequestOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = CD52A4181A954B2300550DA1 /* AFHTTPRequestOperation.h */; };
 		CD52A42C1A954B2300550DA1 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = CD52A4191A954B2300550DA1 /* AFHTTPRequestOperation.m */; };
 		CD52A42D1A954B2300550DA1 /* AFHTTPRequestOperationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = CD52A41A1A954B2300550DA1 /* AFHTTPRequestOperationManager.h */; };
@@ -102,7 +102,7 @@
 		CBA7D4891A92C0910065AB70 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		CBA7D49F1A92D0120065AB70 /* ProCom-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ProCom-Bridging-Header.h"; sourceTree = "<group>"; };
 		CBF01B511A9AE53300364AB6 /* BlurbTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlurbTableViewController.swift; sourceTree = "<group>"; };
-		CBF01B671AA1701600364AB6 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SignUpViewController.swift; path = ../../../../../../SignUpViewController.swift; sourceTree = "<group>"; };
+		CBF01B691AA3BD8900364AB6 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		CD52A4181A954B2300550DA1 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
 		CD52A4191A954B2300550DA1 /* AFHTTPRequestOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPRequestOperation.m; sourceTree = "<group>"; };
 		CD52A41A1A954B2300550DA1 /* AFHTTPRequestOperationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperationManager.h; sourceTree = "<group>"; };
@@ -213,7 +213,7 @@
 		CB57110C1A951BBD001FA72F /* UserHandling */ = {
 			isa = PBXGroup;
 			children = (
-				CBF01B671AA1701600364AB6 /* SignUpViewController.swift */,
+				CBF01B691AA3BD8900364AB6 /* SignUpViewController.swift */,
 				CB57110A1A951BB8001FA72F /* LoginViewController.swift */,
 			);
 			name = UserHandling;
@@ -453,7 +453,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CBF01B681AA1701600364AB6 /* SignUpViewController.swift in Sources */,
 				CD52A4371A954B2300550DA1 /* AFURLConnectionOperation.m in Sources */,
 				CDF952E91A99AF7B002D8B6E /* SDAFParseAPIClient.swift in Sources */,
 				CD52A4351A954B2300550DA1 /* AFSecurityPolicy.m in Sources */,
@@ -469,6 +468,7 @@
 				539D3B161A8FDCEC0093533F /* Group.swift in Sources */,
 				CD52A4391A954B2300550DA1 /* AFURLRequestSerialization.m in Sources */,
 				CD52A4331A954B2300550DA1 /* AFNetworkReachabilityManager.m in Sources */,
+				CBF01B6A1AA3BD8900364AB6 /* SignUpViewController.swift in Sources */,
 				CD52A42C1A954B2300550DA1 /* AFHTTPRequestOperation.m in Sources */,
 				CD52A4301A954B2300550DA1 /* AFHTTPSessionManager.m in Sources */,
 				CB57110B1A951BB8001FA72F /* LoginViewController.swift in Sources */,
