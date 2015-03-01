@@ -10,25 +10,8 @@ import UIKit
 
 class BlurbTableViewController: UITableViewController {
     
-    var blurb: Blurb?
-    
-    init(blurb: Blurb) {
-        self.blurb = blurb
-        
-        super.init()
-    }
-    
-    override init(style: UITableViewStyle) {
-        super.init(style: style)
-    }
-
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-    }
-    
-    required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-    }
+    var blurbconvoid: String?
+    var user = PFUser.currentUser().objectId
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,10 +37,34 @@ class BlurbTableViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let blurb = self.blurb as Blurb?
-        let count = blurb?.blurbs.count as Int?
         
-        return count!
+        //TODO: Get a convoid passed from the grouptableview controller and then pass to the blurb query below
+        
+        let userQuery = PFQuery(className: "_User")
+        
+        var blurbs = NSArray()
+        
+        userQuery.getObjectInBackgroundWithId(user, block:{(PFObject user, NSError error) in
+            
+            if (user != nil) {
+                
+                let queryBlurb = PFQuery(className: "Blurb")
+                queryBlurb.whereKey("convoId", equalTo: self.blurbconvoid)
+                queryBlurb.findObjectsInBackgroundWithBlock({(NSArray array, NSError error) in
+                    if (error != nil) {
+                        NSLog("error " + error.localizedDescription)
+                    }
+                    else {
+                        NSLog("blurbs %@", array as NSArray)
+                        
+                        //blurbs for this convo
+                        blurbs = array
+                    }
+                })
+            }
+        })
+        
+        return blurbs.count
     }
 
     /*
