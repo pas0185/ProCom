@@ -10,7 +10,10 @@ import UIKit
 
 class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     
+    var convoId: NSString?
+    
     // The Group being displayed
+    
     var group: Group?
     
     var user: PFUser?
@@ -238,7 +241,11 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
             }
             else if indexPath.section == 1 {
                 if let convo = group.convos[indexPath.row] as Convo? {
-
+                    
+                    var blurbController = BlurbTableViewController()
+                    blurbController.blurbconvoid = convoId
+                    NSLog("Convo ID:", convoId!)
+                    self.navigationController?.pushViewController(blurbController, animated: true)
                     // TODO: display ConvoViewController
                 }
             }
@@ -287,9 +294,9 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
 
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+       
         // Get the new view controller using [segue destinationViewController].
         // Pass the selected object to the new view controller.
     }
-    */
-
+*/
 }

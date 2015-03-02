@@ -16,6 +16,8 @@ class BlurbTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        NSLog("Convo ID:", blurbconvoid!)
 
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
