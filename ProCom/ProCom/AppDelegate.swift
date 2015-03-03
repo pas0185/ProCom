@@ -19,12 +19,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //Parse key set up
         Parse.setApplicationId("n3twpTW37Eh9SkLFRWM41bjmw2IoYPdb2dh3OAQC", clientKey: "TG5IOJyDtOkkijqBt3BXlSa1gKtxUm7k2dXBYxuF")
         
-//        self.testGetConvosForUser()
-        
-        /*//----------------FB Login-------------------//
-        
-        FBLoginView.self
-        FBProfilePictureView.self*/
         
         return true
     }

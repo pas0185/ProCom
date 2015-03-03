@@ -8,7 +8,10 @@
 
 import UIKit
 
+
 class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
+    
+    let testUserId = "kRaibtYs3r"
     
     // The Group being displayed
     var group: Group?
@@ -79,25 +82,19 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let user = self.user {
-            // If a user is assigned for this Group View
-            
-            // OPTION 1
-            // Go get all convoIds for this user
-            let userId: String = user.objectId
-            
-            var convos = self.getConvosForUser(userId)
-            var groups = self.getGroupsForConvos(convos)
-            
-        }
-        else {
-            
-            // Just test data
-            let userId: String = "kRaibtYs3r"
-            
-            var convos = self.getConvosForUser(userId)
-            var groups = self.getGroupsForConvos(convos)
-        }
+        var convos = self.getConvosForUser(testUserId)
+        var groups = self.getGroupsForConvos(convos)
+        
+//        if let user = self.user {
+//            // If a user is assigned for this Group View
+//            var convos = self.getConvosForUser(user.objectId)
+//            var groups = self.getGroupsForConvos(convos)
+//            
+//        }
+//        else {
+//            var convos = self.getConvosForUser(testUserId)
+//            var groups = self.getGroupsForConvos(convos)
+//        }
         
         //----- Test network group retrieval ----//
 //        if group == nil {
