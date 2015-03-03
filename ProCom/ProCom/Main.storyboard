@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="80l-Tu-rxL">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="hpH-2V-sX5">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
     </dependencies>
@@ -49,7 +49,6 @@
                                 </state>
                                 <connections>
                                     <action selector="login:" destination="80l-Tu-rxL" eventType="touchUpInside" id="mDV-uU-afd"/>
-                                    <segue destination="DK6-OE-QLE" kind="show" identifier="showGroup" id="9Bu-OV-6vH"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -118,7 +117,6 @@
                                 </state>
                                 <connections>
                                     <action selector="loginVerifyButton:" destination="Qhm-nb-Afa" eventType="touchUpInside" id="zzw-bU-Bp3"/>
-                                    <segue destination="DK6-OE-QLE" kind="show" identifier="showGroup" id="ZAg-Kt-yMN"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please Login" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qAM-9o-S1a">
@@ -253,9 +251,6 @@
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gQ2-HF-M7k" id="dHA-or-lSK">
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
-                                <connections>
-                                    <segue destination="Nxe-1v-oOd" kind="show" id="7hl-zO-Ose"/>
-                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -267,100 +262,44 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Vnz-4b-roM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="406" y="958"/>
+            <point key="canvasLocation" x="554" y="-106"/>
         </scene>
         <!--Blurb Table View Controller-->
-        <scene sceneID="c9Y-gG-Jwm">
+        <scene sceneID="sbf-7a-KTL">
             <objects>
-                <viewController id="Nxe-1v-oOd" customClass="BlurbTableViewController" customModule="ProCom" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="YFx-Td-4bc" customClass="BlurbTableViewController" customModule="ProCom" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="oOI-rv-86p"/>
-                        <viewControllerLayoutGuide type="bottom" id="5Oh-z7-Rj4"/>
+                        <viewControllerLayoutGuide type="top" id="FSA-Ye-Xus"/>
+                        <viewControllerLayoutGuide type="bottom" id="bvu-pe-Wpz"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="K9h-7A-sKA">
+                    <view key="view" contentMode="scaleToFill" id="FgE-3a-zBS">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="60" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="RxF-fk-J3K">
-                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <textField key="tableFooterView" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="XC9-U0-OHQ">
-                                    <rect key="frame" x="0.0" y="-30" width="600" height="30"/>
-                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                    <textInputTraits key="textInputTraits"/>
-                                </textField>
-                                <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="reuseIdentifier" rowHeight="60" id="F90-G2-T7i" customClass="BlurbCell" customModule="ProCom" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="F90-G2-T7i" id="Kch-zK-xis">
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="68C-hr-9HV">
-                                                    <rect key="frame" x="23" y="8" width="42" height="21"/>
-                                                    <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wom-l2-apl">
-                                                    <rect key="frame" x="23" y="30" width="42" height="21"/>
-                                                    <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="10"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Hello" translatesAutoresizingMaskIntoConstraints="NO" id="wiy-xM-lxM">
-                                                    <rect key="frame" x="100" y="15" width="500" height="30"/>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <fontDescription key="fontDescription" name="Avenir-Roman" family="Avenir" pointSize="13"/>
-                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                                </textView>
-                                            </subviews>
-                                        </tableViewCellContentView>
-                                        <connections>
-                                            <outlet property="blurb" destination="wiy-xM-lxM" id="MPz-lx-I7R"/>
-                                            <outlet property="timeStamp" destination="Wom-l2-apl" id="oGl-5J-3fR"/>
-                                            <outlet property="userName" destination="68C-hr-9HV" id="Fge-Qc-NtI"/>
-                                        </connections>
-                                    </tableViewCell>
-                                </prototypes>
-                            </tableView>
-                        </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstAttribute="centerY" secondItem="RxF-fk-J3K" secondAttribute="centerY" id="aZD-Ti-0tE"/>
-                            <constraint firstAttribute="centerX" secondItem="RxF-fk-J3K" secondAttribute="centerX" id="uwT-qc-5u7"/>
-                        </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="1KP-JN-fnd"/>
-                    <connections>
-                        <outlet property="blurbField" destination="XC9-U0-OHQ" id="kdW-MY-Sec"/>
-                    </connections>
+                    <navigationItem key="navigationItem" id="zqU-J0-xQs"/>
                 </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="8An-ib-zHh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iDN-Or-IPi" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1158" y="958"/>
+            <point key="canvasLocation" x="1541" y="1184"/>
         </scene>
         <!--Navigation Controller-->
-        <scene sceneID="458-J0-bpl">
+        <scene sceneID="B8Y-wC-NGY">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="DK6-OE-QLE" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="hpH-2V-sX5" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="e3C-3I-ypx">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="EFk-Mh-C2U">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="hl2-kX-UH5" kind="relationship" relationship="rootViewController" id="TAM-PF-7iC"/>
+                        <segue destination="YFx-Td-4bc" kind="relationship" relationship="rootViewController" id="xq3-db-FwE"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="bXH-cZ-aJc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UT8-3K-asj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-406" y="958"/>
+            <point key="canvasLocation" x="729" y="1184"/>
         </scene>
     </scenes>
-    <inferredMetricsTieBreakers>
-        <segue reference="ZAg-Kt-yMN"/>
-    </inferredMetricsTieBreakers>
 </document>

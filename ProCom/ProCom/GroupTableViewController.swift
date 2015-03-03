@@ -243,7 +243,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
                 if let convo = group.convos[indexPath.row] as Convo? {
                     
                     var blurbController = BlurbTableViewController()
-                    blurbController.blurbconvoid = convoId
+//                    blurbController.blurbconvoid = convoId
                     NSLog("Convo ID:", convoId!)
                     self.navigationController?.pushViewController(blurbController, animated: true)
                     // TODO: display ConvoViewController

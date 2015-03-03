@@ -11,7 +11,6 @@
 		539D3B161A8FDCEC0093533F /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539D3B151A8FDCEC0093533F /* Group.swift */; };
 		539D3B181A8FDD980093533F /* Convo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539D3B171A8FDD980093533F /* Convo.swift */; };
 		539D3B1A1A8FDE6D0093533F /* GroupTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539D3B191A8FDE6D0093533F /* GroupTableViewController.swift */; };
-		CB33DD8F1A94E85800AE8FCF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CB33DD8E1A94E85800AE8FCF /* Main.storyboard */; };
 		CB33DD961A94E96100AE8FCF /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB33DD911A94E96100AE8FCF /* Bolts.framework */; };
 		CB33DD971A94E96100AE8FCF /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB33DD921A94E96100AE8FCF /* Parse.framework */; };
 		CB33DD981A94E96100AE8FCF /* ParseCrashReporting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB33DD931A94E96100AE8FCF /* ParseCrashReporting.framework */; };
@@ -111,6 +110,7 @@
 		CBCBA2C41AA665B000B2E303 /* JSQMessagesTypingIndicatorFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CBCBA2741AA665B000B2E303 /* JSQMessagesTypingIndicatorFooterView.xib */; };
 		CBCBA2C51AA665B000B2E303 /* JSQSystemSoundPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = CBCBA2771AA665B000B2E303 /* JSQSystemSoundPlayer.h */; };
 		CBCBA2C61AA665B000B2E303 /* JSQSystemSoundPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CBCBA2781AA665B000B2E303 /* JSQSystemSoundPlayer.m */; };
+		CBCBA2C81AA66E7800B2E303 /* BlurbScene.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CBCBA2C71AA66E7800B2E303 /* BlurbScene.storyboard */; };
 		CBF01B521A9AE53300364AB6 /* BlurbTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF01B511A9AE53300364AB6 /* BlurbTableViewController.swift */; };
 		CBF01B6A1AA3BD8900364AB6 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF01B691AA3BD8900364AB6 /* SignUpViewController.swift */; };
 		E27B3FE31A8D75B800AE18C5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27B3FE21A8D75B800AE18C5 /* AppDelegate.swift */; };
@@ -135,7 +135,6 @@
 		539D3B151A8FDCEC0093533F /* Group.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
 		539D3B171A8FDD980093533F /* Convo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Convo.swift; sourceTree = "<group>"; };
 		539D3B191A8FDE6D0093533F /* GroupTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupTableViewController.swift; sourceTree = "<group>"; };
-		CB33DD8E1A94E85800AE8FCF /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		CB33DD911A94E96100AE8FCF /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		CB33DD921A94E96100AE8FCF /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		CB33DD931A94E96100AE8FCF /* ParseCrashReporting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseCrashReporting.framework; sourceTree = "<group>"; };
@@ -235,6 +234,7 @@
 		CBCBA2741AA665B000B2E303 /* JSQMessagesTypingIndicatorFooterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JSQMessagesTypingIndicatorFooterView.xib; sourceTree = "<group>"; };
 		CBCBA2771AA665B000B2E303 /* JSQSystemSoundPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSQSystemSoundPlayer.h; sourceTree = "<group>"; };
 		CBCBA2781AA665B000B2E303 /* JSQSystemSoundPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSQSystemSoundPlayer.m; sourceTree = "<group>"; };
+		CBCBA2C71AA66E7800B2E303 /* BlurbScene.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = BlurbScene.storyboard; sourceTree = "<group>"; };
 		CBF01B511A9AE53300364AB6 /* BlurbTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlurbTableViewController.swift; sourceTree = "<group>"; };
 		CBF01B691AA3BD8900364AB6 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		E27B3FDD1A8D75B800AE18C5 /* ProCom.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProCom.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -548,8 +548,8 @@
 		E27B3FDF1A8D75B800AE18C5 /* ProCom */ = {
 			isa = PBXGroup;
 			children = (
+				CBCBA2C71AA66E7800B2E303 /* BlurbScene.storyboard */,
 				E27B3FE21A8D75B800AE18C5 /* AppDelegate.swift */,
-				CB33DD8E1A94E85800AE8FCF /* Main.storyboard */,
 				CB57110C1A951BBD001FA72F /* UserHandling */,
 				539D3B201A8FFABA0093533F /* Group */,
 				539D3B1D1A8FE4E90093533F /* Convo */,
@@ -712,7 +712,6 @@
 			files = (
 				CBCBA2891AA665B000B2E303 /* message_received.aiff in Resources */,
 				CBCBA27F1AA665B000B2E303 /* bubble_stroked.png in Resources */,
-				CB33DD8F1A94E85800AE8FCF /* Main.storyboard in Resources */,
 				CBCBA2B51AA665B000B2E303 /* JSQMessagesCollectionViewCellOutgoing.xib in Resources */,
 				CBCBA27D1AA665B000B2E303 /* bubble_min_tailless.png in Resources */,
 				CBCBA2791AA665B000B2E303 /* bubble.png in Resources */,
@@ -735,6 +734,7 @@
 				CBCBA28A1AA665B000B2E303 /* message_sent.aiff in Resources */,
 				CBCBA27E1AA665B000B2E303 /* bubble_min_tailless@2x.png in Resources */,
 				CBCBA2831AA665B000B2E303 /* bubble_tailless.png in Resources */,
+				CBCBA2C81AA66E7800B2E303 /* BlurbScene.storyboard in Resources */,
 				CBCBA2BE1AA665B000B2E303 /* JSQMessagesLoadEarlierHeaderView.xib in Resources */,
 				E27B3FEF1A8D75B800AE18C5 /* Images.xcassets in Resources */,
 			);

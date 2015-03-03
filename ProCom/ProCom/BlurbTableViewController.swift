@@ -10,37 +10,57 @@ import UIKit
 
 class BlurbTableViewController: JSQMessagesViewController {
     
-    var blurbconvoid: String?
-    var user = PFUser.currentUser().objectId
+
+    
+//    var blurbconvoid: PFRelation
+//    blurbconvoid = "wuxLc8VgGz"
+    var user: PFUser? // PFUser.currentUser().objectId
     var blurbs = [Blurb]()
     var refreshTime = NSTimer()
     var outgoingBubbleImageView = JSQMessagesBubbleImageFactory.outgoingMessageBubbleImageViewWithColor(UIColor.jsq_messageBubbleBlueColor())
     var incomingBubbleImageView = JSQMessagesBubbleImageFactory.incomingMessageBubbleImageViewWithColor(UIColor.jsq_messageBubbleLightGrayColor())
     
-    @IBOutlet var blurbField: UITextField!
+//    @IBOutlet var blurbField: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        NSLog("Convo ID:", blurbconvoid!)
+//        user = PFUser.currentUser()
+        
+        var TEST_USER_ID = "KWX6vxRm6s"
+        var TEST_CONVO_ID = "wuxLc8VgGz"
+
+//        NSLog("Convo ID: %@", blurbconvoid!)
         
         let userQuery = PFQuery(className: "_User")
         
-        userQuery.getObjectInBackgroundWithId(user, block:{(PFObject user, NSError error) in
+        userQuery.getObjectInBackgroundWithId(TEST_USER_ID, block:{(PFObject user, NSError error) in
             
             if (user != nil) {
                 
-                let queryBlurb = PFQuery(className: "Blurb")
-                queryBlurb.whereKey("convoId", equalTo: self.blurbconvoid)
-                queryBlurb.findObjectsInBackgroundWithBlock({(NSArray array, NSError error) in
-                    if (error != nil) {
-                        NSLog("error " + error.localizedDescription)
-                    }
-                    else {
-                        NSLog("blurbs %@", array as [Blurb])
-                        
-                        //blurbs for this convo
-                        self.blurbs = array as [Blurb]
+                let queryConvo = PFQuery(className: "Convo")
+                queryConvo.getObjectInBackgroundWithId(TEST_CONVO_ID, block: {(PFObject convo, NSError error) in
+                
+                    if (convo != nil) {
+                        NSLog("Convo %@", convo)
+                        let queryBlurb = PFQuery(className: "Blurb")
+                        queryBlurb.includeKey("userId")
+                        queryBlurb.whereKey("convoId", equalTo: convo)
+                        queryBlurb.orderByAscending("createdAt")
+                    
+                        //Sending off query
+                        queryBlurb.findObjectsInBackgroundWithBlock({(NSArray array, NSError error) in
+                            if (error != nil) {
+                                NSLog("error " + error.localizedDescription)
+                            }
+                            else {
+                                
+                                NSLog("blurbs %@", array)
+                                
+                                //blurbs for this convo
+                                self.blurbs = array as [Blurb]
+                            }
+                        })
                     }
                 })
             }
