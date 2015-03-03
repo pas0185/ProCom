@@ -49,7 +49,7 @@
                                 </state>
                                 <connections>
                                     <action selector="login:" destination="80l-Tu-rxL" eventType="touchUpInside" id="mDV-uU-afd"/>
-                                    <segue destination="hl2-kX-UH5" kind="show" identifier="showGroup" id="9Bu-OV-6vH"/>
+                                    <segue destination="DK6-OE-QLE" kind="show" identifier="showGroup" id="9Bu-OV-6vH"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -118,7 +118,7 @@
                                 </state>
                                 <connections>
                                     <action selector="loginVerifyButton:" destination="Qhm-nb-Afa" eventType="touchUpInside" id="zzw-bU-Bp3"/>
-                                    <segue destination="hl2-kX-UH5" kind="show" identifier="showGroup" id="ZAg-Kt-yMN"/>
+                                    <segue destination="DK6-OE-QLE" kind="show" identifier="showGroup" id="ZAg-Kt-yMN"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Please Login" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qAM-9o-S1a">
@@ -267,25 +267,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Vnz-4b-roM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-406" y="958"/>
-        </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="49U-tF-V7P">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Hg9-jc-2z4" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Con-Jo-7c7">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="hl2-kX-UH5" kind="relationship" relationship="rootViewController" id="KhH-70-jfu"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="w19-Zv-cuW" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1123" y="958"/>
+            <point key="canvasLocation" x="406" y="958"/>
         </scene>
         <!--Blurb Table View Controller-->
         <scene sceneID="c9Y-gG-Jwm">
@@ -348,10 +330,28 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8An-ib-zHh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="346" y="958"/>
+            <point key="canvasLocation" x="1158" y="958"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="458-J0-bpl">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="DK6-OE-QLE" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="e3C-3I-ypx">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="hl2-kX-UH5" kind="relationship" relationship="rootViewController" id="TAM-PF-7iC"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bXH-cZ-aJc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-406" y="958"/>
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="9Bu-OV-6vH"/>
+        <segue reference="ZAg-Kt-yMN"/>
     </inferredMetricsTieBreakers>
 </document>

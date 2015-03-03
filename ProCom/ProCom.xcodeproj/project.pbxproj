@@ -21,7 +21,6 @@
 		CB5711071A94EC21001FA72F /* FBAudienceNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB5711051A94EC21001FA72F /* FBAudienceNetwork.framework */; };
 		CB57110B1A951BB8001FA72F /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB57110A1A951BB8001FA72F /* LoginViewController.swift */; };
 		CB66A1CF1A9950C300EF85A0 /* BlurbCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB66A1CE1A9950C300EF85A0 /* BlurbCell.swift */; };
-		CBA7D4601A9285E50065AB70 /* BlurbViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBA7D45F1A9285E50065AB70 /* BlurbViewController.swift */; };
 		CBA7D4701A92BE600065AB70 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CBA7D46E1A92BE4D0065AB70 /* libsqlite3.dylib */; };
 		CBA7D48B1A92C0B00065AB70 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBA7D4891A92C0910065AB70 /* SystemConfiguration.framework */; };
 		CBA7D48C1A92C0B00065AB70 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBA7D4871A92C0840065AB70 /* Security.framework */; };
@@ -88,7 +87,6 @@
 		CB5711051A94EC21001FA72F /* FBAudienceNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBAudienceNetwork.framework; sourceTree = "<group>"; };
 		CB57110A1A951BB8001FA72F /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		CB66A1CE1A9950C300EF85A0 /* BlurbCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlurbCell.swift; sourceTree = "<group>"; };
-		CBA7D45F1A9285E50065AB70 /* BlurbViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlurbViewController.swift; sourceTree = "<group>"; };
 		CBA7D46E1A92BE4D0065AB70 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		CBA7D4771A92C02D0065AB70 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		CBA7D4791A92C0370065AB70 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -184,7 +182,6 @@
 				CB66A1CE1A9950C300EF85A0 /* BlurbCell.swift */,
 				CBF01B511A9AE53300364AB6 /* BlurbTableViewController.swift */,
 				539D3B131A8FDC7A0093533F /* Blurb.swift */,
-				CBA7D45F1A9285E50065AB70 /* BlurbViewController.swift */,
 			);
 			name = Blurb;
 			sourceTree = "<group>";
@@ -464,7 +461,6 @@
 				539D3B181A8FDD980093533F /* Convo.swift in Sources */,
 				CD52A43D1A954B2300550DA1 /* AFURLSessionManager.m in Sources */,
 				CD52A43B1A954B2300550DA1 /* AFURLResponseSerialization.m in Sources */,
-				CBA7D4601A9285E50065AB70 /* BlurbViewController.swift in Sources */,
 				539D3B161A8FDCEC0093533F /* Group.swift in Sources */,
 				CD52A4391A954B2300550DA1 /* AFURLRequestSerialization.m in Sources */,
 				CD52A4331A954B2300550DA1 /* AFNetworkReachabilityManager.m in Sources */,
