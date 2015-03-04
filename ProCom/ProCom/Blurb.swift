@@ -18,20 +18,19 @@ class Blurb: NSObject, JSQMessageData {
     
     var created: NSDate?
     
-    var convoid: String?
+    var convoid_: String
     
-    var currentUser = PFUser.currentUser().username
-    //var currentConvo =
+    var currentUser = PFUser.currentUser().objectId
+    
     
     lazy var blurbs = [Blurb]()
     
     
-    init(text: String?, sender: String?, imageUrl: String?, date: NSDate?, convoid: String?) {
-        self.text_ = text!
-        self.sender_ = currentUser
-        self.date_ = NSDate()
-        self.imageUrl_ = imageUrl
-        self.convoid = convoid
+    init(text: String?, sender: String?, convoid: String?, date: NSDate?) {
+        text_ = text!
+        sender_ = sender!
+        convoid_ = convoid!
+        date_ = date!
     }
     
     func text() -> String! {
@@ -50,74 +49,23 @@ class Blurb: NSObject, JSQMessageData {
         return imageUrl_;
     }
     
-    func saveToNetwork() {
-        
-        //TODO: Save the object created 
-        
-        var blurbObject = PFObject(className: "Blurb")
-        blurbObject["text"] = self.text_
-        blurbObject["userId"] = currentUser
-        blurbObject.saveInBackgroundWithBlock {
-            (success: Bool, error: NSError!) -> Void in
-            if (success) {
-                NSLog("Saved blurb to the network")
-            }
-            else {
-                NSLog("Failed to save blurb: %@", error.description)
-            }
-        }
-    }
+//    func saveToNetwork() {
+//        
+//        //TODO: Save the object created 
+//        
+//        var blurbObject = PFObject(className: "Blurb")
+//        blurbObject["text"] = self.text_
+//        blurbObject["userId"] = currentUser
+//        blurbObject["convoId"] = convoid
+//        blurbObject.saveInBackgroundWithBlock {
+//            (success: Bool, error: NSError!) -> Void in
+//            if (success) {
+//                NSLog("Saved blurb to the network")
+//            }
+//            else {
+//                NSLog("Failed to save blurb: %@", error.description)
+//            }
+//        }
+//    }
     
-    func retrieveBlurb(convoid: String){
-        
-        var query = PFQuery(className: "Blurb")
-        if let blurbObject = query.getObjectWithId(convoid) {
-            
-            NSLog("Successfully retrieved blurbs from the network")
-            NSLog("Blurbs", blurbObject)
-            self.text_ = blurbObject["text"] as String
-            self.sender_ = blurbObject["userId"] as String
-            self.convoid = blurbObject["convoId"] as? String
-            self.created = blurbObject.createdAt
-        }
-        else {
-            NSLog("Failed to retrieve blurbs from the network")
-        }
-        
-    }
-    
-}
-
-class Message : NSObject, JSQMessageData {
-    var text_: String
-    var sender_: String
-    var date_: NSDate
-    var imageUrl_: String?
-    
-    convenience init(text: String?, sender: String?) {
-        self.init(text: text, sender: sender, imageUrl: nil)
-    }
-    
-    init(text: String?, sender: String?, imageUrl: String?) {
-        self.text_ = text!
-        self.sender_ = sender!
-        self.date_ = NSDate()
-        self.imageUrl_ = imageUrl
-    }
-    
-    func text() -> String! {
-        return text_;
-    }
-    
-    func sender() -> String! {
-        return sender_;
-    }
-    
-    func date() -> NSDate! {
-        return date_;
-    }
-    
-    func imageUrl() -> String? {
-        return imageUrl_;
-    }
 }
