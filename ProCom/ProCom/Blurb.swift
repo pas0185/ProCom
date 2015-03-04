@@ -13,12 +13,7 @@ class Blurb: NSObject, JSQMessageData {
     
     var text_: String
     var sender_: String
-    var date_: NSDate
-    var imageUrl_: String?
-    
-    var created: NSDate?
-    
-    var convoid_: String
+    var date_: String
     
     var currentUser = PFUser.currentUser().objectId
     
@@ -26,10 +21,9 @@ class Blurb: NSObject, JSQMessageData {
     lazy var blurbs = [Blurb]()
     
     
-    init(text: String?, sender: String?, convoid: String?, date: NSDate?) {
+    init(text: String?, sender: String?, date: String?) {
         text_ = text!
         sender_ = sender!
-        convoid_ = convoid!
         date_ = date!
     }
     
@@ -41,31 +35,8 @@ class Blurb: NSObject, JSQMessageData {
         return sender_;
     }
     
-    func date() -> NSDate! {
+    func date() -> String! {
         return date_;
     }
-    
-    func imageUrl() -> String? {
-        return imageUrl_;
-    }
-    
-//    func saveToNetwork() {
-//        
-//        //TODO: Save the object created 
-//        
-//        var blurbObject = PFObject(className: "Blurb")
-//        blurbObject["text"] = self.text_
-//        blurbObject["userId"] = currentUser
-//        blurbObject["convoId"] = convoid
-//        blurbObject.saveInBackgroundWithBlock {
-//            (success: Bool, error: NSError!) -> Void in
-//            if (success) {
-//                NSLog("Saved blurb to the network")
-//            }
-//            else {
-//                NSLog("Failed to save blurb: %@", error.description)
-//            }
-//        }
-//    }
-    
+        
 }

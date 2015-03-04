@@ -13,7 +13,6 @@ class BlurbTableViewController: JSQMessagesViewController {
     var TEST_USER_ID = "KWX6vxRm6s"
     var TEST_CONVO_ID = "bVCfzNGIqt"
     
-//    var blurbconvoid: PFRelation
 //    blurbconvoid = "wuxLc8VgGz"
     var user: PFUser? // PFUser.currentUser().objectId
     var blurbs = [Blurb]()
@@ -21,7 +20,6 @@ class BlurbTableViewController: JSQMessagesViewController {
     var outgoingBubbleImageView = JSQMessagesBubbleImageFactory.outgoingMessageBubbleImageViewWithColor(UIColor.jsq_messageBubbleBlueColor())
     var incomingBubbleImageView = JSQMessagesBubbleImageFactory.incomingMessageBubbleImageViewWithColor(UIColor.jsq_messageBubbleLightGrayColor())
     
-//    @IBOutlet var blurbField: UITextField!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -56,22 +54,29 @@ class BlurbTableViewController: JSQMessagesViewController {
                             else {
                                 for a in array{
                                     if let b = a as? PFObject {
+                                        var message: String
+                                        var user: String
+                                        var date: String
                                         if let blurbText = b.objectForKey("text") as? String
                                         {
                                             NSLog("text: %@", blurbText)
+                                            message = blurbText
+                                            if let blurbSender = b.objectForKey("userId") as? PFObject
+                                            {
+                                                var username: String = blurbSender["username"] as String
+                                                NSLog("user: %@", username)
+                                                user = username
+                                                if let blurbDate = b.objectForKey("createdAt") as? String
+                                                {
+                                                    NSLog("date: %@", blurbDate)
+                                                    date = blurbDate
+                                                    
+                                                    var blurb = Blurb(text: message, sender: user, date: date)
+                                                    self.blurbs.append(blurb)
+                                                    self.finishReceivingMessage()
+                                                }
+                                            }
                                         }
-                                        if let blurbSender = b.objectForKey("userId") as? PFObject
-                                        {
-                                            var username: String = blurbSender["username"] as String
-//                                            let userNameQuery = PFQuery(className: "User")
-//                                            userNameQuery.includeKey("username")
-
-                                            NSLog("user: %@", username)
-                                        }
-//                                        
-//                                        let blurb = Blurb(text: blurbText, sender: blurbSender, convoid: convoid)
-//                                        self.messages.append(blurb)
-//                                        self.finishReceivingMessage()
                                         
                                     }
                                 }
@@ -108,9 +113,9 @@ class BlurbTableViewController: JSQMessagesViewController {
         blurb.saveInBackgroundWithBlock {
             (success: Bool, error: NSError!) -> Void in
             if (success) {
-                // The object has been saved.
+                NSLog("Blurb: %@", blurb)
             } else {
-                // There was a problem, check error.description
+                NSLog("There was a problem sending the message")
             }
         }
     }
@@ -121,10 +126,10 @@ class BlurbTableViewController: JSQMessagesViewController {
         scrollToBottomAnimated(true)
     }
     
-    override func didPressSendButton(button: UIButton!, withMessageText text: String!, sender: String!, date: NSDate!) {
+    func didPressSendButton(button: UIButton!, withMessageText text: String!, sender: PFUser!) {
         JSQSystemSoundPlayer.jsq_playMessageSentSound()
         
-        sendMessage(text, sender: sender, convoid: TEST_CONVO_ID)
+        sendMessage(text, sender: PFUser.currentUser().objectId, convoid: TEST_CONVO_ID)
         
         finishSendingMessage()
     }

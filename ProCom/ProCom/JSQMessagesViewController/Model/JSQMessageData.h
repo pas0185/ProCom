@@ -45,6 +45,6 @@
  *  @return The date that the message was sent.
  *  @warning You must not return `nil` from this method.
  */
-- (NSDate *)date;
+- (NSString *)date;
 
 @end
