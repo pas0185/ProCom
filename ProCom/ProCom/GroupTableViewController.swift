@@ -37,7 +37,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     }
     
     // Fetch conversations for a user
-    func getConvosForUser(userId: String) -> NSArray {
+    func getConvosForUser(userId: String) {
         
         let userQuery = PFQuery(className: "_User")
         
@@ -49,52 +49,58 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
                 
                 let queryConvo = PFQuery(className: "Convo")
                 queryConvo.whereKey("users", equalTo: user)
-                queryConvo.findObjectsInBackgroundWithBlock({(NSArray array, NSError error) in
+                queryConvo.includeKey("groupId")
+                
+                queryConvo.findObjectsInBackgroundWithBlock ({
+                    (convoArray: [AnyObject]!, error: NSError!) -> Void in
+
+//                    (NSArray array, NSError error) in
+                    
                     if (error != nil) {
                         NSLog("error " + error.localizedDescription)
                     }
                     else {
-                        NSLog("convos %@", array as NSArray)
                         
-                        // Found Convos for this user
-                        convos = array
+                        for convo in convoArray {
+                            if let g1 = convo.objectForKey("groupId") as? PFObject {
+                                var name: String = g1["name"] as String
+                                println(g1["name"])
+                                println(g1.objectForKey("name"))
+                            }
+//                            if let group: PFObject = convo["groupId"] as? PFObject {
+//                                println(group.objectForKey("name"))
+//                            }
+                            
+                        }
+                        
+//                        var groups = [PFObject]()
+                        
+//                        for convo in array {
+//                            if let c = convo as? PFObject {
+//                                println("convo: \(c)")
+
+//                                println(convo["groupId"].objectId)
+//                                var group: PFObject = c.objectForKey("groupId") as PFObject
+//                                println("Group: \(group)")
+                                
+//                                if let parentGroup = c.objectForKey("groupId") as? PFObject {
+//                                    NSLog("Group %@", parentGroup)
+//                                    groups.append(parentGroup)
+//                                }
+//                            }
+//                        }
+                        
+                        // Do something with group list
                     }
                 })
             }
         })
-        
-        return convos
-    }
-    
-    func getGroupsForConvos(convos: NSArray) -> NSArray {
-        var groups: [PFObject] = []
-
-        for convo in convos {
-            if let c = convo as? PFObject {
-                var parentGroup = c["groupId"] as PFObject
-                groups.append(parentGroup)
-            }
-        }
-        
-        return groups
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        var convos = self.getConvosForUser(testUserId)
-        var groups = self.getGroupsForConvos(convos)
-        
-//        if let user = self.user {
-//            // If a user is assigned for this Group View
-//            var convos = self.getConvosForUser(user.objectId)
-//            var groups = self.getGroupsForConvos(convos)
-//            
-//        }
-//        else {
-//            var convos = self.getConvosForUser(testUserId)
-//            var groups = self.getGroupsForConvos(convos)
-//        }
+        self.getConvosForUser(testUserId)
         
         //----- Test network group retrieval ----//
 //        if group == nil {

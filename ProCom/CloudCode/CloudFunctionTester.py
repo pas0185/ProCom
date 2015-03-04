@@ -1,8 +1,10 @@
 import json,httplib
 connection = httplib.HTTPSConnection('api.parse.com', 443)
 connection.connect()
-connection.request('POST', '/1/functions/getGroupsAndConvosForUser', json.dumps({
-       "userId": "kRaibtYs3r"
+connection.request('POST', '/1/functions/addUserToConvo', json.dumps({
+# connection.request('POST', '/1/functions/getConvosForUser', json.dumps({
+       "userId": "kRaibtYs3r",
+       "convoId": "bVCfzNGIqt"
      }), {
        "X-Parse-Application-Id": "n3twpTW37Eh9SkLFRWM41bjmw2IoYPdb2dh3OAQC",
        "X-Parse-REST-API-Key": "IoJbgCApWyrOwn4MyMEk6XIV5TLpxhqwHq7PsESw",
