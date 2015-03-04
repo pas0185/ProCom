@@ -8,80 +8,12 @@
         <scene sceneID="v2j-LB-Psq">
             <objects>
                 <tableViewController id="hl2-kX-UH5" userLabel="Group View" customClass="GroupTableViewController" customModule="ProCom" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="I7I-dY-WeX">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="75" sectionHeaderHeight="22" sectionFooterHeight="22" id="I7I-dY-WeX">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <view key="tableHeaderView" contentMode="scaleToFill" id="cIJ-g1-v20" userLabel="MenuView">
-                            <rect key="frame" x="0.0" y="64" width="600" height="100"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <subviews>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="u8s-T2-Peq">
-                                    <rect key="frame" x="517" y="12" width="75" height="75"/>
-                                    <color key="backgroundColor" red="0.96862751250000001" green="0.0" blue="0.12549020350000001" alpha="1" colorSpace="deviceRGB"/>
-                                    <constraints>
-                                        <constraint firstAttribute="width" constant="75" id="Lhi-8X-OBU"/>
-                                        <constraint firstAttribute="height" constant="75" id="YBX-bc-Yib"/>
-                                    </constraints>
-                                    <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                    <state key="normal" title="Create Group">
-                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                    </state>
-                                    <connections>
-                                        <action selector="createGroup:" destination="hl2-kX-UH5" eventType="touchUpInside" id="lhC-jV-Slb"/>
-                                    </connections>
-                                </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="BaW-HG-CBP">
-                                    <rect key="frame" x="434" y="12" width="75" height="75"/>
-                                    <color key="backgroundColor" red="0.96862751250000001" green="0.0" blue="0.12549020350000001" alpha="1" colorSpace="deviceRGB"/>
-                                    <constraints>
-                                        <constraint firstAttribute="width" constant="75" id="Ao4-p5-Hjn"/>
-                                        <constraint firstAttribute="height" constant="75" id="Fc3-sS-xIG"/>
-                                    </constraints>
-                                    <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                    <state key="normal" title="Join Existing">
-                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                    </state>
-                                    <connections>
-                                        <action selector="joinExisting:" destination="hl2-kX-UH5" eventType="touchUpInside" id="SiN-TJ-0pu"/>
-                                    </connections>
-                                </button>
-                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="NKb-Ln-aE7">
-                                    <rect key="frame" x="351" y="12" width="75" height="75"/>
-                                    <color key="backgroundColor" red="0.96862751250000001" green="0.0" blue="0.12549020350000001" alpha="1" colorSpace="deviceRGB"/>
-                                    <constraints>
-                                        <constraint firstAttribute="height" constant="75" id="9ut-bV-PgZ"/>
-                                        <constraint firstAttribute="width" constant="75" id="JD4-QR-JKL"/>
-                                    </constraints>
-                                    <color key="tintColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                                    <state key="normal" title="Create Convo">
-                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                    </state>
-                                    <connections>
-                                        <action selector="createConvo:" destination="hl2-kX-UH5" eventType="touchUpInside" id="ZcO-V6-fRB"/>
-                                    </connections>
-                                </button>
-                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="q0m-1P-ELT">
-                                    <rect key="frame" x="8" y="34" width="51" height="31"/>
-                                    <connections>
-                                        <action selector="notificationToggled:" destination="hl2-kX-UH5" eventType="valueChanged" id="Jtd-A7-IOW"/>
-                                    </connections>
-                                </switch>
-                            </subviews>
-                            <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                            <constraints>
-                                <constraint firstItem="q0m-1P-ELT" firstAttribute="leading" secondItem="cIJ-g1-v20" secondAttribute="leading" constant="8" id="8sW-Rb-jLX"/>
-                                <constraint firstAttribute="centerY" secondItem="q0m-1P-ELT" secondAttribute="centerY" id="Be7-rU-glN"/>
-                                <constraint firstItem="u8s-T2-Peq" firstAttribute="leading" secondItem="BaW-HG-CBP" secondAttribute="trailing" constant="8" id="DLV-BT-bP5"/>
-                                <constraint firstItem="BaW-HG-CBP" firstAttribute="leading" secondItem="NKb-Ln-aE7" secondAttribute="trailing" constant="8" id="HZO-ro-xdC"/>
-                                <constraint firstAttribute="centerY" secondItem="u8s-T2-Peq" secondAttribute="centerY" id="JDv-qw-eYe"/>
-                                <constraint firstAttribute="centerY" secondItem="BaW-HG-CBP" secondAttribute="centerY" id="bSZ-tp-c70"/>
-                                <constraint firstAttribute="trailing" secondItem="u8s-T2-Peq" secondAttribute="trailing" constant="8" id="deg-KX-WMH"/>
-                                <constraint firstAttribute="centerY" secondItem="NKb-Ln-aE7" secondAttribute="centerY" id="jud-ty-YJh"/>
-                            </constraints>
-                        </view>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="reuseIdentifier" id="gQ2-HF-M7k">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="reuseIdentifier" rowHeight="75" id="gQ2-HF-M7k">
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="gQ2-HF-M7k" id="dHA-or-lSK">
                                     <autoresizingMask key="autoresizingMask"/>
@@ -93,7 +25,13 @@
                             <outlet property="delegate" destination="hl2-kX-UH5" id="XnH-uY-kRo"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Groups" id="GNM-mq-Hyx" userLabel="Groups"/>
+                    <navigationItem key="navigationItem" title="Groups" id="GNM-mq-Hyx" userLabel="Groups">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="sdO-Tv-za7">
+                            <connections>
+                                <action selector="addButtonPressed:" destination="hl2-kX-UH5" id="MpC-XV-el3"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Vnz-4b-roM" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -27,6 +27,10 @@ class Group: NSObject {
     // Convos are actual conversations containing text, users, pictures, etc
     lazy var convos = [Convo]()
     
+    override init() {
+        self.name = "Fool Jackson"
+    }
+    
     // initialize a new Convo, given an appropriate title
     init(name: String, parentId: String) {
         self.name = name

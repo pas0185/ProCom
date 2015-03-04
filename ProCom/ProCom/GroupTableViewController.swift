@@ -18,6 +18,8 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     
     var user: PFUser?
     
+    var array = [Group]()
+    
     init(group: Group) {
         self.group = group
         
@@ -36,80 +38,10 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         super.init(coder: aDecoder)
     }
     
-    // Fetch conversations for a user
-    func getConvosForUser(userId: String) {
-        
-        let userQuery = PFQuery(className: "_User")
-        
-        var convos = NSArray()
-        
-        userQuery.getObjectInBackgroundWithId(userId, block:{(PFObject user, NSError error) in
-            
-            if (user != nil) {
-                
-                let queryConvo = PFQuery(className: "Convo")
-                queryConvo.whereKey("users", equalTo: user)
-                queryConvo.includeKey("groupId")
-                
-                queryConvo.findObjectsInBackgroundWithBlock ({
-                    (convoArray: [AnyObject]!, error: NSError!) -> Void in
-
-//                    (NSArray array, NSError error) in
-                    
-                    if (error != nil) {
-                        NSLog("error " + error.localizedDescription)
-                    }
-                    else {
-                        
-                        for convo in convoArray {
-                            if let g1 = convo.objectForKey("groupId") as? PFObject {
-                                var name: String = g1["name"] as String
-                                println(g1["name"])
-                                println(g1.objectForKey("name"))
-                            }
-//                            if let group: PFObject = convo["groupId"] as? PFObject {
-//                                println(group.objectForKey("name"))
-//                            }
-                            
-                        }
-                        
-//                        var groups = [PFObject]()
-                        
-//                        for convo in array {
-//                            if let c = convo as? PFObject {
-//                                println("convo: \(c)")
-
-//                                println(convo["groupId"].objectId)
-//                                var group: PFObject = c.objectForKey("groupId") as PFObject
-//                                println("Group: \(group)")
-                                
-//                                if let parentGroup = c.objectForKey("groupId") as? PFObject {
-//                                    NSLog("Group %@", parentGroup)
-//                                    groups.append(parentGroup)
-//                                }
-//                            }
-//                        }
-                        
-                        // Do something with group list
-                    }
-                })
-            }
-        })
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.getConvosForUser(testUserId)
-        
-        //----- Test network group retrieval ----//
-//        if group == nil {
-//            NSLog("Using default testing group")
-//            
-//            let testingGroupId = "wZKihkdhRB"
-//            self.group = Group(networkObjectId: testingGroupId)
-//        }
-        //--------------------------------------//
         
         if let name = self.group?.name {
             self.navigationItem.title = name
@@ -133,6 +65,58 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         self.navigationItem.title = group.name
     }
     
+    // MARK: - Parse Networking
+    
+    func getConvosForUser(userId: String) {
+        // Fetch conversations for a user
+        
+        let userQuery = PFQuery(className: "_User")
+        
+        var convos = NSArray()
+        
+        userQuery.getObjectInBackgroundWithId(userId, block:{(PFObject user, NSError error) in
+            
+            if (user != nil) {
+                
+                let queryConvo = PFQuery(className: "Convo")
+                queryConvo.whereKey("users", equalTo: user)
+                queryConvo.includeKey("groupId")
+                
+                queryConvo.findObjectsInBackgroundWithBlock ({
+                    (convoArray: [AnyObject]!, error: NSError!) -> Void in
+                    
+                    if (error != nil) {
+                        NSLog("error " + error.localizedDescription)
+                    }
+                    else {
+                        for convo in convoArray {
+                            if let g = convo.objectForKey("groupId") as? PFObject {
+                                var name: String = g["name"] as String
+
+                                println("Fetched: \(name)")
+
+                                var localGroup = Group(name: name, parentId: "")
+                                self.array.append(localGroup)
+
+//                                var objectId: String = g["objectId"] as String
+//                                if let p = g.objectForKey("parent") as? PFObject {
+//                                    // has a parent group, embed this one within it
+//                                }
+//                                println(g["name"])
+//                                println(g.objectForKey("name"))
+//                                groups.append(localGroup)
+                            }
+                        }
+                        
+                        self.tableView.reloadData()
+                    }
+                    // Do something with group list
+                    
+                })
+            }
+        })
+    }
+
     // MARK: - User Controls
     
     @IBAction func createGroup(sender: AnyObject) {
@@ -169,6 +153,12 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         self.tableView.reloadData()
     }
     
+    @IBAction func addButtonPressed(sender: AnyObject) {
+        
+        self.tableView.reloadData()
+        
+        
+    }
     @IBAction func notificationToggled(sender: AnyObject) {
         
     }
@@ -178,6 +168,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     }
     
     @IBAction func joinExisting(sender: AnyObject) {
+        
         self.tableView.reloadData()
     }
     
@@ -185,11 +176,13 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // Return the number of sections.
-        return 2
+        return 1
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // Return the number of rows in the section.
+        
+        return self.array.count
         
         if let group = self.group as Group? {
             if section == 0 {
@@ -210,6 +203,9 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as UITableViewCell
+        
+        cell.textLabel?.text = self.array[indexPath.row].name
+        return cell
         
         if let group = self.group as Group? {
             if indexPath.section == 0 {
