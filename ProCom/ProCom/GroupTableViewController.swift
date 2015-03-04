@@ -12,6 +12,7 @@ import UIKit
 class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     
     let testUserId = "kRaibtYs3r"
+    let HOME_GROUP_ID = "fZRM5e8UVo"
     
     // The Group being displayed
     var group: Group?
@@ -41,7 +42,9 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.getConvosForUser(testUserId)
+//        self.getConvosForUser(testUserId)
+        
+        self.getNestedGroups(HOME_GROUP_ID)
         
         if let name = self.group?.name {
             self.navigationItem.title = name
@@ -66,6 +69,9 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     }
     
     // MARK: - Parse Networking
+    func getNestedGroups(groupId: String) {
+        
+    }
     
     func getConvosForUser(userId: String) {
         // Fetch conversations for a user
@@ -92,9 +98,12 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
                         for convo in convoArray {
                             if let g = convo.objectForKey("groupId") as? PFObject {
                                 var name: String = g["name"] as String
-
-                                println("Fetched: \(name)")
-
+                                print("Fetched: \(name)")
+                                
+                                var parentId: String = g["parent"] as String
+                                
+                                print("\twith parent ID: \(parentId)\n")
+                                
                                 var localGroup = Group(name: name, parentId: "")
                                 self.array.append(localGroup)
 
