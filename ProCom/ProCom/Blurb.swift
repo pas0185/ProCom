@@ -19,9 +19,6 @@ class Blurb: PFObject, JSQMessageData {
     var date_: NSDate
     var imageUrl_: String?
     
-    var currentUser = PFUser.currentUser().objectId
-    
-    
     lazy var blurbs = [Blurb]()
     
     

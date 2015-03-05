@@ -85,7 +85,6 @@ class BlurbTableViewController: JSQMessagesViewController {
                                 NSLog("blurbs %@", array)
                                 
                                 //blurbs for this convo
-                                self.blurbs = array as [Blurb]
                                 self.collectionView.reloadData()
                             }
                         })
@@ -187,18 +186,11 @@ class BlurbTableViewController: JSQMessagesViewController {
         
         return UIImageView(image: incomingBubbleImageView.image, highlightedImage: incomingBubbleImageView.highlightedImage)
     }
-//    
-//    override func collectionView(collectionView: JSQMessagesCollectionView!, avatarImageViewForItemAtIndexPath indexPath: NSIndexPath!) -> UIImageView! {
-//        
-//        let message = blurbs[indexPath.item]
-//        
-//        if let avatar = avatars[message.sender()] {
-//            return UIImageView(image: avatar)
-//        } else {
-//            setupAvatarImage(message.sender(), imageUrl: message.imageUrl(), incoming: true)
-//            return UIImageView(image:avatars[message.sender()])
-//        }
-//    }
+    
+    override func collectionView(collectionView: JSQMessagesCollectionView!, avatarImageViewForItemAtIndexPath indexPath: NSIndexPath!) -> UIImageView! {
+        
+        return nil
+    }
     
     
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -210,6 +202,8 @@ class BlurbTableViewController: JSQMessagesViewController {
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = super.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as JSQMessagesCollectionViewCell
         
+        var itemRow: Int = indexPath.item
+
         let blurb = self.blurbs[indexPath.item]
         if blurb.sender() == sender {
             cell.textView.textColor = UIColor.blackColor()
