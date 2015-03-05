@@ -30,6 +30,10 @@ class Group: NSObject {
     override init() {
         self.name = "Fool Jackson"
     }
+    init(name: String) {
+        self.name = name
+        super.init()
+    }
     
     // initialize a new Convo, given an appropriate title
     init(name: String, parentId: String) {

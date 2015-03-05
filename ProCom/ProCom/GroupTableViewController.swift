@@ -70,6 +70,57 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     
     // MARK: - Parse Networking
     func getNestedGroups(groupId: String) {
+        let query = PFQuery(className: "Group");
+        
+        query.includeKey("subGroups");
+        query.includeKey("subGroups.subGroups");
+        query.includeKey("subGroups.subGroups.subGroups");
+        
+        query.getObjectInBackgroundWithId(groupId, block:{(PFObject group, NSError error) in
+            if (error == nil) {
+                println("Groups: \(group)")
+                if let homeName = group["name"] as? String {
+                    var localHomeGroup = Group(name: homeName)
+                        
+                    if let subGroups1 = group.objectForKey("subGroups") as [PFObject]! {
+                        
+                        for sub1 in subGroups1 {
+                            if let subName = sub1["name"] as? String {
+                                let subGroupA = Group(name: subName)
+                                
+                                if let subGroups2 = sub1.objectForKey("subGroups") as [PFObject]! {
+                                    for sub2 in subGroups2 {
+                                        if let subName = sub2["name"] as? String {
+                                            var subGroupB = Group(name: subName)
+                                            
+                                            subGroupA.subGroups.append(subGroupB)
+                                        }
+                                    }
+                                }
+                                
+                                localHomeGroup.subGroups.append(subGroupA)
+                            }
+                            
+                        }
+                    }
+                    
+                    self.array.append(localHomeGroup)
+                }
+            }
+        })
+
+            
+        
+//        query.findObjectsInBackgroundWithBlock ({
+//            (groups: [AnyObject]!, error: NSError!) -> Void in
+//            
+//            if (error == nil) {
+//                for group in groups {
+//                    var gName: String = group.objectForKey("name") as String
+//                    println("Fetched group: \(gName)")
+//                }
+//            }
+//        })
         
     }
     
@@ -165,7 +216,10 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     @IBAction func addButtonPressed(sender: AnyObject) {
         
         self.tableView.reloadData()
-        
+        if let g = self.array[0] as Group? {
+            
+            print(g)
+        }
         
     }
     @IBAction func notificationToggled(sender: AnyObject) {
