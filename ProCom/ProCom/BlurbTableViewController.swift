@@ -24,11 +24,10 @@ class BlurbTableViewController: JSQMessagesViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         automaticallyScrollsToMostRecentMessage = true
 //        user = PFUser.currentUser()
         
-        
-
 //        NSLog("Convo ID: %@", blurbconvoid!)
         
         let userQuery = PFQuery(className: "_User")
@@ -56,6 +55,7 @@ class BlurbTableViewController: JSQMessagesViewController {
                                 NSLog("error " + error.localizedDescription)
                             }
                             else {
+                                
                                 for a in array{
                                     if let b = a as? PFObject {
                                         var message: String
@@ -79,7 +79,6 @@ class BlurbTableViewController: JSQMessagesViewController {
                                                 self.blurbs.append(blurb)
                                                 self.finishReceivingMessage()                                            }
                                         }
-                                        
                                     }
                                 }
                                 
@@ -156,7 +155,6 @@ class BlurbTableViewController: JSQMessagesViewController {
         }
     }
     
-    
     func receivedMessagePressed(sender: UIBarButtonItem) {
         // Simulate reciving message
         showTypingIndicator = !showTypingIndicator
@@ -204,13 +202,15 @@ class BlurbTableViewController: JSQMessagesViewController {
     
     
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return blurbs.count
+        var num = self.blurbs.count
+        
+        return num
     }
 
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = super.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as JSQMessagesCollectionViewCell
         
-        let blurb = blurbs[indexPath.item]
+        let blurb = self.blurbs[indexPath.item]
         if blurb.sender() == sender {
             cell.textView.textColor = UIColor.blackColor()
         } else {
@@ -226,43 +226,43 @@ class BlurbTableViewController: JSQMessagesViewController {
     
     
     // View  usernames above bubbles
-    override func collectionView(collectionView: JSQMessagesCollectionView!, attributedTextForMessageBubbleTopLabelAtIndexPath indexPath: NSIndexPath!) -> NSAttributedString! {
-        let blurb = blurbs[indexPath.item];
-        
-        // Sent by me, skip
-        if blurb.sender() == sender {
-            return nil;
-        }
-        
-        // Same as previous sender, skip
-        if indexPath.item > 0 {
-            let previousblurb = blurbs[indexPath.item - 1];
-            if previousblurb.sender() == blurb.sender() {
-                return nil;
-            }
-        }
-        
-        return NSAttributedString(string:blurb.sender())
-    }
+//    override func collectionView(collectionView: JSQMessagesCollectionView!, attributedTextForMessageBubbleTopLabelAtIndexPath indexPath: NSIndexPath!) -> NSAttributedString! {
+//        let blurb = blurbs[indexPath.item];
+//        
+//        // Sent by me, skip
+//        if blurb.sender() == sender {
+//            return nil;
+//        }
+//        
+//        // Same as previous sender, skip
+//        if indexPath.item > 0 {
+//            let previousblurb = blurbs[indexPath.item - 1];
+//            if previousblurb.sender() == blurb.sender() {
+//                return nil;
+//            }
+//        }
+//        
+//        return NSAttributedString(string:blurb.sender())
+//    }
     
-    override func collectionView(collectionView: JSQMessagesCollectionView!, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout!, heightForMessageBubbleTopLabelAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
-        let blurb = blurbs[indexPath.item]
-        
-        // Sent by me, skip
-        if blurb.sender() == sender {
-            return CGFloat(0.0);
-        }
-        
-        // Same as previous sender, skip
-        if indexPath.item > 0 {
-            let previousblurb = blurbs[indexPath.item - 1];
-            if previousblurb.sender() == blurb.sender() {
-                return CGFloat(0.0);
-            }
-        }
-        
-        return kJSQMessagesCollectionViewCellLabelHeightDefault
-    }
+//    override func collectionView(collectionView: JSQMessagesCollectionView!, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout!, heightForMessageBubbleTopLabelAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
+//        let blurb = blurbs[indexPath.item]
+//        
+//        // Sent by me, skip
+//        if blurb.sender() == sender {
+//            return CGFloat(0.0);
+//        }
+//        
+//        // Same as previous sender, skip
+//        if indexPath.item > 0 {
+//            let previousblurb = blurbs[indexPath.item - 1];
+//            if previousblurb.sender() == blurb.sender() {
+//                return CGFloat(0.0);
+//            }
+//        }
+//        
+//        return kJSQMessagesCollectionViewCellLabelHeightDefault
+//    }
 
 
     
