@@ -106,38 +106,38 @@ class BlurbTableViewController: JSQMessagesViewController {
     }
     
     
-//    func setupAvatarImage(name: String, imageUrl: String?, incoming: Bool) {
-//        if let stringUrl = imageUrl {
-//            if let url = NSURL(string: stringUrl) {
-//                if let data = NSData(contentsOfURL: url) {
-//                    let image = UIImage(data: data)
-//                    let diameter = incoming ? UInt(collectionView.collectionViewLayout.incomingAvatarViewSize.width) : UInt(collectionView.collectionViewLayout.outgoingAvatarViewSize.width)
-//                    let avatarImage = JSQMessagesAvatarFactory.avatarWithImage(image, diameter: diameter)
-//                    avatars[name] = avatarImage
-//                    return
-//                }
-//            }
-//        }
-//        
-//        // At some point, we failed at getting the image (probably broken URL), so default to avatarColor
-//        setupAvatarColor(name, incoming: incoming)
-//    }
-//    
-//    func setupAvatarColor(name: String, incoming: Bool) {
-//        let diameter = incoming ? UInt(collectionView.collectionViewLayout.incomingAvatarViewSize.width) : UInt(collectionView.collectionViewLayout.outgoingAvatarViewSize.width)
-//        
-//        let rgbValue = name.hash
-//        let r = CGFloat(Float((rgbValue & 0xFF0000) >> 16)/255.0)
-//        let g = CGFloat(Float((rgbValue & 0xFF00) >> 8)/255.0)
-//        let b = CGFloat(Float(rgbValue & 0xFF)/255.0)
-//        let color = UIColor(red: r, green: g, blue: b, alpha: 0.5)
-//        
-//        let nameLength = countElements(name)
-//        let initials : String? = name.substringToIndex(advance(sender.startIndex, min(3, nameLength)))
-//        let userImage = JSQMessagesAvatarFactory.avatarWithUserInitials(initials, backgroundColor: color, textColor: UIColor.blackColor(), font: UIFont.systemFontOfSize(CGFloat(13)), diameter: diameter)
-//        
-//        avatars[name] = userImage
-//    }
+    func setupAvatarImage(name: String, imageUrl: String?, incoming: Bool) {
+        if let stringUrl = imageUrl {
+            if let url = NSURL(string: stringUrl) {
+                if let data = NSData(contentsOfURL: url) {
+                    let image = UIImage(data: data)
+                    let diameter = incoming ? UInt(collectionView.collectionViewLayout.incomingAvatarViewSize.width) : UInt(collectionView.collectionViewLayout.outgoingAvatarViewSize.width)
+                    let avatarImage = JSQMessagesAvatarFactory.avatarWithImage(image, diameter: diameter)
+                    avatars[name] = avatarImage
+                    return
+                }
+            }
+        }
+        
+        // At some point, we failed at getting the image (probably broken URL), so default to avatarColor
+        setupAvatarColor(name, incoming: incoming)
+    }
+    
+    func setupAvatarColor(name: String, incoming: Bool) {
+        let diameter = incoming ? UInt(collectionView.collectionViewLayout.incomingAvatarViewSize.width) : UInt(collectionView.collectionViewLayout.outgoingAvatarViewSize.width)
+        
+        let rgbValue = name.hash
+        let r = CGFloat(Float((rgbValue & 0xFF0000) >> 16)/255.0)
+        let g = CGFloat(Float((rgbValue & 0xFF00) >> 8)/255.0)
+        let b = CGFloat(Float(rgbValue & 0xFF)/255.0)
+        let color = UIColor(red: r, green: g, blue: b, alpha: 0.5)
+        
+        let nameLength = countElements(name)
+        let initials : String? = name.substringToIndex(advance(sender.startIndex, min(3, nameLength)))
+        let userImage = JSQMessagesAvatarFactory.avatarWithUserInitials(initials, backgroundColor: color, textColor: UIColor.blackColor(), font: UIFont.systemFontOfSize(CGFloat(13)), diameter: diameter)
+        
+        avatars[name] = userImage
+    }
     
     
     // TODO: Send a query to post to a value on the database
@@ -145,7 +145,7 @@ class BlurbTableViewController: JSQMessagesViewController {
         var blurb = PFObject(className: "Blurb")
         blurb["text"] = text
         blurb["userId"] = self.TEST_USER_ID
-        blurb["convoId"] = TEST_CONVO_ID
+        blurb["convoId"] = self.TEST_CONVO_ID
         blurb.saveInBackgroundWithBlock {
             (success: Bool, error: NSError!) -> Void in
             if (success) {
@@ -191,8 +191,15 @@ class BlurbTableViewController: JSQMessagesViewController {
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, avatarImageViewForItemAtIndexPath indexPath: NSIndexPath!) -> UIImageView! {
         
-        return nil
+        let message = blurbs[indexPath.item]
+        if let avatar = avatars[message.sender()] {
+            return UIImageView(image: avatar)
+        } else {
+            setupAvatarImage(message.sender(), imageUrl: message.imageUrl(), incoming: true)
+            return UIImageView(image:avatars[message.sender()])
+        }
     }
+    
     
     
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

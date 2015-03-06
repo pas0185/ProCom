@@ -277,7 +277,9 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
 
 - (void)didPressSendButton:(UIButton *)button
            withMessageText:(NSString *)text
-                    sender:(PFUser *)user{ }
+                    sender:(NSString *)user
+                   convoid:(NSString *)convoid
+                    date:(NSDate *)date{ }
 
 - (void)didPressAccessoryButton:(UIButton *)sender { }
 
