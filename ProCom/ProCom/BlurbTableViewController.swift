@@ -17,9 +17,10 @@ class BlurbTableViewController: JSQMessagesViewController {
     var user: PFUser? // PFUser.currentUser().objectId
     var blurbs = [Blurb]()
     var refreshTime = NSTimer()
-    //var avatars = Dictionary<String, UIImage>()
-    var outgoingBubbleImageView = JSQMessagesBubbleImageFactory.outgoingMessageBubbleImageViewWithColor(UIColor.jsq_messageBubbleBlueColor())
-    var incomingBubbleImageView = JSQMessagesBubbleImageFactory.incomingMessageBubbleImageViewWithColor(UIColor.jsq_messageBubbleLightGrayColor())
+    var avatars = Dictionary<String, UIImage>()
+    var outgoingBubbleImageView = JSQMessagesBubbleImageFactory.outgoingMessageBubbleImageViewWithColor(UIColor(red: 148/255, green: 34/255, blue: 50/255.0, alpha: 1))
+    var incomingBubbleImageView = JSQMessagesBubbleImageFactory.incomingMessageBubbleImageViewWithColor(UIColor.grayColor())
+  
     
     
     override func viewDidLoad() {
@@ -36,6 +37,7 @@ class BlurbTableViewController: JSQMessagesViewController {
             
             
             if (user != nil) {
+                
                 
                 let queryConvo = PFQuery(className: "Convo")
                 queryConvo.getObjectInBackgroundWithId(self.TEST_CONVO_ID, block: {(PFObject convo, NSError error) in
@@ -120,7 +122,7 @@ class BlurbTableViewController: JSQMessagesViewController {
 //        // At some point, we failed at getting the image (probably broken URL), so default to avatarColor
 //        setupAvatarColor(name, incoming: incoming)
 //    }
-    
+//    
 //    func setupAvatarColor(name: String, incoming: Bool) {
 //        let diameter = incoming ? UInt(collectionView.collectionViewLayout.incomingAvatarViewSize.width) : UInt(collectionView.collectionViewLayout.outgoingAvatarViewSize.width)
 //        
@@ -142,7 +144,7 @@ class BlurbTableViewController: JSQMessagesViewController {
     func sendMessage(text: String!, sender: String!, convoid: String!){
         var blurb = PFObject(className: "Blurb")
         blurb["text"] = text
-        blurb["userId"] = user?.objectId
+        blurb["userId"] = self.TEST_USER_ID
         blurb["convoId"] = TEST_CONVO_ID
         blurb.saveInBackgroundWithBlock {
             (success: Bool, error: NSError!) -> Void in
@@ -164,11 +166,11 @@ class BlurbTableViewController: JSQMessagesViewController {
         println("Camera pressed!")
     }
     
-    func didPressSendButton(button: UIButton!, withMessageText text: String!, sender: PFUser!) {
+    override func didPressSendButton(button: UIButton!, withMessageText text: String!, sender: String!, date: NSDate!) {
+
         JSQSystemSoundPlayer.jsq_playMessageSentSound()
-        
-        sendMessage(text, sender: PFUser.currentUser().objectId, convoid: TEST_CONVO_ID)
-        
+//        sendMessage(text, sender: PFUser.currentUser().objectId, convoid: TEST_CONVO_ID)
+        sendMessage(text, sender: self.TEST_USER_ID, convoid: TEST_CONVO_ID)
         finishSendingMessage()
     }
     
@@ -194,16 +196,12 @@ class BlurbTableViewController: JSQMessagesViewController {
     
     
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        var num = self.blurbs.count
-        
-        return num
+        return self.blurbs.count
     }
 
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = super.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as JSQMessagesCollectionViewCell
         
-        var itemRow: Int = indexPath.item
-
         let blurb = self.blurbs[indexPath.item]
         if blurb.sender() == sender {
             cell.textView.textColor = UIColor.blackColor()
@@ -220,43 +218,43 @@ class BlurbTableViewController: JSQMessagesViewController {
     
     
     // View  usernames above bubbles
-//    override func collectionView(collectionView: JSQMessagesCollectionView!, attributedTextForMessageBubbleTopLabelAtIndexPath indexPath: NSIndexPath!) -> NSAttributedString! {
-//        let blurb = blurbs[indexPath.item];
-//        
-//        // Sent by me, skip
-//        if blurb.sender() == sender {
-//            return nil;
-//        }
-//        
-//        // Same as previous sender, skip
-//        if indexPath.item > 0 {
-//            let previousblurb = blurbs[indexPath.item - 1];
-//            if previousblurb.sender() == blurb.sender() {
-//                return nil;
-//            }
-//        }
-//        
-//        return NSAttributedString(string:blurb.sender())
-//    }
+    override func collectionView(collectionView: JSQMessagesCollectionView!, attributedTextForMessageBubbleTopLabelAtIndexPath indexPath: NSIndexPath!) -> NSAttributedString! {
+        let blurb = blurbs[indexPath.item];
+        
+        // Sent by me, skip
+        if blurb.sender() == sender {
+            return nil;
+        }
+        
+        // Same as previous sender, skip
+        if indexPath.item > 0 {
+            let previousblurb = blurbs[indexPath.item - 1];
+            if previousblurb.sender() == blurb.sender() {
+                return nil;
+            }
+        }
+        
+        return NSAttributedString(string:blurb.sender())
+    }
     
-//    override func collectionView(collectionView: JSQMessagesCollectionView!, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout!, heightForMessageBubbleTopLabelAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
-//        let blurb = blurbs[indexPath.item]
-//        
-//        // Sent by me, skip
-//        if blurb.sender() == sender {
-//            return CGFloat(0.0);
-//        }
-//        
-//        // Same as previous sender, skip
-//        if indexPath.item > 0 {
-//            let previousblurb = blurbs[indexPath.item - 1];
-//            if previousblurb.sender() == blurb.sender() {
-//                return CGFloat(0.0);
-//            }
-//        }
-//        
-//        return kJSQMessagesCollectionViewCellLabelHeightDefault
-//    }
+    override func collectionView(collectionView: JSQMessagesCollectionView!, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout!, heightForMessageBubbleTopLabelAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
+        let blurb = blurbs[indexPath.item]
+        
+        // Sent by me, skip
+        if blurb.sender() == sender {
+            return CGFloat(0.0);
+        }
+        
+        // Same as previous sender, skip
+        if indexPath.item > 0 {
+            let previousblurb = blurbs[indexPath.item - 1];
+            if previousblurb.sender() == blurb.sender() {
+                return CGFloat(0.0);
+            }
+        }
+        
+        return kJSQMessagesCollectionViewCellLabelHeightDefault
+    }
 
 
     
