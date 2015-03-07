@@ -150,6 +150,7 @@ class BlurbTableViewController: JSQMessagesViewController {
             (success: Bool, error: NSError!) -> Void in
             if (success) {
                 NSLog("Blurb: %@", blurb)
+                blurb.save()
             } else {
                 NSLog("There was a problem sending the message")
             }
