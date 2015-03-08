@@ -73,30 +73,35 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         let query = PFQuery(className: "Group");
         
         query.includeKey("subGroups");
-        query.includeKey("subGroups.subGroups");
-        query.includeKey("subGroups.subGroups.subGroups");
         
         query.getObjectInBackgroundWithId(groupId, block:{(PFObject group, NSError error) in
             if (error == nil) {
-                println("Groups: \(group)")
+                // Got THIS group
+//                println("Groups: \(group)")
+                
                 if let homeName = group["name"] as? String {
+                    
                     var localHomeGroup = Group(name: homeName)
                         
                     if let subGroups1 = group.objectForKey("subGroups") as [PFObject]! {
                         
+                        // Got its children groups
+                        
                         for sub1 in subGroups1 {
                             if let subName = sub1["name"] as? String {
-                                let subGroupA = Group(name: subName)
                                 
-                                if let subGroups2 = sub1.objectForKey("subGroups") as [PFObject]! {
-                                    for sub2 in subGroups2 {
-                                        if let subName = sub2["name"] as? String {
-                                            var subGroupB = Group(name: subName)
-                                            
-                                            subGroupA.subGroups.append(subGroupB)
-                                        }
-                                    }
-                                }
+                                
+                                let subGroupA = Group(name: subName)
+//
+//                                if let subGroups2 = sub1.objectForKey("subGroups") as [PFObject]! {
+//                                    for sub2 in subGroups2 {
+//                                        if let subName = sub2["name"] as? String {
+//                                            var subGroupB = Group(name: subName)
+//                                            
+//                                            subGroupA.subGroups.append(subGroupB)
+//                                        }
+//                                    }
+//                                }
                                 
                                 localHomeGroup.subGroups.append(subGroupA)
                             }
@@ -105,6 +110,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
                     }
                     
                     self.array.append(localHomeGroup)
+                    self.tableView.reloadData()
                 }
             }
         })
@@ -216,10 +222,10 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     @IBAction func addButtonPressed(sender: AnyObject) {
         
         self.tableView.reloadData()
-        if let g = self.array[0] as Group? {
-            
-            print(g)
-        }
+//        if let g = self.array[0] as Group? {
+//            
+//            print(g)
+//        }
         
     }
     @IBAction func notificationToggled(sender: AnyObject) {
@@ -287,6 +293,18 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        
+        if let group = self.array[indexPath.row] as Group? {
+            for sub in group.subGroups {
+                self.array.append(sub)
+            }
+        }
+        
+        self.tableView.reloadData()
+        
+        return
+        
+        
         
         if let group = self.group as Group? {
             if indexPath.section == 0 {
