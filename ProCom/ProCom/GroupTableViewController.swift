@@ -275,26 +275,13 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         
         cell.textLabel?.text = self.array[indexPath.row].name
         return cell
-        
-        if let group = self.group as Group? {
-            if indexPath.section == 0 {
-                if let groupName = group.subGroups[indexPath.row].name {
-                    cell.textLabel?.text = groupName + " group"
-                }
-            }
-            else if indexPath.section == 1 {
-                if let convoName = group.convos[indexPath.row].title {
-                    cell.textLabel?.text = convoName + " convo"
-                }
-            }
-        }
-        
-        return cell
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
         if let group = self.array[indexPath.row] as Group? {
+            self.array.removeAll(keepCapacity: false)
+            
             for sub in group.subGroups {
                 self.array.append(sub)
             }
@@ -303,65 +290,8 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         self.tableView.reloadData()
         
         return
-        
-        
-        
-        if let group = self.group as Group? {
-            if indexPath.section == 0 {
-                if let subGroup = group.subGroups[indexPath.row] as Group? {
-                    
-                    
-                    var subGroupViewController = GroupTableViewController(group: subGroup)
-                    
-                    self.navigationController?.pushViewController(subGroupViewController, animated: true)
-                }
-            }
-            else if indexPath.section == 1 {
-                if let convo = group.convos[indexPath.row] as Convo? {
-
-                    // TODO: display ConvoViewController
-                }
-            }
-        }
-    
     }
     
-
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the specified item to be editable.
-        return true
-    }
-    */
-
-    /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
-    }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
     /*
     // MARK: - Navigation
 
