@@ -14,19 +14,10 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     let TEST_USER_ID = "kRaibtYs3r"
     let HOME_GROUP_ID = "fZRM5e8UVo"
     
-    // The Group being displayed
-    var group: Group?
-    
+//    var group: Group?
     var user: PFUser?
+    var groupArray: [Group] = []
     
-    var array = [Group]()
-    
-    init(group: Group) {
-        self.group = group
-        
-        super.init()
-    }
-
     override init(style: UITableViewStyle) {
         super.init(style: style)
     }
@@ -42,13 +33,14 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        self.getConvosForUser(TEST_USER_ID)
+        self.fetchGroup(HOME_GROUP_ID)
         
-        self.getNestedGroups(HOME_GROUP_ID)
         
-        if let name = self.group?.name {
-            self.navigationItem.title = name
-        }
+        // self.getConvosForUser(TEST_USER_ID)
+        
+//        if let name = self.group?.name {
+//            self.navigationItem.title = name
+//        }
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -63,45 +55,21 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         // Dispose of any resources that can be recreated.
     }
     
-    func assignGroup(group: Group) {
-        self.group = group
-        self.navigationItem.title = group.name
+    // MARK: - Parse Fetch Data
+    func fetchGroup(groupId: String) {
         
-        self.tableView.reloadData()
-    }
-    
-    // MARK: - Parse Networking
-    func getNestedGroups(groupId: String) {
-        let query = PFQuery(className: "Group");
+        let query = PFQuery(className: "Group")
+        query.includeKey("subGroups")
         
-        query.includeKey("subGroups");
-        
-        query.getObjectInBackgroundWithId(groupId, block:{(PFObject group, NSError error) in
+        query.getObjectInBackgroundWithId(groupId, block:{(Group group, NSError error) in
+            
             if (error == nil) {
-                // Got THIS group
+                println("Fetched group with ID: \(groupId)")
                 
-                if let homeName = group["name"] as? String {
-                    
-                    var localHomeGroup = Group(name: homeName)
-                        
-                    if let subGroups1 = group.objectForKey("subGroups") as [PFObject]! {
-                        
-                        // Got its children groups
-                        
-                        for sub1 in subGroups1 {
-                            if let subName = sub1["name"] as? String {
-                                
-                                
-                                let subGroupA = Group(name: subName)
-                                
-                                localHomeGroup.subGroups.append(subGroupA)
-                            }
-                        }
-                    }
-                    
-                    self.array.append(localHomeGroup)
-                    self.tableView.reloadData()
-                }
+                let g: Group = group as Group
+                
+                self.tableView.reloadData()
+
             }
         })
     }
@@ -138,7 +106,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
                                 print("\twith parent ID: \(parentId)\n")
                                 
                                 var localGroup = Group(name: name, parentId: "")
-                                self.array.append(localGroup)
+//                                self.array.append(localGroup)
 
 //                                var objectId: String = g["objectId"] as String
 //                                if let p = g.objectForKey("parent") as? PFObject {
@@ -159,6 +127,8 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         })
     }
 
+    // MARK: - Parse Push Data
+    
     // MARK: - User Controls
 
     @IBAction func addButtonPressed(sender: AnyObject) {
@@ -189,14 +159,14 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
                         // Make new group
                         var newGroup = Group(name:title, parentId: "")
                         
-                        if let parentGroup = self.group {
-                            newGroup.parentId = parentGroup.objectId
-                            parentGroup.addSubGroup(newGroup)
-                        }
-                        else {
-                            // No group assigned for this view yet. Assign the new group
-                            self.assignGroup(newGroup)
-                        }
+//                        if let parentGroup = self.group {
+//                            newGroup.parentId = parentGroup.objectId
+//                            parentGroup.addSubGroup(newGroup)
+//                        }
+//                        else {
+//                            // No group assigned for this view yet. Assign the new group
+//                            self.assignGroup(newGroup)
+//                        }
                         
                         newGroup.saveToNetwork()
                     }
@@ -217,25 +187,42 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // Return the number of rows in the section.
         
-        return self.array.count
+        return self.groupArray.count
     
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as UITableViewCell
+
+//        let group = self.array[indexPath.row]
+        let name = self.groupArray[indexPath.row].objectForKey("name") as String
+        cell.textLabel?.text = name
+
         
-        cell.textLabel?.text = self.array[indexPath.row].name
+        
+//        if let group = self.array[indexPath.row] as Group? {
+//            println(group)
+//            cell.textLabel?.text = group.objectForKey("name") as? String
+//        }
+//        else {
+//            cell.textLabel?.text = "Error occurred finding name"
+//        }
+//        cell.textLabel?.text = self.array[indexPath.row].name
         return cell
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        if let group = self.array[indexPath.row] as Group? {
-            self.array.removeAll(keepCapacity: false)
+        if let group: Group = self.groupArray[indexPath.row] as Group? {
             
-            for sub in group.subGroups {
-                self.array.append(sub)
-            }
+            println(group.subGroups)
+            
+//            self.groupArray.removeAll(keepCapacity: false)
+//            
+//            for sub in group.subGroups {
+//                let subGroup: Group = sub as Group
+//                self.groupArray.append(subGroup)
+//            }
         }
         
         self.tableView.reloadData()
