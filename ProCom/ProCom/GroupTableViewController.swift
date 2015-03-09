@@ -11,7 +11,7 @@ import UIKit
 
 class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     
-    let testUserId = "kRaibtYs3r"
+    let TEST_USER_ID = "kRaibtYs3r"
     let HOME_GROUP_ID = "fZRM5e8UVo"
     
     // The Group being displayed
@@ -42,7 +42,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        self.getConvosForUser(testUserId)
+//        self.getConvosForUser(TEST_USER_ID)
         
         self.getNestedGroups(HOME_GROUP_ID)
         
@@ -66,6 +66,8 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     func assignGroup(group: Group) {
         self.group = group
         self.navigationItem.title = group.name
+        
+        self.tableView.reloadData()
     }
     
     // MARK: - Parse Networking
@@ -77,7 +79,6 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         query.getObjectInBackgroundWithId(groupId, block:{(PFObject group, NSError error) in
             if (error == nil) {
                 // Got THIS group
-//                println("Groups: \(group)")
                 
                 if let homeName = group["name"] as? String {
                     
@@ -92,20 +93,9 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
                                 
                                 
                                 let subGroupA = Group(name: subName)
-//
-//                                if let subGroups2 = sub1.objectForKey("subGroups") as [PFObject]! {
-//                                    for sub2 in subGroups2 {
-//                                        if let subName = sub2["name"] as? String {
-//                                            var subGroupB = Group(name: subName)
-//                                            
-//                                            subGroupA.subGroups.append(subGroupB)
-//                                        }
-//                                    }
-//                                }
                                 
                                 localHomeGroup.subGroups.append(subGroupA)
                             }
-                            
                         }
                     }
                     
@@ -114,20 +104,6 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
                 }
             }
         })
-
-            
-        
-//        query.findObjectsInBackgroundWithBlock ({
-//            (groups: [AnyObject]!, error: NSError!) -> Void in
-//            
-//            if (error == nil) {
-//                for group in groups {
-//                    var gName: String = group.objectForKey("name") as String
-//                    println("Fetched group: \(gName)")
-//                }
-//            }
-//        })
-        
     }
     
     func getConvosForUser(userId: String) {
@@ -184,33 +160,45 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     }
 
     // MARK: - User Controls
+
+    @IBAction func addButtonPressed(sender: AnyObject) {
+
+        // User tapped 'add' button
+        
+        self.promptGroupCreation()
+        
+    }
     
-    @IBAction func createGroup(sender: AnyObject) {
+    func promptGroupCreation() {
         
         // Prompt user for name of new group
         var alertView = UIAlertView(title: "New Group", message: "Enter the title of your new group", delegate: self, cancelButtonTitle: "Cancel", otherButtonTitles: "OK")
+        
         alertView.alertViewStyle = UIAlertViewStyle.PlainTextInput
         alertView.show()
     }
     
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
+
+        // Made selection on UIAlertView
+        
         if buttonIndex == 1 {
-            
             if alertView.title == "New Group" {
                 if let field = alertView.textFieldAtIndex(0) {
                     if let title = field.text {
                         // Make new group
-                        var subGroup = Group(name: title, parentId: "")
-                        if let group = self.group {
-                            group.addSubGroup(subGroup)
-                            subGroup.parentId = group.objectId
+                        var newGroup = Group(name:title, parentId: "")
+                        
+                        if let parentGroup = self.group {
+                            newGroup.parentId = parentGroup.objectId
+                            parentGroup.addSubGroup(newGroup)
                         }
                         else {
                             // No group assigned for this view yet. Assign the new group
-                            self.assignGroup(subGroup)
+                            self.assignGroup(newGroup)
                         }
                         
-                        subGroup.saveToNetwork()
+                        newGroup.saveToNetwork()
                     }
                 }
             }
@@ -218,29 +206,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         
         self.tableView.reloadData()
     }
-    
-    @IBAction func addButtonPressed(sender: AnyObject) {
-        
-        self.tableView.reloadData()
-//        if let g = self.array[0] as Group? {
-//            
-//            print(g)
-//        }
-        
-    }
-    @IBAction func notificationToggled(sender: AnyObject) {
-        
-    }
-    
-    @IBAction func createConvo(sender: AnyObject) {
-        
-    }
-    
-    @IBAction func joinExisting(sender: AnyObject) {
-        
-        self.tableView.reloadData()
-    }
-    
+  
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -252,22 +218,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         // Return the number of rows in the section.
         
         return self.array.count
-        
-        if let group = self.group as Group? {
-            if section == 0 {
-                if let count = group.subGroups.count as Int? {
-                    return count
-                }
-            }
-            
-            else if section == 1 {
-                if let count = group.convos.count as Int? {
-                    return count
-                }
-            }
-        }
-        
-        return 0
+    
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
