@@ -8,28 +8,24 @@
 
 import UIKit
 
-class Group: NSObject {
+class Group: PFObject {
     
     // The name of this Group
     // ex: "iOS projects", "Finances"
     var name: String?
-
-    var objectId: String?
     
     var parentId: String?
     
     // The sub categories within this Group
     // "lazy var" because we won't create this array in memory until needed
     // ex: think common file directory structure
-    lazy var subGroups = [Group]()
+//    lazy
+    var subGroups = [Group]()
     
     // The Convos stored in this Group
     // Convos are actual conversations containing text, users, pictures, etc
     lazy var convos = [Convo]()
     
-    override init() {
-        self.name = "Fool Jackson"
-    }
     init(name: String) {
         self.name = name
         super.init()
