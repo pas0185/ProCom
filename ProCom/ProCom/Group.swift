@@ -8,7 +8,7 @@
 
 import UIKit
 
-class Group: PFObject {
+class Group: PFObject, PFSubclassing {
     
     // The name of this Group
     // ex: "iOS projects", "Finances"
@@ -25,6 +25,13 @@ class Group: PFObject {
     // The Convos stored in this Group
     // Convos are actual conversations containing text, users, pictures, etc
     lazy var convos = [Convo]()
+    
+    override class func initialize() {
+        var onceToken : dispatch_once_t = 0;
+        dispatch_once(&onceToken) {
+            self.registerSubclass()
+        }
+    }
     
     init(name: String) {
         self.name = name
@@ -63,6 +70,10 @@ class Group: PFObject {
                 NSLog("Failed to retrieve group from the network")
             }
         
+    }
+    
+    class func parseClassName() -> String! {
+        return "Group"
     }
     
     func saveToNetwork() {

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1559537D1AAF87DB005777A4 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1559537C1AAF87DB005777A4 /* Constants.swift */; };
 		539D3B141A8FDC7A0093533F /* Blurb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539D3B131A8FDC7A0093533F /* Blurb.swift */; };
 		539D3B161A8FDCEC0093533F /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539D3B151A8FDCEC0093533F /* Group.swift */; };
 		539D3B181A8FDD980093533F /* Convo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539D3B171A8FDD980093533F /* Convo.swift */; };
@@ -73,6 +74,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1559537C1AAF87DB005777A4 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		539D3B131A8FDC7A0093533F /* Blurb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Blurb.swift; sourceTree = "<group>"; };
 		539D3B151A8FDCEC0093533F /* Group.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
 		539D3B171A8FDD980093533F /* Convo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Convo.swift; sourceTree = "<group>"; };
@@ -286,6 +288,7 @@
 		E27B3FDF1A8D75B800AE18C5 /* ProCom */ = {
 			isa = PBXGroup;
 			children = (
+				1559537C1AAF87DB005777A4 /* Constants.swift */,
 				E27B3FE21A8D75B800AE18C5 /* AppDelegate.swift */,
 				CB33DD8E1A94E85800AE8FCF /* Main.storyboard */,
 				CB57110C1A951BBD001FA72F /* UserHandling */,
@@ -462,6 +465,7 @@
 				539D3B181A8FDD980093533F /* Convo.swift in Sources */,
 				CD52A43D1A954B2300550DA1 /* AFURLSessionManager.m in Sources */,
 				CD52A43B1A954B2300550DA1 /* AFURLResponseSerialization.m in Sources */,
+				1559537D1AAF87DB005777A4 /* Constants.swift in Sources */,
 				CBA7D4601A9285E50065AB70 /* BlurbViewController.swift in Sources */,
 				539D3B161A8FDCEC0093533F /* Group.swift in Sources */,
 				CD52A4391A954B2300550DA1 /* AFURLRequestSerialization.m in Sources */,
