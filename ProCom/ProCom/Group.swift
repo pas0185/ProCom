@@ -10,12 +10,11 @@ import UIKit
 
 class Group: PFObject, PFSubclassing {
     
-    // The name of this Group
-    // ex: "iOS projects", "Finances"
+    let subGroups: [Group] = []
+    let subConvos: [Convo] = []
+    
     var name: String?
     var parentId: String?
-    var subGroups = [Group]()
-    var convos = [Convo]()
     
     override class func initialize() {
         var onceToken : dispatch_once_t = 0;

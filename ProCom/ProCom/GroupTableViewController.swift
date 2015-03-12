@@ -13,12 +13,14 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     
     let TEST_USER_ID = "kRaibtYs3r"
     let HOME_GROUP_ID = "fZRM5e8UVo"
+    let TEST_LOW_GROUP_ID = "e6rLvyv80V"
     
     var user: PFUser?
     var groupArray: [Group] = []
     var convoArray: [Convo] = []
     
     // MARK: - Initialization
+    
     override init(style: UITableViewStyle) {
         super.init(style: style)
     }
@@ -33,24 +35,42 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        self.recursiveGroupFetch(TEST_LOW_GROUP_ID)
         
 //        self.fetchGroupAndAddToArray(HOME_GROUP_ID)
-        
-         self.getConvosForUser(TEST_USER_ID)
-        
-//        if let name = self.group?.name {
-//            self.navigationItem.title = name
-//        }
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-
+//         self.getConvosForUser(TEST_USER_ID)
     }
     
-    // MARK: - Fetch Data from Parse
+    // MARK: - Fetch Data
+    
+    func recursiveGroupFetch(groupId: String) {
+        
+        let query = Group.query()
+        query.includeKey(PARENT_GROUP_KEY)
+        
+        query.getObjectInBackgroundWithId(groupId, block:{(PFObject object, NSError error) in
+            
+            if (error == nil) {
+                if let group = object as? Group {
+                    
+                    println("**GROUP PRINTOUT START**")
+                    println("Fetched group with ID: \(groupId)")
+                    println(group)
+                    println("************************")
+
+                    self.groupArray.append(group)
+                    self.tableView.reloadData()
+                    
+                }
+                
+            }
+            else {
+                println("An error occurred while fetching group with ID: \(groupId)")
+            }
+        })
+    }
+    
     func getConvosForUser(userId: String) {
         // Fetch conversations for a user
         
@@ -103,12 +123,10 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         })
     }
 
-    
     func fetchGroupAndAddToArray(groupId: String) {
         
         let query = Group.query()
         query.includeKey(SUB_GROUP_KEY)
-        query.includeKey(PARENT_GROUP_KEY)
         
         query.getObjectInBackgroundWithId(groupId, block:{(PFObject object, NSError error) in
             
@@ -129,7 +147,8 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         })
     }
     
-    // MARK: - Send Data to Parse
+    // MARK: - Push Data
+    
     func createGroupAndSendToParse(groupName: String, parentGroupIdOrNil: String?) {
         var group = Group(name: groupName)
         group.parentId = parentGroupIdOrNil
@@ -254,6 +273,22 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
                 let subGroup: Group = sub as Group
                 self.groupArray.append(subGroup)
             }
+            
+            //        self.groupArray.removeAll(keepCapacity: false)
+            //        self.groupArray.extend(group.subGroups as [PFObject]!)
+            
+            //        if let group = self.groupArray[indexPath.row] as Group {
+            //
+            //            println("selected group: \(group)")
+            //            println("his subgroups: \(group.subGroups)")
+            //
+            //            self.groupArray.removeAll(keepCapacity: false)
+            //
+            //            self.groupArray.extend(group.subGroups as [PFObject]!)
+            
+            //        }
+            
+            
         }
         
         if indexPath.section == CONVO_TABLE_VIEW_SECTION {
