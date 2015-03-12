@@ -17,6 +17,17 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     var user: PFUser?
     var pfObjectArray: [PFObject] = []
     
+    // MARK: - Initialization
+    override init(style: UITableViewStyle) {
+        super.init(style: style)
+    }
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    }
+
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -179,16 +190,6 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
 
     // MARK: - Old Code (maybe can be erased)
     
-//    override init(style: UITableViewStyle) {
-//        super.init(style: style)
-//    }
-//    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
-//        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-//    }
-//
-//    required init(coder aDecoder: NSCoder) {
-//        super.init(coder: aDecoder)
-//    }
 //    
 //    func getConvosForUser(userId: String) {
 //        // Fetch conversations for a user

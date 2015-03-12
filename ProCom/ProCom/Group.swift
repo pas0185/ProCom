@@ -13,24 +13,19 @@ class Group: PFObject, PFSubclassing {
     // The name of this Group
     // ex: "iOS projects", "Finances"
     var name: String?
-    
     var parentId: String?
-    
-    // The sub categories within this Group
-    // "lazy var" because we won't create this array in memory until needed
-    // ex: think common file directory structure
-//    lazy
     var subGroups = [Group]()
-    
-    // The Convos stored in this Group
-    // Convos are actual conversations containing text, users, pictures, etc
-    lazy var convos = [Convo]()
+    var convos = [Convo]()
     
     override class func initialize() {
         var onceToken : dispatch_once_t = 0;
         dispatch_once(&onceToken) {
             self.registerSubclass()
         }
+    }
+    
+    override init() {
+        super.init()
     }
     
     init(name: String) {
