@@ -35,11 +35,12 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.fetchAllGroupsFromNetworkAndSaveToLocal()
-//        self.recursiveGroupFetch(TEST_LOW_GROUP_ID)
+         self.getConvosForUser(TEST_USER_ID)
         
 //        self.fetchGroupAndAddToArray(HOME_GROUP_ID)
-//         self.getConvosForUser(TEST_USER_ID)
+
     }
     
     // MARK: - Fetch Data
@@ -50,24 +51,28 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
             
             if let group = c.objectForKey("groupId") as? Group {
                 
-                var topLevelGroup = self.attachToParentGroup(group)
-                
+                var topLevelGroup = self.getTopLevelGroup(group)
+                self.groupArray.append(topLevelGroup)
             }
         }
         
+        self.tableView.reloadData()
+        
     }
     
-    func attachToParentGroup(group: Group) -> Group {
+    func getTopLevelGroup(group: Group) -> Group {
         
         // Get parent of this group
+        if let parentGroup = group[PARENT_GROUP_KEY] as? Group {
+            
+            // Fetch the full object from the local datastore
+            parentGroup.fetchFromLocalDatastore()
+            
+            // Recursive call to this function
+            return self.getTopLevelGroup(parentGroup)
+        }
         
-        // if nil, return group because it is top level
-        
-        // if it has a parent
-        //    fetch that parent from Core data
-        //    return attachToParentGroup(parent)
-        
-        
+        // If no parent, he is the top level, return it
         return group
     }
     
@@ -165,19 +170,18 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
                                 
                                 // Add Convo to array
                                 self.convoArray.append(convo)
-                                var convoName: String = convo["name"] as String
-                                println("Fetched convo: \(convoName)")
-
-                                // Make sure we found its parent group
-                                if let parentGroup = convo.objectForKey("groupId") as? Group {
-                                    self.groupArray.append(parentGroup)
-                                    
-                                    var groupName: String = parentGroup["name"] as String
-                                    println("Fetched group: \(groupName)")
-//                                    var parentId: String = parentGroup["parent"] as String
-//                                    print("\twith parent ID: \(parentId)\n")
-                                    
-                                }
+                                
+//                                var convoName: String = convo["name"] as String
+//                                println("Fetched convo: \(convoName)")
+//
+//                                // Make sure we found its parent group
+//                                if let parentGroup = convo.objectForKey("groupId") as? Group {
+//                                    self.groupArray.append(parentGroup)
+//                                    
+//                                    var groupName: String = parentGroup["name"] as String
+//                                    println("Fetched group: \(groupName)")
+//                                    
+//                                }
                             }
                         }
                         
@@ -238,7 +242,9 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
 
         // User tapped 'add' button
         
-        self.promptGroupCreation()
+        self.buildGroupHierarchy(self.convoArray)
+        
+//        self.promptGroupCreation()
         
     }
     
@@ -311,7 +317,6 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         if indexPath.section == GROUP_TABLE_VIEW_SECTION {
             
             if let name = self.groupArray[indexPath.row].objectForKey("name") as? String {
-                println("name: \(name)")
                 cell.textLabel?.text = name
             }
         }
@@ -319,7 +324,6 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         else if indexPath.section == CONVO_TABLE_VIEW_SECTION {
             
             if let name = self.convoArray[indexPath.row].objectForKey("name") as? String {
-                println("name: \(name)")
                 cell.textLabel?.text = name
             }
         }
