@@ -36,14 +36,70 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // For now, just get all groups from the network and save them for later
         self.fetchAllGroupsFromNetworkAndSaveToLocal()
-         self.getConvosForUser(TEST_USER_ID)
         
-//        self.fetchGroupAndAddToArray(HOME_GROUP_ID)
-
+        // Get all convos the user is subscribed to
+        self.getConvosForUser(TEST_USER_ID)
     }
     
     // MARK: - Fetch Data
+    
+    func fetchAllGroupsFromNetworkAndSaveToLocal() {
+        
+        let query = Group.query()
+        query.includeKey(PARENT_GROUP_KEY)
+        query.findObjectsInBackgroundWithBlock({(objects:[AnyObject]!, error:NSError!) in
+            if (error == nil) {
+                println("Fetched \(objects.count) group objects")
+                dispatch_async(dispatch_get_main_queue()) {
+                    
+                    println("Pinnning group objects")
+                    PFObject.pinAll(objects)
+                    println("Done pinning group objects")
+                    
+                }
+            }
+        })
+    }
+    
+    func getConvosForUser(userId: String) {
+        // Fetch conversations for a user
+        
+        let userQuery = PFQuery(className: "_User")
+        
+        var convos = NSArray()
+        
+        userQuery.getObjectInBackgroundWithId(userId, block:{(PFObject user, NSError error) in
+            
+            if (user != nil) {
+                
+                let queryConvo = PFQuery(className: "Convo")
+                queryConvo.whereKey("users", equalTo: user)
+                queryConvo.includeKey("groupId")
+                
+                queryConvo.findObjectsInBackgroundWithBlock ({
+                    (objects: [AnyObject]!, error: NSError!) -> Void in
+                    
+                    if (error == nil) {
+                        println("Fetched \(objects.count) convo objects")
+                        dispatch_async(dispatch_get_main_queue()) {
+                            
+                            println("Pinnning convo objects")
+                            PFObject.pinAll(objects)
+                            println("Done pinning convo objects")
+                            
+                        }
+                        
+                        self.convoArray = objects as [Convo]
+                        
+                        self.buildGroupHierarchy(self.convoArray)
+                    }
+                })
+            }
+        })
+    }
+
     
     func buildGroupHierarchy(convos: [Convo]) {
         
@@ -76,21 +132,6 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         return group
     }
     
-    func fetchAllGroupsFromNetworkAndSaveToLocal() {
-        
-        let query = Group.query()
-        query.includeKey(PARENT_GROUP_KEY)
-        query.findObjectsInBackgroundWithBlock({(objects:[AnyObject]!, error:NSError!) in
-            if (error == nil) {
-                println("Fetched \(objects.count) objects")
-                dispatch_async(dispatch_get_main_queue()) {
-                    println("Pinnning objects")
-                    PFObject.pinAll(objects)
-                    println("Done pinning objects")
-                }
-            }
-        })
-    }
     
     func recursiveGroupFetch(groupId: String) {
         
@@ -142,56 +183,6 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         })
     }
     
-    func getConvosForUser(userId: String) {
-        // Fetch conversations for a user
-        
-        let userQuery = PFQuery(className: "_User")
-        
-        var convos = NSArray()
-        
-        userQuery.getObjectInBackgroundWithId(userId, block:{(PFObject user, NSError error) in
-            
-            if (user != nil) {
-                
-                let queryConvo = PFQuery(className: "Convo")
-                queryConvo.whereKey("users", equalTo: user)
-                queryConvo.includeKey("groupId")
-                
-                queryConvo.findObjectsInBackgroundWithBlock ({
-                    (array: [AnyObject]!, error: NSError!) -> Void in
-                    
-                    if (error != nil) {
-                        NSLog("error " + error.localizedDescription)
-                    }
-                    else {
-                        for object in array {
-                            
-                            if let convo = object as? Convo {
-                                
-                                // Add Convo to array
-                                self.convoArray.append(convo)
-                                
-//                                var convoName: String = convo["name"] as String
-//                                println("Fetched convo: \(convoName)")
-//
-//                                // Make sure we found its parent group
-//                                if let parentGroup = convo.objectForKey("groupId") as? Group {
-//                                    self.groupArray.append(parentGroup)
-//                                    
-//                                    var groupName: String = parentGroup["name"] as String
-//                                    println("Fetched group: \(groupName)")
-//                                    
-//                                }
-                            }
-                        }
-                        
-                        self.tableView.reloadData()
-                    }
-                    
-                })
-            }
-        })
-    }
 
     func fetchGroupAndAddToArray(groupId: String) {
         
