@@ -108,7 +108,12 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
             if let group = c.objectForKey("groupId") as? Group {
                 
                 var topLevelGroup = self.getTopLevelGroup(group)
-                self.groupArray.append(topLevelGroup)
+                if contains(self.groupArray, topLevelGroup) == false {
+                
+                    // Append new group if not already present
+                    self.groupArray.append(topLevelGroup)
+                }
+
             }
         }
         
