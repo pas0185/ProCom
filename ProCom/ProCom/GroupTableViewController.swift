@@ -87,7 +87,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
                                     self.groupArray.append(parentGroup)
                                     
                                     var groupName: String = parentGroup["name"] as String
-                                    print("Fetched group for the convo: \(groupName)")
+                                    println("Fetched group: \(groupName)")
 //                                    var parentId: String = parentGroup["parent"] as String
 //                                    print("\twith parent ID: \(parentId)\n")
                                     
@@ -201,7 +201,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // Return the number of sections.
-        return 1
+        return 2
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
