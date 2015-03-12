@@ -19,6 +19,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //Parse key set up
         
         Group.registerSubclass()
+        Convo.registerSubclass()
+        
         Parse.setApplicationId("n3twpTW37Eh9SkLFRWM41bjmw2IoYPdb2dh3OAQC", clientKey: "TG5IOJyDtOkkijqBt3BXlSa1gKtxUm7k2dXBYxuF")
         
         
