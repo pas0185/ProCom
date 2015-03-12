@@ -10,8 +10,8 @@ import UIKit
 
 class Group: PFObject, PFSubclassing {
     
-    let subGroups: [Group] = []
-    let subConvos: [Convo] = []
+    var subGroups: [Group] = []
+    var subConvos: [Convo] = []
     
     var name: String?
     var parentId: String?
@@ -85,14 +85,4 @@ class Group: PFObject, PFSubclassing {
             }
         }
     }
-    
-    func addSubGroup(group: Group) {
-        
-        // TODO: sync with Parse here
-        
-        self.subGroups.append(group)
-    }
-    
-    // TODO: a Group might like to know it's "lineage" that can be displayed to the user, like a file path
-    // ex: Abraid/iOS/ProCom/...
 }

@@ -35,14 +35,57 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        self.recursiveGroupFetch(TEST_LOW_GROUP_ID)
+        self.fetchAllGroupsFromNetworkAndSaveToLocal()
+//        self.recursiveGroupFetch(TEST_LOW_GROUP_ID)
         
 //        self.fetchGroupAndAddToArray(HOME_GROUP_ID)
 //         self.getConvosForUser(TEST_USER_ID)
     }
     
     // MARK: - Fetch Data
+    
+    func buildGroupHierarchy(convos: [Convo]) {
+        
+        for c in convos {
+            
+            if let group = c.objectForKey("groupId") as? Group {
+                
+                var topLevelGroup = self.attachToParentGroup(group)
+                
+            }
+        }
+        
+    }
+    
+    func attachToParentGroup(group: Group) -> Group {
+        
+        // Get parent of this group
+        
+        // if nil, return group because it is top level
+        
+        // if it has a parent
+        //    fetch that parent from Core data
+        //    return attachToParentGroup(parent)
+        
+        
+        return group
+    }
+    
+    func fetchAllGroupsFromNetworkAndSaveToLocal() {
+        
+        let query = Group.query()
+        query.includeKey(PARENT_GROUP_KEY)
+        query.findObjectsInBackgroundWithBlock({(objects:[AnyObject]!, error:NSError!) in
+            if (error == nil) {
+                println("Fetched \(objects.count) objects")
+                dispatch_async(dispatch_get_main_queue()) {
+                    println("Pinnning objects")
+                    PFObject.pinAll(objects)
+                    println("Done pinning objects")
+                }
+            }
+        })
+    }
     
     func recursiveGroupFetch(groupId: String) {
         
@@ -54,12 +97,35 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
             if (error == nil) {
                 if let group = object as? Group {
                     
+                    self.groupArray.append(group)
+                    
+
+                    
                     println("**GROUP PRINTOUT START**")
                     println("Fetched group with ID: \(groupId)")
                     println(group)
                     println("************************")
+                    
+                    
+                    if let parentGroup = group[PARENT_GROUP_KEY] as Group? {
+                        
 
-                    self.groupArray.append(group)
+
+                        self.groupArray.append(parentGroup)
+                        
+                        println("**PARENT GROUP PRINTOUT START**")
+                        println(parentGroup)
+                        println("************************")
+                        
+                        if let grandParentGroup = parentGroup[PARENT_GROUP_KEY] as? Group {
+                            self.groupArray.append(grandParentGroup)
+                            println("**GRANDPARENT GROUP PRINTOUT START**")
+                            println(grandParentGroup)
+                            println("************************")
+                        }
+                    }
+                    
+                    
                     self.tableView.reloadData()
                     
                 }
