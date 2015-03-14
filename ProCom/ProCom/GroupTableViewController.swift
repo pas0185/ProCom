@@ -16,6 +16,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     let TEST_LOW_GROUP_ID = "e6rLvyv80V"
     
     var user: PFUser?
+    var currentGroup: Group? = nil
     var groupArray: [Group] = []
     var convoArray: [Convo] = []
     
@@ -99,7 +100,6 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
             }
         })
     }
-
     
     func buildGroupHierarchy(convos: [Convo]) {
         
@@ -135,82 +135,6 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         
         // If no parent, he is the top level, return it
         return group
-    }
-    
-    
-    func recursiveGroupFetch(groupId: String) {
-        
-        let query = Group.query()
-        query.includeKey(PARENT_GROUP_KEY)
-        
-        query.getObjectInBackgroundWithId(groupId, block:{(PFObject object, NSError error) in
-            
-            if (error == nil) {
-                if let group = object as? Group {
-                    
-                    self.groupArray.append(group)
-                    
-
-                    
-                    println("**GROUP PRINTOUT START**")
-                    println("Fetched group with ID: \(groupId)")
-                    println(group)
-                    println("************************")
-                    
-                    
-                    if let parentGroup = group[PARENT_GROUP_KEY] as Group? {
-                        
-
-
-                        self.groupArray.append(parentGroup)
-                        
-                        println("**PARENT GROUP PRINTOUT START**")
-                        println(parentGroup)
-                        println("************************")
-                        
-                        if let grandParentGroup = parentGroup[PARENT_GROUP_KEY] as? Group {
-                            self.groupArray.append(grandParentGroup)
-                            println("**GRANDPARENT GROUP PRINTOUT START**")
-                            println(grandParentGroup)
-                            println("************************")
-                        }
-                    }
-                    
-                    
-                    self.tableView.reloadData()
-                    
-                }
-                
-            }
-            else {
-                println("An error occurred while fetching group with ID: \(groupId)")
-            }
-        })
-    }
-    
-
-    func fetchGroupAndAddToArray(groupId: String) {
-        
-        let query = Group.query()
-        query.includeKey(SUB_GROUP_KEY)
-        
-        query.getObjectInBackgroundWithId(groupId, block:{(PFObject object, NSError error) in
-            
-            if (error == nil) {
-                if let group = object as? Group {
-                    
-                    println("Fetched group with ID: \(groupId)")
-                    
-                    self.groupArray.append(group)
-                    self.tableView.reloadData()
-                    
-                }
-                
-            }
-            else {
-                println("An error occurred while fetching group with ID: \(groupId)")
-            }
-        })
     }
     
     // MARK: - Push Data
@@ -295,11 +219,14 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         // Return the number of rows in the section.
         
         if section == GROUP_TABLE_VIEW_SECTION {
+            
             return self.groupArray.count
         }
 
         if section == CONVO_TABLE_VIEW_SECTION {
-            return self.convoArray.count
+            
+            return 0
+//            return self.convoArray.count
         }
         
         return 0
@@ -332,28 +259,15 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         
         if indexPath.section == GROUP_TABLE_VIEW_SECTION {
             
-            var group = self.groupArray[indexPath.row]
-
+            var selectedGroup = self.groupArray[indexPath.row]
             
-            for sub in group.subGroups {
-                let subGroup: Group = sub as Group
-                self.groupArray.append(subGroup)
-            }
+            var query = Group.query()
+            query.fromLocalDatastore()
             
-            //        self.groupArray.removeAll(keepCapacity: false)
-            //        self.groupArray.extend(group.subGroups as [PFObject]!)
-            
-            //        if let group = self.groupArray[indexPath.row] as Group {
-            //
-            //            println("selected group: \(group)")
-            //            println("his subgroups: \(group.subGroups)")
-            //
-            //            self.groupArray.removeAll(keepCapacity: false)
-            //
-            //            self.groupArray.extend(group.subGroups as [PFObject]!)
-            
-            //        }
-            
+            query.whereKey(PARENT_GROUP_KEY, equalTo: selectedGroup)
+            var subGroups: [Group] = query.findObjects() as [Group]
+            println("\(subGroups.count) in the selected group")
+            self.groupArray = subGroups
             
         }
         
@@ -363,23 +277,83 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
 
         }
         
-        
-//        self.groupArray.removeAll(keepCapacity: false)
-//        self.groupArray.extend(group.subGroups as [PFObject]!)
-        
-//        if let group = self.groupArray[indexPath.row] as Group {
-//            
-//            println("selected group: \(group)")
-//            println("his subgroups: \(group.subGroups)")
-//            
-//            self.groupArray.removeAll(keepCapacity: false)
-//            
-//            self.groupArray.extend(group.subGroups as [PFObject]!)
-        
-//        }
-        
         self.tableView.reloadData()
         
         return
     }
 }
+
+
+//    func recursiveGroupFetch(groupId: String) {
+//
+//        let query = Group.query()
+//        query.includeKey(PARENT_GROUP_KEY)
+//
+//        query.getObjectInBackgroundWithId(groupId, block:{(PFObject object, NSError error) in
+//
+//            if (error == nil) {
+//                if let group = object as? Group {
+//
+//                    self.groupArray.append(group)
+//
+//
+//
+//                    println("**GROUP PRINTOUT START**")
+//                    println("Fetched group with ID: \(groupId)")
+//                    println(group)
+//                    println("************************")
+//
+//
+//                    if let parentGroup = group[PARENT_GROUP_KEY] as Group? {
+//
+//
+//
+//                        self.groupArray.append(parentGroup)
+//
+//                        println("**PARENT GROUP PRINTOUT START**")
+//                        println(parentGroup)
+//                        println("************************")
+//
+//                        if let grandParentGroup = parentGroup[PARENT_GROUP_KEY] as? Group {
+//                            self.groupArray.append(grandParentGroup)
+//                            println("**GRANDPARENT GROUP PRINTOUT START**")
+//                            println(grandParentGroup)
+//                            println("************************")
+//                        }
+//                    }
+//
+//
+//                    self.tableView.reloadData()
+//
+//                }
+//
+//            }
+//            else {
+//                println("An error occurred while fetching group with ID: \(groupId)")
+//            }
+//        })
+//    }
+
+//    func fetchGroupAndAddToArray(groupId: String) {
+//
+//        let query = Group.query()
+//        query.includeKey(SUB_GROUP_KEY)
+//
+//        query.getObjectInBackgroundWithId(groupId, block:{(PFObject object, NSError error) in
+//
+//            if (error == nil) {
+//                if let group = object as? Group {
+//
+//                    println("Fetched group with ID: \(groupId)")
+//
+//                    self.groupArray.append(group)
+//                    self.tableView.reloadData()
+//
+//                }
+//
+//            }
+//            else {
+//                println("An error occurred while fetching group with ID: \(groupId)")
+//            }
+//        })
+//    }
