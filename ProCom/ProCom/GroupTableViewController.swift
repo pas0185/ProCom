@@ -36,17 +36,20 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        var user = PFUser.currentUser()
         
-        // For now, just get all groups from the network and save them for later
-        self.fetchAllGroupsFromNetworkAndSaveToLocal()
-        
-        // Get all convos the user is subscribed to
-        self.getConvosForUser(TEST_USER_ID)
+        if user != nil {
+            
+            // Fetch groups and convos from network, pin to local datastore
+            self.fetchAndPinAllGroups()
+            self.fetchAndPinConvosForUser(user)
+        }
     }
     
     // MARK: - Fetch Data
     
-    func fetchAllGroupsFromNetworkAndSaveToLocal() {
+    func fetchAndPinAllGroups() {
         
         let query = Group.query()
         query.includeKey(PARENT_GROUP_KEY)
@@ -64,39 +67,27 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         })
     }
     
-    func getConvosForUser(userId: String) {
-        // Fetch conversations for a user
+    func fetchAndPinConvosForUser(user: PFUser) {
+        // Fetch a user's subscribed conversations from the network
         
-        let userQuery = PFQuery(className: "_User")
+        let convoQuery = Convo.query()
+        convoQuery.whereKey(USERS_KEY, equalTo: user)
+        convoQuery.includeKey(GROUP_KEY)
         
-        var convos = NSArray()
-        
-        userQuery.getObjectInBackgroundWithId(userId, block:{(PFObject user, NSError error) in
+        convoQuery.findObjectsInBackgroundWithBlock ({
+            (objects: [AnyObject]!, error: NSError!) -> Void in
             
-            if (user != nil) {
-                
-                let queryConvo = PFQuery(className: "Convo")
-                queryConvo.whereKey("users", equalTo: user)
-                queryConvo.includeKey("groupId")
-                
-                queryConvo.findObjectsInBackgroundWithBlock ({
-                    (objects: [AnyObject]!, error: NSError!) -> Void in
+            if (error == nil) {
+                println("Fetched \(objects.count) convo objects from network")
+                dispatch_async(dispatch_get_main_queue()) {
                     
-                    if (error == nil) {
-                        println("Fetched \(objects.count) convo objects")
-                        dispatch_async(dispatch_get_main_queue()) {
-                            
-                            println("Pinnning convo objects")
-                            PFObject.pinAll(objects)
-                            println("Done pinning convo objects")
-                            
-                        }
-                        
-                        self.convoArray = objects as [Convo]
-                        
-                        self.buildGroupHierarchy(self.convoArray)
-                    }
-                })
+                    println("Pinnning convo objects")
+                    PFObject.pinAll(objects)
+                    println("Done pinning convo objects")
+                    
+                    self.convoArray = objects as [Convo]
+                    self.buildGroupHierarchy(self.convoArray)
+                }
             }
         })
     }
