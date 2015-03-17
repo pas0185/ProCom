@@ -24,8 +24,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         Parse.setApplicationId("n3twpTW37Eh9SkLFRWM41bjmw2IoYPdb2dh3OAQC", clientKey: "TG5IOJyDtOkkijqBt3BXlSa1gKtxUm7k2dXBYxuF")
         
+        self.signInUser(PATRICK_USERNAME, password: PATRICK_PASSWORD, synchronous: true)
+        
         
         return true
+    }
+    
+    func signInUser(username: String, password: String, synchronous: Bool) {
+        
+        // Synchronous
+        if synchronous {
+            var user = PFUser.logInWithUsername(username, password: password)
+            if (user != nil) {
+                println("Successfully logged in \(username)")
+            }
+            else {
+                println("Failed to log in \(username)")
+            }
+        }
+            
+        // Asynchronous
+        else {
+            PFUser.logInWithUsernameInBackground(username, password: password) {
+                (user: PFUser!, error: NSError!) -> Void in
+                if (user != nil) {
+                    println("Successfully logged in \(username)")
+                }
+                else {
+                    println("Failed to log in \(username)")
+                }
+            }
+        }
     }
     
     func testGetConvosForUser() {
