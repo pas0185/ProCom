@@ -35,15 +35,26 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     }
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
 
-        var user = PFUser.currentUser()
-        
-        if user != nil {
+        if let g = currentGroup as Group! {
             
-            // Fetch groups and convos from network, pin to local datastore
-            self.fetchAndPinAllGroups()
-            self.fetchAndPinConvosForUser(user)
+            // A group is assigned; we know which groups belong here
+            self.groupArray = g.getSubGroups()
+            self.convoArray = g.getSubConvos()
+            
+        }
+        else {
+            // This is the root group view, do the initial loading
+
+            var user = PFUser.currentUser()
+            if user != nil {
+                
+                // Fetch groups and convos from network, pin to local datastore
+                self.fetchAndPinAllGroups()
+                self.fetchAndPinConvosForUser(user)
+            }
         }
     }
     
@@ -61,7 +72,6 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
                     println("Pinnning group objects")
                     PFObject.pinAll(objects)
                     println("Done pinning group objects")
-                    
                 }
             }
         })
@@ -85,8 +95,8 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
                     PFObject.pinAll(objects)
                     println("Done pinning convo objects")
                     
-                    self.convoArray = objects as [Convo]
-                    self.buildGroupHierarchy(self.convoArray)
+                    var convos = objects as [Convo]
+                    self.buildGroupHierarchy(convos)
                 }
             }
         })
@@ -152,9 +162,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     @IBAction func addButtonPressed(sender: AnyObject) {
 
         // User tapped 'add' button
-        
-        self.buildGroupHierarchy(self.convoArray)
-        
+
 //        self.promptGroupCreation()
         
     }
@@ -176,10 +184,10 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
             if alertView.title == "New Group" {
                 if let field = alertView.textFieldAtIndex(0) {
                     if let title = field.text {
-                        // Make new group
+                        // TODO: Make new group
                         
                         
-                        var newGroup = Group(name:title, parentId: "")
+                        var newGroup = Group(name:title, parentId: self.currentGroup!.objectId)
                         
 //                        if let parentGroup = self.group {
 //                            newGroup.parentId = parentGroup.objectId
@@ -216,8 +224,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
 
         if section == CONVO_TABLE_VIEW_SECTION {
             
-            return 0
-//            return self.convoArray.count
+            return self.convoArray.count
         }
         
         return 0
@@ -247,18 +254,21 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        
         if indexPath.section == GROUP_TABLE_VIEW_SECTION {
             
-            var selectedGroup = self.groupArray[indexPath.row]
+            var selectedGroup = self.groupArray[indexPath.row] as Group
             
-            var query = Group.query()
-            query.fromLocalDatastore()
+            self.groupArray = selectedGroup.getSubGroups()
+            self.convoArray = selectedGroup.getSubConvos()
             
-            query.whereKey(PARENT_GROUP_KEY, equalTo: selectedGroup)
-            var subGroups: [Group] = query.findObjects() as [Group]
-            println("\(subGroups.count) in the selected group")
-            self.groupArray = subGroups
+//
+//            var query = Group.query()
+//            query.fromLocalDatastore()
+//            
+//            query.whereKey(PARENT_GROUP_KEY, equalTo: selectedGroup)
+//            var subGroups: [Group] = query.findObjects() as [Group]
+//            println("\(subGroups.count) in the selected group")
+//            self.groupArray = subGroups
             
         }
         
