@@ -137,18 +137,24 @@ class BlurbTableViewController: JSQMessagesViewController {
         avatars[name] = userImage
     }
     
-    
-    // TODO: Send a query to post to a value on the database
-    func sendMessage(text: String!, sender: String!, convoid: String!){
-        var blurb = PFObject(className: "Blurb")
-        blurb["text"] = text
-//        blurb["userId"] = self.TEST_USER_ID
-//        blurb["convoId"] = self.TEST_CONVO_ID
+    func sendMessage(text: String!, sender: String!, convo: Convo){
+        
+        // TODO: fix Blurb's parameters and class members
+        var blurb = Blurb(text: text, sender: sender, date: NSDate(), imageUrl: nil)
+        blurb[CONVO_ID] = convo
+        blurb[USER_ID] = PFUser.currentUser()
+        blurb[USERNAME] = PFUser.currentUser()!.username
+        blurb[TEXT] = text
+        blurb.sender_ = PFUser.currentUser()!.username
+        
         blurb.saveInBackgroundWithBlock {
             (success: Bool, error: NSError!) -> Void in
             if (success) {
                 NSLog("Blurb: %@", blurb)
-                blurb.save()
+                self.blurbs.append(blurb)
+                self.finishReceivingMessage()
+                self.collectionView.reloadData()
+                
             } else {
                 NSLog("There was a problem sending the message")
             }
@@ -167,10 +173,11 @@ class BlurbTableViewController: JSQMessagesViewController {
     
     override func didPressSendButton(button: UIButton!, withMessageText text: String!, sender: String!, date: NSDate!) {
 
+
         JSQSystemSoundPlayer.jsq_playMessageSentSound()
-//        sendMessage(text, sender: PFUser.currentUser().objectId, convoid: TEST_CONVO_ID)
+        sendMessage(text, sender: PFUser.currentUser().objectId, convo: self.convo!)
 //        sendMessage(text, sender: self.TEST_USER_ID, convoid: TEST_CONVO_ID)
-//        finishSendingMessage()
+        finishSendingMessage()
     }
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, messageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageData! {
@@ -207,7 +214,7 @@ class BlurbTableViewController: JSQMessagesViewController {
         let cell = super.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as JSQMessagesCollectionViewCell
         
         let blurb = self.blurbs[indexPath.row]
-        if blurb.sender() == sender {
+        if blurb.sender() == PFUser.currentUser() {
             cell.textView.textColor = UIColor.blackColor()
         } else {
             cell.textView.textColor = UIColor.whiteColor()

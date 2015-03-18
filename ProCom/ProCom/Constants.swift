@@ -14,7 +14,10 @@ let PARENT_GROUP_KEY = "parent"
 let USERS_KEY = "users"
 
 let BLURB_CLASS = "Blurb"
-
+let USER_ID = "userId"
+let CONVO_ID = "convoId"
+let TEXT = "text"
+let USERNAME = "username"
 
 let GROUP_TABLE_VIEW_SECTION = 0
 

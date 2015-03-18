@@ -21,13 +21,11 @@ class Blurb: PFObject, JSQMessageData {
     
     lazy var blurbs = [Blurb]()
     
-    
-    
     init(text: String?, sender: String?, date: NSDate?, imageUrl: String?) {
         text_ = text!
         sender_ = sender!
         date_ = date!
-        
+            
         super.init()
     }
     
