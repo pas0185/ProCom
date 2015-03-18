@@ -23,10 +23,29 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     // MARK: - Initialization
     
     init(group: Group?) {
+
+        super.init(style: UITableViewStyle.Plain)
         
         self.currentGroup = group
         
-        super.init(style: UITableViewStyle.Plain)
+        if self.currentGroup == nil {
+            println("currentgroup is nil; this is the root group, I hope")
+            var user = PFUser.currentUser()
+            if user != nil {
+                println("current user exists! Fetch his shit")
+                // Fetch groups and convos from network, pin to local datastore
+                self.fetchAndPinAllGroups()
+                self.fetchAndPinConvosForUser(user)
+            }
+            
+        }
+        else {
+            println("currentgroup aint nil")
+            var g = self.currentGroup!
+            self.groupArray = g.getSubGroups()
+            self.convoArray = g.getSubConvos()
+
+        }
     }
     
     override init(style: UITableViewStyle) {
@@ -44,24 +63,36 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     override func viewDidLoad() {
         
         super.viewDidLoad()
-
-        if let g = self.currentGroup as Group! {
-            
-            // A group is assigned; we know which groups belong here
-            self.groupArray = g.getSubGroups()
-            self.convoArray = g.getSubConvos()
-            
-        }
-        else {
-
-            var user = PFUser.currentUser()
-            if user != nil {
-                
-                // Fetch groups and convos from network, pin to local datastore
-                self.fetchAndPinAllGroups()
-                self.fetchAndPinConvosForUser(user)
-            }
-        }
+        println("group view did load")
+        
+//        if self.currentGroup != nil {
+//            println("currentgroup aint nil")
+//            var g = self.currentGroup!
+//            self.groupArray = g.getSubGroups()
+//            self.convoArray = g.getSubConvos()
+//            
+//            
+//        }
+//        
+////        if let g = self.currentGroup as Group! {
+////            
+////            println("currentgroup is not nil, thats good!")
+////            // A group is assigned; we know which groups belong here
+////            self.groupArray = g.getSubGroups()
+////            self.convoArray = g.getSubConvos()
+////            
+////        }
+//        else {
+//
+//            println("currentgroup is nil, check current user")
+//            var user = PFUser.currentUser()
+//            if user != nil {
+//                println("current user exists! Fetch his shit")
+//                // Fetch groups and convos from network, pin to local datastore
+//                self.fetchAndPinAllGroups()
+//                self.fetchAndPinConvosForUser(user)
+//            }
+//        }
     }
     
     // MARK: - Fetch Data
@@ -267,8 +298,9 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
             
             var selectedGroup = self.groupArray[indexPath.row] as Group
             
-//            var viewController = GroupTableViewController(group: selectedGroup)
-            var viewController = GroupTableViewController(nibName: self.nibName, bundle: self.nibBundle)
+            var viewController = GroupTableViewController(group: selectedGroup)
+//            var viewController = GroupTableViewController(nibName: self.nibName, bundle: self.nibBundle)
+            
             self.navigationController!.pushViewController(viewController, animated: true)
             
 //
@@ -288,7 +320,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
 
         }
         
-        self.tableView.reloadData()
+//        self.tableView.reloadData()
         
         return
     }
