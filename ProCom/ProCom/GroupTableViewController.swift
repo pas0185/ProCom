@@ -15,7 +15,6 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     let HOME_GROUP_ID = "fZRM5e8UVo"
     let TEST_LOW_GROUP_ID = "e6rLvyv80V"
     
-    var user: PFUser?
     var currentGroup: Group? = nil
     var groupArray: [Group] = []
     var convoArray: [Convo] = []
@@ -63,7 +62,6 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        println("group view did load")
         
 //        if self.currentGroup != nil {
 //            println("currentgroup aint nil")

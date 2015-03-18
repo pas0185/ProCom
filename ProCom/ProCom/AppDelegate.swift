@@ -16,21 +16,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        //Parse key set up
         
+        // Parse setup
         Group.registerSubclass()
         Convo.registerSubclass()
         Parse.enableLocalDatastore()
-        
         Parse.setApplicationId("n3twpTW37Eh9SkLFRWM41bjmw2IoYPdb2dh3OAQC", clientKey: "TG5IOJyDtOkkijqBt3BXlSa1gKtxUm7k2dXBYxuF")
         
+        // Sign me in
         self.signInUser(PATRICK_USERNAME, password: PATRICK_PASSWORD, synchronous: true)
+        
+        // Configure main view
+        self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        self.window?.makeKeyAndVisible()
         
         var navController = UINavigationController()
         self.window?.rootViewController = navController
         
         var rootGroupView = GroupTableViewController(group: nil)
         navController.pushViewController(rootGroupView, animated: true)
+
         
         return true
     }
