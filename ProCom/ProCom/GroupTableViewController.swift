@@ -274,7 +274,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
 
             var convo = self.convoArray[indexPath.row]
             
-            var convoView = BlurbTableViewController()
+            var convoView = BlurbTableViewController(convo: convo)
             
             self.navigationController?.pushViewController(convoView, animated: true)
             

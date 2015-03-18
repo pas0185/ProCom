@@ -13,6 +13,8 @@ let SUB_GROUP_KEY = "subGroups"
 let PARENT_GROUP_KEY = "parent"
 let USERS_KEY = "users"
 
+let BLURB_CLASS = "Blurb"
+
 
 let GROUP_TABLE_VIEW_SECTION = 0
 

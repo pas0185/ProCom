@@ -10,100 +10,97 @@ import UIKit
 
 class BlurbTableViewController: JSQMessagesViewController {
     
-    var TEST_USER_ID = "KWX6vxRm6s"
-    var TEST_CONVO_ID = "bVCfzNGIqt"
+//    var TEST_USER_ID = "KWX6vxRm6s"
+//    var TEST_CONVO_ID = "bVCfzNGIqt"
     
 //    blurbconvoid = "wuxLc8VgGz"
     var user: PFUser? // PFUser.currentUser().objectId
-    var blurbs = [Blurb]()
+    var blurbs: [Blurb] = []
+    var convo: Convo?
+    
     var refreshTime = NSTimer()
     var avatars = Dictionary<String, UIImage>()
     var outgoingBubbleImageView = JSQMessagesBubbleImageFactory.outgoingMessageBubbleImageViewWithColor(UIColor(red: 148/255, green: 34/255, blue: 50/255.0, alpha: 1))
     var incomingBubbleImageView = JSQMessagesBubbleImageFactory.incomingMessageBubbleImageViewWithColor(UIColor.grayColor())
     
     
+    init(convo: Convo) {
+        super.init()
+        self.convo = convo
+    }
     
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+    }
+    
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+    }
+    
+    
+    func fetchBlurbsForConvo(convo: Convo) {
+        
+        automaticallyScrollsToMostRecentMessage = true
+        
+        var user = PFUser.currentUser()
+    
+        if (user != nil) {
+    
+            let queryBlurb = PFQuery(className: "Blurb")
+            queryBlurb.includeKey("userId")
+            queryBlurb.includeKey("createdAt")
+            
+            queryBlurb.whereKey("convoId", equalTo: convo)
+            queryBlurb.orderByAscending("createdAt")
+            
+            //Sending off query
+            queryBlurb.findObjectsInBackgroundWithBlock({(NSArray array, NSError error) in
+                
+                if (error == nil) {
+                    
+                    for a in array {
+                        if let b = a as? PFObject {
+                            var message: String
+                            var user: String
+                            var date: NSDate
+                            if let blurbText = b.objectForKey("text") as? String
+                            {
+                                NSLog("text: %@", blurbText)
+                                message = blurbText
+                                if let blurbSender = b.objectForKey("userId") as? PFObject
+                                {
+                                    var username: String = blurbSender["username"] as String
+                                    NSLog("user: %@", username)
+                                    user = username
+                                    
+                                    var blurbDate = b.createdAt
+                                    NSLog("date: %@", blurbDate)
+                                    date = blurbDate
+                                    
+                                    var blurb = Blurb(text: message, sender: user, date: date, imageUrl: nil)
+                                    self.blurbs.append(blurb)
+                                    self.finishReceivingMessage()
+                                }
+                            }
+                        }
+                    }
+                    
+                    NSLog("blurbs %@", array)
+                    
+                    //blurbs for this convo
+                    self.collectionView.reloadData()
+                }
+            })
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        automaticallyScrollsToMostRecentMessage = true
-//        user = PFUser.currentUser()
+        if let c = convo as Convo? {
+            self.fetchBlurbsForConvo(c)
+        }
         
-//        NSLog("Convo ID: %@", blurbconvoid!)
-        
-        let userQuery = PFQuery(className: "_User")
-        
-        userQuery.getObjectInBackgroundWithId(TEST_USER_ID, block:{(PFObject user, NSError error) in
-            
-            
-            if (user != nil) {
-                
-                
-                let queryConvo = PFQuery(className: "Convo")
-                queryConvo.getObjectInBackgroundWithId(self.TEST_CONVO_ID, block: {(PFObject convo, NSError error) in
-                
-                    if (convo != nil) {
-                        NSLog("Convo %@", convo)
-                        let queryBlurb = PFQuery(className: "Blurb")
-                        queryBlurb.includeKey("userId")
-                        queryBlurb.includeKey("createdAt")
-                        
-                        queryBlurb.whereKey("convoId", equalTo: convo)
-                        queryBlurb.orderByAscending("createdAt")
-                        
-                        //Sending off query
-                        queryBlurb.findObjectsInBackgroundWithBlock({(NSArray array, NSError error) in
-                            if (error != nil) {
-                                NSLog("error " + error.localizedDescription)
-                            }
-                            else {
-                                
-                                for a in array{
-                                    if let b = a as? PFObject {
-                                        var message: String
-                                        var user: String
-                                        var date: NSDate
-                                        if let blurbText = b.objectForKey("text") as? String
-                                        {
-                                            NSLog("text: %@", blurbText)
-                                            message = blurbText
-                                            if let blurbSender = b.objectForKey("userId") as? PFObject
-                                            {
-                                                var username: String = blurbSender["username"] as String
-                                                NSLog("user: %@", username)
-                                                user = username
-                                                
-                                                var blurbDate = b.createdAt
-                                                NSLog("date: %@", blurbDate)
-                                                date = blurbDate
-                                                    
-                                                var blurb = Blurb(text: message, sender: user, date: date, imageUrl: nil)
-                                                self.blurbs.append(blurb)
-                                                self.finishReceivingMessage()                                            }
-                                        }
-                                    }
-                                }
-                                
-                                NSLog("blurbs %@", array)
-                                
-                                //blurbs for this convo
-                                self.collectionView.reloadData()
-                            }
-                        })
-                    }
-                })
-            }
-        })
-        
-        
-
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
     }
     
     
@@ -145,8 +142,8 @@ class BlurbTableViewController: JSQMessagesViewController {
     func sendMessage(text: String!, sender: String!, convoid: String!){
         var blurb = PFObject(className: "Blurb")
         blurb["text"] = text
-        blurb["userId"] = self.TEST_USER_ID
-        blurb["convoId"] = self.TEST_CONVO_ID
+//        blurb["userId"] = self.TEST_USER_ID
+//        blurb["convoId"] = self.TEST_CONVO_ID
         blurb.saveInBackgroundWithBlock {
             (success: Bool, error: NSError!) -> Void in
             if (success) {
@@ -172,8 +169,8 @@ class BlurbTableViewController: JSQMessagesViewController {
 
         JSQSystemSoundPlayer.jsq_playMessageSentSound()
 //        sendMessage(text, sender: PFUser.currentUser().objectId, convoid: TEST_CONVO_ID)
-        sendMessage(text, sender: self.TEST_USER_ID, convoid: TEST_CONVO_ID)
-        finishSendingMessage()
+//        sendMessage(text, sender: self.TEST_USER_ID, convoid: TEST_CONVO_ID)
+//        finishSendingMessage()
     }
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, messageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageData! {
@@ -202,8 +199,6 @@ class BlurbTableViewController: JSQMessagesViewController {
         }
     }
     
-    
-    
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.blurbs.count
     }
@@ -211,7 +206,7 @@ class BlurbTableViewController: JSQMessagesViewController {
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = super.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as JSQMessagesCollectionViewCell
         
-        let blurb = self.blurbs[indexPath.item]
+        let blurb = self.blurbs[indexPath.row]
         if blurb.sender() == sender {
             cell.textView.textColor = UIColor.blackColor()
         } else {
@@ -228,7 +223,7 @@ class BlurbTableViewController: JSQMessagesViewController {
     
     // View  usernames above bubbles
     override func collectionView(collectionView: JSQMessagesCollectionView!, attributedTextForMessageBubbleTopLabelAtIndexPath indexPath: NSIndexPath!) -> NSAttributedString! {
-        let blurb = blurbs[indexPath.item];
+        let blurb = blurbs[indexPath.row];
         
         // Sent by me, skip
         if blurb.sender() == sender {
