@@ -39,32 +39,6 @@ class Group: PFObject, PFSubclassing {
         super.init()
     }
     
-    init(networkObjectId: String) {
-        super.init()
-        
-        var query = PFQuery(className: "Group")
-        if let groupObject = query.getObjectWithId(networkObjectId) {
-        
-//        query.getObjectInBackgroundWithId(networkObjectId) {
-//            (groupObject: PFObject!, error: NSError!) -> Void in
-//            if error == nil {
-                NSLog("Successfully retrieved group from the network")
-                
-                self.name = groupObject["name"] as? String
-                self.objectId = groupObject.objectId
-                self.parentId = groupObject["parentId"] as? String
-                let subGroups = groupObject["subGroups"] as [String]
-                
-//                for subGroupId in subGroups {
-//                    let subGroup = Group(networkObjectId: subGroupId)
-//                    self.subGroups.append(subGroup)
-//                }
-            }
-            else {
-                NSLog("Failed to retrieve group from the network")
-            }
-        
-    }
     
     class func parseClassName() -> String! {
         return "Group"
@@ -84,5 +58,30 @@ class Group: PFObject, PFSubclassing {
                 NSLog("Failed to save new group: %@", error.description)
             }
         }
+    }
+    
+    func getSubGroups() -> [Group] {
+        
+        var query = Group.query()
+        query.fromLocalDatastore()
+        
+        query.whereKey(PARENT_GROUP_KEY, equalTo: self)
+        var subGroups: [Group] = query.findObjects() as [Group]
+        println("\(subGroups.count) groups in the selected group")
+        
+        return subGroups
+    }
+    
+    func getSubConvos() -> [Convo] {
+        
+        var query = Convo.query()
+        query.fromLocalDatastore()
+        
+        query.whereKey(GROUP_KEY, equalTo: self)
+        var subConvos: [Convo] = query.findObjects() as [Convo]
+        println("\(subConvos.count) convos in the selected group")
+        
+        
+        return subConvos
     }
 }
