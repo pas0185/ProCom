@@ -12,22 +12,33 @@ import ParseUI
 
 class UserHandlingViewController: PFLogInViewController, PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate  {
 
+    var window: UIWindow?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if (PFUser.currentUser().isAuthenticated() == false)
+        if (PFUser.currentUser() == nil)
         {
             var logInViewController:PFLogInViewController = PFLogInViewController()
             logInViewController.delegate = self
-            self.presentViewController(logInViewController, animated:true, completion: nil)
-            logInViewController.title = "ProCom"
-
+            
+            var signUpViewController:PFSignUpViewController = PFSignUpViewController()
+            signUpController.delegate = self
+            
+            self.presentViewController(logInViewController, animated: true, completion: nil)
         }
-        if (PFUser.currentUser().isAuthenticated())
+        else
         {
-            self.presentViewController(GroupTableViewController(), animated: true, completion: nil)
+            var groupview = GroupTableViewController(group: nil)
+            self.presentViewController(groupview, animated: true, completion: nil)
         }
+        
     }
+    
+    
+    
+    
+
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
