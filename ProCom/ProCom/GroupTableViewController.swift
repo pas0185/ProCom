@@ -264,20 +264,22 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
             
             var selectedGroup = self.groupArray[indexPath.row] as Group
             
-            var viewController = GroupTableViewController(group: selectedGroup)
+            var groupView = GroupTableViewController(group: selectedGroup)
             
-            self.navigationController!.pushViewController(viewController, animated: true)
+            self.navigationController!.pushViewController(groupView, animated: true)
 
         }
         
         if indexPath.section == CONVO_TABLE_VIEW_SECTION {
 
             var convo = self.convoArray[indexPath.row]
-
-            // TODO: load Convo view
+            
+            var convoView = BlurbTableViewController()
+            
+            self.navigationController?.pushViewController(convoView, animated: true)
+            
         }
         
-        return
     }
     
     override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

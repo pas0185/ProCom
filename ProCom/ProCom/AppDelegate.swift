@@ -9,7 +9,6 @@
 import UIKit
 import CoreData
 
-
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -34,7 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window?.rootViewController = navController
         
         var rootGroupView = GroupTableViewController(group: nil)
-        navController.pushViewController(rootGroupView, animated: true)
+        navController.pushViewController(rootGroupView, animated: true)        
         
         return true
     }
