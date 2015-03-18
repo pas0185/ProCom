@@ -23,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Parse.setApplicationId("n3twpTW37Eh9SkLFRWM41bjmw2IoYPdb2dh3OAQC", clientKey: "TG5IOJyDtOkkijqBt3BXlSa1gKtxUm7k2dXBYxuF")
         
         // Sign me in
-        self.signInUser(PATRICK_USERNAME, password: PATRICK_PASSWORD, synchronous: true)
+//        self.signInUser(PATRICK_USERNAME, password: PATRICK_PASSWORD, synchronous: true)
         
         // Configure main view
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
@@ -32,8 +32,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var navController = UINavigationController()
         self.window?.rootViewController = navController
         
-        var rootGroupView = GroupTableViewController(group: nil)
-        navController.pushViewController(rootGroupView, animated: true)        
+        
+        var userHandlingView = UserHandlingViewController()
+        navController.pushViewController(userHandlingView, animated: true)
+        
+//        var rootGroupView = GroupTableViewController(group: nil)
+//        navController.pushViewController(rootGroupView, animated: true)        
         
         return true
     }
