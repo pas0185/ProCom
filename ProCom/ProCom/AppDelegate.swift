@@ -35,7 +35,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         var rootGroupView = GroupTableViewController(group: nil)
         navController.pushViewController(rootGroupView, animated: true)
-
         
         return true
     }

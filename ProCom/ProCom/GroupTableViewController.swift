@@ -62,35 +62,6 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        
-//        if self.currentGroup != nil {
-//            println("currentgroup aint nil")
-//            var g = self.currentGroup!
-//            self.groupArray = g.getSubGroups()
-//            self.convoArray = g.getSubConvos()
-//            
-//            
-//        }
-//        
-////        if let g = self.currentGroup as Group! {
-////            
-////            println("currentgroup is not nil, thats good!")
-////            // A group is assigned; we know which groups belong here
-////            self.groupArray = g.getSubGroups()
-////            self.convoArray = g.getSubConvos()
-////            
-////        }
-//        else {
-//
-//            println("currentgroup is nil, check current user")
-//            var user = PFUser.currentUser()
-//            if user != nil {
-//                println("current user exists! Fetch his shit")
-//                // Fetch groups and convos from network, pin to local datastore
-//                self.fetchAndPinAllGroups()
-//                self.fetchAndPinConvosForUser(user)
-//            }
-//        }
     }
     
     // MARK: - Fetch Data
@@ -267,11 +238,8 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
-//        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as UITableViewCell
 
         let cell = UITableViewCell()
-        
         
         if indexPath.section == GROUP_TABLE_VIEW_SECTION {
             
@@ -297,18 +265,8 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
             var selectedGroup = self.groupArray[indexPath.row] as Group
             
             var viewController = GroupTableViewController(group: selectedGroup)
-//            var viewController = GroupTableViewController(nibName: self.nibName, bundle: self.nibBundle)
             
             self.navigationController!.pushViewController(viewController, animated: true)
-            
-//
-//            var query = Group.query()
-//            query.fromLocalDatastore()
-//            
-//            query.whereKey(PARENT_GROUP_KEY, equalTo: selectedGroup)
-//            var subGroups: [Group] = query.findObjects() as [Group]
-//            println("\(subGroups.count) in the selected group")
-//            self.groupArray = subGroups
             
         }
         
@@ -316,9 +274,8 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
 
             var convo = self.convoArray[indexPath.row]
 
+            // TODO: load Convo view
         }
-        
-//        self.tableView.reloadData()
         
         return
     }
