@@ -110,13 +110,11 @@
 		CBCBA2C41AA665B000B2E303 /* JSQMessagesTypingIndicatorFooterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = CBCBA2741AA665B000B2E303 /* JSQMessagesTypingIndicatorFooterView.xib */; };
 		CBCBA2C51AA665B000B2E303 /* JSQSystemSoundPlayer.h in Headers */ = {isa = PBXBuildFile; fileRef = CBCBA2771AA665B000B2E303 /* JSQSystemSoundPlayer.h */; };
 		CBCBA2C61AA665B000B2E303 /* JSQSystemSoundPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = CBCBA2781AA665B000B2E303 /* JSQSystemSoundPlayer.m */; };
-		CBCBA2C81AA66E7800B2E303 /* BlurbScene.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CBCBA2C71AA66E7800B2E303 /* BlurbScene.storyboard */; };
 		CBF01B521A9AE53300364AB6 /* BlurbTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF01B511A9AE53300364AB6 /* BlurbTableViewController.swift */; };
 		CBF01B6A1AA3BD8900364AB6 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF01B691AA3BD8900364AB6 /* SignUpViewController.swift */; };
 		E27B3FE31A8D75B800AE18C5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27B3FE21A8D75B800AE18C5 /* AppDelegate.swift */; };
 		E27B3FE61A8D75B800AE18C5 /* ProCom.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E27B3FE41A8D75B800AE18C5 /* ProCom.xcdatamodeld */; };
 		E27B3FEF1A8D75B800AE18C5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E27B3FEE1A8D75B800AE18C5 /* Images.xcassets */; };
-		E27B3FF21A8D75B800AE18C5 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = E27B3FF01A8D75B800AE18C5 /* LaunchScreen.xib */; };
 		E27B3FFE1A8D75B800AE18C5 /* ProComTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27B3FFD1A8D75B800AE18C5 /* ProComTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -234,7 +232,6 @@
 		CBCBA2741AA665B000B2E303 /* JSQMessagesTypingIndicatorFooterView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = JSQMessagesTypingIndicatorFooterView.xib; sourceTree = "<group>"; };
 		CBCBA2771AA665B000B2E303 /* JSQSystemSoundPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSQSystemSoundPlayer.h; sourceTree = "<group>"; };
 		CBCBA2781AA665B000B2E303 /* JSQSystemSoundPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSQSystemSoundPlayer.m; sourceTree = "<group>"; };
-		CBCBA2C71AA66E7800B2E303 /* BlurbScene.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = BlurbScene.storyboard; sourceTree = "<group>"; };
 		CBF01B511A9AE53300364AB6 /* BlurbTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlurbTableViewController.swift; sourceTree = "<group>"; };
 		CBF01B691AA3BD8900364AB6 /* SignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		E27B3FDD1A8D75B800AE18C5 /* ProCom.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProCom.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -726,7 +723,6 @@
 				CBCBA2991AA665B000B2E303 /* JSQMessagesViewController.xib in Resources */,
 				CBCBA27C1AA665B000B2E303 /* bubble_min@2x.png in Resources */,
 				CBCBA2801AA665B000B2E303 /* bubble_stroked@2x.png in Resources */,
-				E27B3FF21A8D75B800AE18C5 /* LaunchScreen.xib in Resources */,
 				CBCBA2841AA665B000B2E303 /* bubble_tailless@2x.png in Resources */,
 				CBCBA2881AA665B000B2E303 /* typing@2x.png in Resources */,
 				CBCBA27A1AA665B000B2E303 /* bubble@2x.png in Resources */,
@@ -734,7 +730,6 @@
 				CBCBA28A1AA665B000B2E303 /* message_sent.aiff in Resources */,
 				CBCBA27E1AA665B000B2E303 /* bubble_min_tailless@2x.png in Resources */,
 				CBCBA2831AA665B000B2E303 /* bubble_tailless.png in Resources */,
-				CBCBA2C81AA66E7800B2E303 /* BlurbScene.storyboard in Resources */,
 				CBCBA2BE1AA665B000B2E303 /* JSQMessagesLoadEarlierHeaderView.xib in Resources */,
 				E27B3FEF1A8D75B800AE18C5 /* Images.xcassets in Resources */,
 			);
@@ -754,7 +749,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CB5711091A94EE80001FA72F /* SignUpViewController.swift in Sources */,
 				CBCBA2901AA665B000B2E303 /* UIColor+JSQMessages.m in Sources */,
 				CBCBA2981AA665B000B2E303 /* JSQMessagesViewController.m in Sources */,
 				CBCBA2AA1AA665B000B2E303 /* JSQMessage.m in Sources */,
@@ -780,7 +774,6 @@
 				CBCBA2941AA665B000B2E303 /* UIView+JSQMessages.m in Sources */,
 				539D3B181A8FDD980093533F /* Convo.swift in Sources */,
 				1559537D1AAF87DB005777A4 /* Constants.swift in Sources */,
-				CBA7D4601A9285E50065AB70 /* BlurbViewController.swift in Sources */,
 				CBCBA2BB1AA665B000B2E303 /* JSQMessagesLabel.m in Sources */,
 				539D3B161A8FDCEC0093533F /* Group.swift in Sources */,
 				CBF01B6A1AA3BD8900364AB6 /* SignUpViewController.swift in Sources */,
