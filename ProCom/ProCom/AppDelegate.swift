@@ -56,33 +56,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
         }
     }
-    
-    func testGetConvosForUser() {
         
-        let patrickUserId = "kRaibtYs3r"
-        let userQuery = PFQuery(className: "_User")
-        
-        userQuery.getObjectInBackgroundWithId(patrickUserId, block:{(PFObject user, NSError error) in
-            
-            if (user != nil) {
-            
-                let queryConvo = PFQuery(className: "Convo")
-                queryConvo.whereKey("users", equalTo: user)
-                queryConvo.findObjectsInBackgroundWithBlock({(NSArray convos, NSError error) in
-                    if (error != nil) {
-                        NSLog("error " + error.localizedDescription)
-                    }
-                    else {
-                        NSLog("convos %@", convos as NSArray)
-                        
-                        // Found Convos for this user
-                        
-                    }
-                })
-            }
-        })
-    }
-    
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: NSString?, annotation: AnyObject) -> Bool {
         
         var wasHandled:Bool = FBAppCall.handleOpenURL(url, sourceApplication: sourceApplication)
