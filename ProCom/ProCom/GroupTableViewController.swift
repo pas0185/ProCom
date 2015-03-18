@@ -22,6 +22,13 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     
     // MARK: - Initialization
     
+    init(group: Group?) {
+        
+        self.currentGroup = group
+        
+        super.init(style: UITableViewStyle.Plain)
+    }
+    
     override init(style: UITableViewStyle) {
         super.init(style: style)
     }
@@ -38,7 +45,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         
         super.viewDidLoad()
 
-        if let g = currentGroup as Group! {
+        if let g = self.currentGroup as Group! {
             
             // A group is assigned; we know which groups belong here
             self.groupArray = g.getSubGroups()
@@ -46,7 +53,6 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
             
         }
         else {
-            // This is the root group view, do the initial loading
 
             var user = PFUser.currentUser()
             if user != nil {
@@ -233,8 +239,11 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as UITableViewCell
+//        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as UITableViewCell
 
+        let cell = UITableViewCell()
+        
+        
         if indexPath.section == GROUP_TABLE_VIEW_SECTION {
             
             if let name = self.groupArray[indexPath.row].objectForKey("name") as? String {
@@ -258,8 +267,9 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
             
             var selectedGroup = self.groupArray[indexPath.row] as Group
             
-            self.groupArray = selectedGroup.getSubGroups()
-            self.convoArray = selectedGroup.getSubConvos()
+//            var viewController = GroupTableViewController(group: selectedGroup)
+            var viewController = GroupTableViewController(nibName: self.nibName, bundle: self.nibBundle)
+            self.navigationController!.pushViewController(viewController, animated: true)
             
 //
 //            var query = Group.query()

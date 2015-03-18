@@ -26,6 +26,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         self.signInUser(PATRICK_USERNAME, password: PATRICK_PASSWORD, synchronous: true)
         
+        var navController = UINavigationController()
+        self.window?.rootViewController = navController
+        
+        var rootGroupView = GroupTableViewController(group: nil)
+        navController.pushViewController(rootGroupView, animated: true)
         
         return true
     }

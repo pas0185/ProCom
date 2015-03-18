@@ -12,7 +12,6 @@
 		539D3B161A8FDCEC0093533F /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539D3B151A8FDCEC0093533F /* Group.swift */; };
 		539D3B181A8FDD980093533F /* Convo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539D3B171A8FDD980093533F /* Convo.swift */; };
 		539D3B1A1A8FDE6D0093533F /* GroupTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539D3B191A8FDE6D0093533F /* GroupTableViewController.swift */; };
-		CB33DD8F1A94E85800AE8FCF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CB33DD8E1A94E85800AE8FCF /* Main.storyboard */; };
 		CB33DD961A94E96100AE8FCF /* Bolts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB33DD911A94E96100AE8FCF /* Bolts.framework */; };
 		CB33DD971A94E96100AE8FCF /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB33DD921A94E96100AE8FCF /* Parse.framework */; };
 		CB33DD981A94E96100AE8FCF /* ParseCrashReporting.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB33DD931A94E96100AE8FCF /* ParseCrashReporting.framework */; };
@@ -79,7 +78,6 @@
 		539D3B151A8FDCEC0093533F /* Group.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
 		539D3B171A8FDD980093533F /* Convo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Convo.swift; sourceTree = "<group>"; };
 		539D3B191A8FDE6D0093533F /* GroupTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupTableViewController.swift; sourceTree = "<group>"; };
-		CB33DD8E1A94E85800AE8FCF /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		CB33DD911A94E96100AE8FCF /* Bolts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Bolts.framework; sourceTree = "<group>"; };
 		CB33DD921A94E96100AE8FCF /* Parse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Parse.framework; sourceTree = "<group>"; };
 		CB33DD931A94E96100AE8FCF /* ParseCrashReporting.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseCrashReporting.framework; sourceTree = "<group>"; };
@@ -290,7 +288,6 @@
 			children = (
 				1559537C1AAF87DB005777A4 /* Constants.swift */,
 				E27B3FE21A8D75B800AE18C5 /* AppDelegate.swift */,
-				CB33DD8E1A94E85800AE8FCF /* Main.storyboard */,
 				CB57110C1A951BBD001FA72F /* UserHandling */,
 				539D3B201A8FFABA0093533F /* Group */,
 				539D3B1D1A8FE4E90093533F /* Convo */,
@@ -434,7 +431,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CB33DD8F1A94E85800AE8FCF /* Main.storyboard in Resources */,
 				E27B3FF21A8D75B800AE18C5 /* LaunchScreen.xib in Resources */,
 				E27B3FEF1A8D75B800AE18C5 /* Images.xcassets in Resources */,
 			);
