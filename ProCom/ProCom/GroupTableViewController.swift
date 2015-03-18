@@ -267,7 +267,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
             var viewController = GroupTableViewController(group: selectedGroup)
             
             self.navigationController!.pushViewController(viewController, animated: true)
-            
+
         }
         
         if indexPath.section == CONVO_TABLE_VIEW_SECTION {

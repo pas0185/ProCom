@@ -1,17 +1,15 @@
 //
-//  MessageViewController.swift
+//  BlurbViewController.swift
 //  ProCom
 //
-//  Created by Meshach Joshua on 2/16/15.
+//  Created by Meshach Joshua on 3/4/15.
 //  Copyright (c) 2015 Abraid. All rights reserved.
 //
 
 import UIKit
 
+class BlurbViewController: JSQMessagesViewController {
 
-
-class MessageViewController: UIViewController {
-    
     override func viewDidLoad() {
         super.viewDidLoad()
 
