@@ -324,4 +324,35 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         
         return
     }
+    
+    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+
+        if (section == GROUP_TABLE_VIEW_SECTION && self.groupArray.count > 0)
+            || (section == CONVO_TABLE_VIEW_SECTION && self.convoArray.count > 0) {
+                return TABLE_HEADER_HEIGHT
+        }
+        
+        return 0
+    }
+    
+    override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        var view = UIView(frame: CGRectMake(0, 0, tableView.frame.size.width, TABLE_HEADER_HEIGHT))
+
+        if section == GROUP_TABLE_VIEW_SECTION {
+            var label = UILabel(frame: CGRectMake(0, 0, tableView.frame.size.width, TABLE_HEADER_HEIGHT))
+            label.text = "Groups"
+            label.textAlignment = NSTextAlignment.Center
+            view.addSubview(label)
+        }
+        
+        else if section == CONVO_TABLE_VIEW_SECTION {
+            
+            var label = UILabel(frame: CGRectMake(0, 0, tableView.frame.size.width, TABLE_HEADER_HEIGHT))
+            label.text = "Convos"
+            label.textAlignment = NSTextAlignment.Center
+            view.addSubview(label)
+        }
+        
+        return view
+    }
 }
