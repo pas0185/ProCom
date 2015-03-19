@@ -32,13 +32,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         var navController = UINavigationController()
         self.window?.rootViewController = navController
         
-        
-        var userHandlingView = UserHandlingViewController()
-        navController.pushViewController(userHandlingView, animated: true)
-        
-//        var rootGroupView = GroupTableViewController(group: nil)
-//        navController.pushViewController(rootGroupView, animated: true)        
-        
+        if(PFUser.currentUser() == nil){
+            var userHandlingView = UserHandlingViewController()
+            navController.presentViewController(userHandlingView, animated: true, completion: nil)
+        }
+        else{
+            
+            var rootGroupView = GroupTableViewController(group: nil)
+            navController.pushViewController(rootGroupView, animated: true)
+            
+        }
         return true
     }
     

@@ -34,6 +34,25 @@ class UserHandlingViewController: PFLogInViewController, PFLogInViewControllerDe
         }
         
     }
+    
+    
+    func logInViewController(logInController: PFLogInViewController!, shouldBeginLogInWithUsername username: String!, password: String!) -> Bool {
+        if (username.isEmpty && password.isEmpty) {
+            
+            
+            var alert = UIAlertView()
+            alert.title = "Missing Informatiom"
+            alert.message = "Fill in all information"
+            alert.delegate = nil
+            return false
+        }
+        else
+        {
+            return true // Begin login process
+        }
+        
+    }
+    
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
