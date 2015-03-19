@@ -45,9 +45,23 @@ class BlurbTableViewController: JSQMessagesViewController {
         self.navigationItem.rightBarButtonItem = addButton
     }
     
+    func handler(textField: UITextField!) {
+        println(textField.text)
+    }
+    
     func addButtonClicked() {
         
         println("Add button clicked")
+        
+        let alert = UIAlertController(title: "Add User to this Convo", message: "Enter your buddy's username", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addTextFieldWithConfigurationHandler(handler)
+        
+        alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler:{ (alertAction:UIAlertAction!) in
+            let textf = alert.textFields![0] as UITextField
+            println(textf.text)
+        }))
+        
+        self.presentViewController(alert, animated: true, completion: nil)
     }
     
     func fetchBlurbsForConvo(convo: Convo) {
