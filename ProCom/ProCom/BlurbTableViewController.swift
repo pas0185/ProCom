@@ -41,27 +41,34 @@ class BlurbTableViewController: JSQMessagesViewController {
         }
         
         // Add an 'add user' button to navbar
-        var addButton: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "addButtonClicked")
+        var addButton: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "addUserButtonClicked")
         self.navigationItem.rightBarButtonItem = addButton
     }
     
-    func handler(textField: UITextField!) {
-        println(textField.text)
-    }
-    
-    func addButtonClicked() {
+    func addUserButtonClicked() {
         
-        println("Add button clicked")
+        println("Add user button clicked")
         
         let alert = UIAlertController(title: "Add User to this Convo", message: "Enter your buddy's username", preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addTextFieldWithConfigurationHandler(handler)
-        
+        alert.addTextFieldWithConfigurationHandler(nil)
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil))
         alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler:{ (alertAction:UIAlertAction!) in
-            let textf = alert.textFields![0] as UITextField
-            println(textf.text)
+            let textField = alert.textFields![0] as UITextField
+            let username = textField.text
+            println(username)
+            
+            if let convoId = self.convo?.objectId as String? {
+                
+                self.addUserToConvo(username, convoId: convoId)
+            }
+            
         }))
         
         self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    func addUserToConvo(username: String, convoId: String) {
+        
     }
     
     func fetchBlurbsForConvo(convo: Convo) {
