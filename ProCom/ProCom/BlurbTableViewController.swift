@@ -68,7 +68,16 @@ class BlurbTableViewController: JSQMessagesViewController {
     }
     
     func addUserToConvo(username: String, convoId: String) {
-        
+        PFCloud.callFunctionInBackground("addUserToConvoByUsername", withParameters: ["username": username,
+            "convoId": convoId], block: {
+                (result: AnyObject!, error: NSError!) -> Void in
+                if error == nil {
+                    println("Successfully added user!")
+                }
+                else {
+                    println("Failed to add user" + error.localizedDescription)
+                }
+        })
     }
     
     func fetchBlurbsForConvo(convo: Convo) {
