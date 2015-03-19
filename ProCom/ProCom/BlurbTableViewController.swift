@@ -228,11 +228,11 @@ class BlurbTableViewController: JSQMessagesViewController {
     override func collectionView(collectionView: JSQMessagesCollectionView!, avatarImageViewForItemAtIndexPath indexPath: NSIndexPath!) -> UIImageView! {
         
         let message = blurbs[indexPath.item]
-        if let avatar = avatars[message.sender_] {
+        if let avatar = avatars[message.sender()] {
             return UIImageView(image: avatar)
         } else {
-            setupAvatarImage(message.sender_, imageUrl: message.imageUrl(), incoming: true)
-            return UIImageView(image:avatars[message.sender_])
+            setupAvatarImage(message.sender(), imageUrl: message.imageUrl(), incoming: true)
+            return UIImageView(image:avatars[message.sender()])
         }
     }
     
@@ -280,7 +280,7 @@ class BlurbTableViewController: JSQMessagesViewController {
         let blurb = blurbs[indexPath.item]
         
         // Sent by me, skip
-        if blurb.sender() == sender {
+        if blurb.sender() == PFUser.currentUser().username {
             return CGFloat(0.0);
         }
         
