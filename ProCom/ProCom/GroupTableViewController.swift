@@ -62,6 +62,10 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     override func viewDidLoad() {
         
         super.viewDidLoad()
+        
+        // Add an 'add group' button to navbar
+        var addButton: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "addGroupButtonClicked")
+        self.navigationItem.rightBarButtonItem = addButton
     }
     
     // MARK: - Fetch Data
@@ -146,71 +150,38 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     
     // MARK: - Push Data
     
-    func createGroupAndSendToParse(groupName: String, parentGroupIdOrNil: String?) {
-        var group = Group(name: groupName)
-        group.parentId = parentGroupIdOrNil
-        
-        group.saveInBackgroundWithBlock {
-            (success: Bool, error: NSError!) -> Void in
-            if success {
-                println("Successfully saved Group: \(groupName)")
-                self.groupArray.append(group)
-                self.tableView.reloadData()
-            }
-            else {
-                println("An error occurred while saving Group: \(groupName)")
-            }
-        }
-    }
-    
-    // MARK: - User Interface Controls
-
-    @IBAction func addButtonPressed(sender: AnyObject) {
+    func addGroupButtonClicked() {
 
         // User tapped 'add' button
-
-//        self.promptGroupCreation()
-        
+        self.promptGroupCreation()
     }
     
     func promptGroupCreation() {
         
         // Prompt user for name of new group
-        var alertView = UIAlertView(title: "New Group", message: "Enter the title of your new group", delegate: self, cancelButtonTitle: "Cancel", otherButtonTitles: "OK")
-        
-        alertView.alertViewStyle = UIAlertViewStyle.PlainTextInput
-        alertView.show()
-    }
-    
-    func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
-
-        // Made selection on UIAlertView
-        
-        if buttonIndex == 1 {
-            if alertView.title == "New Group" {
-                if let field = alertView.textFieldAtIndex(0) {
-                    if let title = field.text {
-                        // TODO: Make new group
-                        
-                        
-                        var newGroup = Group(name:title, parentId: self.currentGroup!.objectId)
-                        
-//                        if let parentGroup = self.group {
-//                            newGroup.parentId = parentGroup.objectId
-//                            parentGroup.addSubGroup(newGroup)
-//                        }
-//                        else {
-//                            // No group assigned for this view yet. Assign the new group
-//                            self.assignGroup(newGroup)
-//                        }
-                        
-                        newGroup.saveToNetwork()
-                    }
+        let alert = UIAlertController(title: "Create New Group", message: "Enter a name for your group", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addTextFieldWithConfigurationHandler(nil)
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil))
+        alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler:{ (alertAction:UIAlertAction!) in
+            let textField = alert.textFields![0] as UITextField
+            let groupname = textField.text
+            println(groupname)
+            
+            var newGroup = Group()
+            newGroup[NAME_KEY] = groupname
+            newGroup[PARENT_GROUP_KEY] = self.currentGroup
+            newGroup.saveInBackgroundWithBlock {
+                (success: Bool, error: NSError!) -> Void in
+                if (success) {
+                    println("Successfully saved new group: \(groupname)")
+                }
+                else {
+                    println("Failed to save new group: \(groupname)")
                 }
             }
-        }
+        }))
         
-        self.tableView.reloadData()
+        self.presentViewController(alert, animated: true, completion: nil)
     }
   
     // MARK: - Table view data source

@@ -18,6 +18,7 @@ let USER_ID = "userId"
 let CONVO_ID = "convoId"
 let TEXT = "text"
 let USERNAME = "username"
+let NAME_KEY = "name"
 
 let GROUP_TABLE_VIEW_SECTION = 0
 
