@@ -39,7 +39,7 @@
 
 #import "NSString+JSQMessages.h"
 #import "UIColor+JSQMessages.h"
-
+#import "ProCom-Bridging-Header.h"
 
 static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObservingContext;
 
@@ -277,8 +277,9 @@ static void * kJSQMessagesKeyValueObservingContext = &kJSQMessagesKeyValueObserv
 
 - (void)didPressSendButton:(UIButton *)button
            withMessageText:(NSString *)text
-                    sender:(NSString *)sender
-                      date:(NSDate *)date { }
+                    sender:(NSString *)user
+                   convoid:(NSString *)convoid
+                    date:(NSDate *)date{ }
 
 - (void)didPressAccessoryButton:(UIButton *)sender { }
 

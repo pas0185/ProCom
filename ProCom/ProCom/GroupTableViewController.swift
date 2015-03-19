@@ -8,22 +8,45 @@
 
 import UIKit
 
+
 class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     
-    var convoId: NSString?
+    let TEST_USER_ID = "kRaibtYs3r"
+    let HOME_GROUP_ID = "fZRM5e8UVo"
+    let TEST_LOW_GROUP_ID = "e6rLvyv80V"
     
-    // The Group being displayed
+    var currentGroup: Group? = nil
+    var groupArray: [Group] = []
+    var convoArray: [Convo] = []
     
-    var group: Group?
+    // MARK: - Initialization
     
-    var user: PFUser?
-    
-    init(group: Group) {
-        self.group = group
-        
-        super.init()
-    }
+    init(group: Group?) {
 
+        super.init(style: UITableViewStyle.Plain)
+        
+        self.currentGroup = group
+        
+        if self.currentGroup == nil {
+            println("currentgroup is nil; this is the root group, I hope")
+            var user = PFUser.currentUser()
+            if user != nil {
+                println("current user exists! Fetch his shit")
+                // Fetch groups and convos from network, pin to local datastore
+                self.fetchAndPinAllGroups()
+                self.fetchAndPinConvosForUser(user)
+            }
+            
+        }
+        else {
+            println("currentgroup aint nil")
+            var g = self.currentGroup!
+            self.groupArray = g.getSubGroups()
+            self.convoArray = g.getSubConvos()
+
+        }
+    }
+    
     override init(style: UITableViewStyle) {
         super.init(style: style)
     }
@@ -31,136 +54,157 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
     }
-    
+
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
     }
     
-    // Fetch conversations for a user
-    func getConvosForUser(userId: String) -> NSArray {
+    override func viewDidLoad() {
         
-        let userQuery = PFQuery(className: "_User")
+        super.viewDidLoad()
+    }
+    
+    // MARK: - Fetch Data
+    
+    func fetchAndPinAllGroups() {
         
-        var convos = NSArray()
-        
-        userQuery.getObjectInBackgroundWithId(userId, block:{(PFObject user, NSError error) in
-            
-            if (user != nil) {
-                
-                let queryConvo = PFQuery(className: "Convo")
-                queryConvo.whereKey("users", equalTo: user)
-                queryConvo.findObjectsInBackgroundWithBlock({(NSArray array, NSError error) in
-                    if (error != nil) {
-                        NSLog("error " + error.localizedDescription)
-                    }
-                    else {
-                        NSLog("convos %@", array as NSArray)
-                        
-                        // Found Convos for this user
-                        convos = array
-                    }
-                })
+        let query = Group.query()
+        query.includeKey(PARENT_GROUP_KEY)
+        query.findObjectsInBackgroundWithBlock({(objects:[AnyObject]!, error:NSError!) in
+            if (error == nil) {
+                println("Fetched \(objects.count) group objects")
+                dispatch_async(dispatch_get_main_queue()) {
+                    
+                    println("Pinnning group objects")
+                    PFObject.pinAll(objects)
+                    println("Done pinning group objects")
+                }
             }
         })
-        
-        return convos
     }
     
-    func getGroupsForConvos(convos: NSArray) -> NSArray {
-        var groups: [PFObject] = []
+    func fetchAndPinConvosForUser(user: PFUser) {
+        // Fetch a user's subscribed conversations from the network
+        
+        let convoQuery = Convo.query()
+        convoQuery.whereKey(USERS_KEY, equalTo: user)
+        convoQuery.includeKey(GROUP_KEY)
+        
+        convoQuery.findObjectsInBackgroundWithBlock ({
+            (objects: [AnyObject]!, error: NSError!) -> Void in
+            
+            if (error == nil) {
+                println("Fetched \(objects.count) convo objects from network")
+                dispatch_async(dispatch_get_main_queue()) {
+                    
+                    println("Pinnning convo objects")
+                    PFObject.pinAll(objects)
+                    println("Done pinning convo objects")
+                    
+                    var convos = objects as [Convo]
+                    self.buildGroupHierarchy(convos)
+                }
+            }
+        })
+    }
+    
+    func buildGroupHierarchy(convos: [Convo]) {
+        
+        for c in convos {
+            
+            if let group = c.objectForKey("groupId") as? Group {
+                
+                var topLevelGroup = self.getTopLevelGroup(group)
+                if contains(self.groupArray, topLevelGroup) == false {
+                
+                    // Append new group if not already present
+                    self.groupArray.append(topLevelGroup)
+                }
 
-        for convo in convos {
-            if let c = convo as? PFObject {
-                var parentGroup = c["groupId"] as PFObject
-                groups.append(parentGroup)
             }
         }
         
-        return groups
+        self.tableView.reloadData()
+        
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    func getTopLevelGroup(group: Group) -> Group {
         
-        if let user = self.user {
-            // If a user is assigned for this Group View
+        // Get parent of this group
+        if let parentGroup = group[PARENT_GROUP_KEY] as? Group {
             
-            // OPTION 1
-            // Go get all convoIds for this user
-            let userId: String = user.objectId
+            // Fetch the full object from the local datastore
+            parentGroup.fetchFromLocalDatastore()
             
-            var convos = self.getConvosForUser(userId)
-            var groups = self.getGroupsForConvos(convos)
-            
-        }
-        else {
-            
-            // Just test data
-            let userId: String = "kRaibtYs3r"
-            
-            var convos = self.getConvosForUser(userId)
-            var groups = self.getGroupsForConvos(convos)
+            // Recursive call to this function
+            return self.getTopLevelGroup(parentGroup)
         }
         
-        //----- Test network group retrieval ----//
-//        if group == nil {
-//            NSLog("Using default testing group")
-//            
-//            let testingGroupId = "wZKihkdhRB"
-//            self.group = Group(networkObjectId: testingGroupId)
-//        }
-        //--------------------------------------//
+        // If no parent, he is the top level, return it
+        return group
+    }
+    
+    // MARK: - Push Data
+    
+    func createGroupAndSendToParse(groupName: String, parentGroupIdOrNil: String?) {
+        var group = Group(name: groupName)
+        group.parentId = parentGroupIdOrNil
         
-        if let name = self.group?.name {
-            self.navigationItem.title = name
+        group.saveInBackgroundWithBlock {
+            (success: Bool, error: NSError!) -> Void in
+            if success {
+                println("Successfully saved Group: \(groupName)")
+                self.groupArray.append(group)
+                self.tableView.reloadData()
+            }
+            else {
+                println("An error occurred while saving Group: \(groupName)")
+            }
         }
+    }
+    
+    // MARK: - User Interface Controls
+
+    @IBAction func addButtonPressed(sender: AnyObject) {
+
+        // User tapped 'add' button
+
+//        self.promptGroupCreation()
         
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
     
-    func assignGroup(group: Group) {
-        self.group = group
-        self.navigationItem.title = group.name
-    }
-    
-    // MARK: - User Controls
-    
-    @IBAction func createGroup(sender: AnyObject) {
+    func promptGroupCreation() {
         
         // Prompt user for name of new group
         var alertView = UIAlertView(title: "New Group", message: "Enter the title of your new group", delegate: self, cancelButtonTitle: "Cancel", otherButtonTitles: "OK")
+        
         alertView.alertViewStyle = UIAlertViewStyle.PlainTextInput
         alertView.show()
     }
     
     func alertView(alertView: UIAlertView, clickedButtonAtIndex buttonIndex: Int) {
+
+        // Made selection on UIAlertView
+        
         if buttonIndex == 1 {
-            
             if alertView.title == "New Group" {
                 if let field = alertView.textFieldAtIndex(0) {
                     if let title = field.text {
-                        // Make new group
-                        var subGroup = Group(name: title, parentId: "")
-                        if let group = self.group {
-                            group.addSubGroup(subGroup)
-                            subGroup.parentId = group.objectId
-                        }
-                        else {
-                            // No group assigned for this view yet. Assign the new group
-                            self.assignGroup(subGroup)
-                        }
+                        // TODO: Make new group
                         
-                        subGroup.saveToNetwork()
+                        
+                        var newGroup = Group(name:title, parentId: self.currentGroup!.objectId)
+                        
+//                        if let parentGroup = self.group {
+//                            newGroup.parentId = parentGroup.objectId
+//                            parentGroup.addSubGroup(newGroup)
+//                        }
+//                        else {
+//                            // No group assigned for this view yet. Assign the new group
+//                            self.assignGroup(newGroup)
+//                        }
+                        
+                        newGroup.saveToNetwork()
                     }
                 }
             }
@@ -168,19 +212,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         
         self.tableView.reloadData()
     }
-    
-    @IBAction func notificationToggled(sender: AnyObject) {
-        
-    }
-    
-    @IBAction func createConvo(sender: AnyObject) {
-        
-    }
-    
-    @IBAction func joinExisting(sender: AnyObject) {
-        self.tableView.reloadData()
-    }
-    
+  
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -191,36 +223,35 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // Return the number of rows in the section.
         
-        if let group = self.group as Group? {
-            if section == 0 {
-                if let count = group.subGroups.count as Int? {
-                    return count
-                }
-            }
+        if section == GROUP_TABLE_VIEW_SECTION {
             
-            else if section == 1 {
-                if let count = group.convos.count as Int? {
-                    return count
-                }
-            }
+            return self.groupArray.count
+        }
+
+        if section == CONVO_TABLE_VIEW_SECTION {
+            
+            return self.convoArray.count
         }
         
         return 0
+    
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("reuseIdentifier", forIndexPath: indexPath) as UITableViewCell
+
+        let cell = UITableViewCell()
         
-        if let group = self.group as Group? {
-            if indexPath.section == 0 {
-                if let groupName = group.subGroups[indexPath.row].name {
-                    cell.textLabel?.text = groupName + " group"
-                }
+        if indexPath.section == GROUP_TABLE_VIEW_SECTION {
+            
+            if let name = self.groupArray[indexPath.row].objectForKey("name") as? String {
+                cell.textLabel?.text = name
             }
-            else if indexPath.section == 1 {
-                if let convoName = group.convos[indexPath.row].title {
-                    cell.textLabel?.text = convoName + " convo"
-                }
+        }
+        
+        else if indexPath.section == CONVO_TABLE_VIEW_SECTION {
+            
+            if let name = self.convoArray[indexPath.row].objectForKey("name") as? String {
+                cell.textLabel?.text = name
             }
         }
         
@@ -229,74 +260,56 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
-        if let group = self.group as Group? {
-            if indexPath.section == 0 {
-                if let subGroup = group.subGroups[indexPath.row] as Group? {
-                    
-                    
-                    var subGroupViewController = GroupTableViewController(group: subGroup)
-                    
-                    self.navigationController?.pushViewController(subGroupViewController, animated: true)
-                }
-            }
-            else if indexPath.section == 1 {
-                if let convo = group.convos[indexPath.row] as Convo? {
-                    
-                    var blurbController = BlurbTableViewController()
-                    blurbController.blurbconvoid = convoId
-                    NSLog("Convo ID:", convoId!)
-                    self.navigationController?.pushViewController(blurbController, animated: true)
-                    // TODO: display ConvoViewController
-                }
-            }
+        if indexPath.section == GROUP_TABLE_VIEW_SECTION {
+            
+            var selectedGroup = self.groupArray[indexPath.row] as Group
+            
+            var groupView = GroupTableViewController(group: selectedGroup)
+            
+            self.navigationController!.pushViewController(groupView, animated: true)
+
         }
-    
+        
+        if indexPath.section == CONVO_TABLE_VIEW_SECTION {
+
+            var convo = self.convoArray[indexPath.row]
+            
+            var convoView = BlurbTableViewController(convo: convo)
+            
+            self.navigationController?.pushViewController(convoView, animated: true)
+            
+        }
+        
     }
     
+    override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
 
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the specified item to be editable.
-        return true
+        if (section == GROUP_TABLE_VIEW_SECTION && self.groupArray.count > 0)
+            || (section == CONVO_TABLE_VIEW_SECTION && self.convoArray.count > 0) {
+                return TABLE_HEADER_HEIGHT
+        }
+        
+        return 0
     }
-    */
+    
+    override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        var view = UIView(frame: CGRectMake(0, 0, tableView.frame.size.width, TABLE_HEADER_HEIGHT))
 
-    /*
-    // Override to support editing the table view.
-    override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-        if editingStyle == .Delete {
-            // Delete the row from the data source
-            tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Fade)
-        } else if editingStyle == .Insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+        if section == GROUP_TABLE_VIEW_SECTION {
+            var label = UILabel(frame: CGRectMake(0, 0, tableView.frame.size.width, TABLE_HEADER_HEIGHT))
+            label.text = "Groups"
+            label.textAlignment = NSTextAlignment.Center
+            view.addSubview(label)
+        }
+        
+        else if section == CONVO_TABLE_VIEW_SECTION {
+            
+            var label = UILabel(frame: CGRectMake(0, 0, tableView.frame.size.width, TABLE_HEADER_HEIGHT))
+            label.text = "Convos"
+            label.textAlignment = NSTextAlignment.Center
+            view.addSubview(label)
+        }
+        
+        return view
     }
-    */
-
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(tableView: UITableView, moveRowAtIndexPath fromIndexPath: NSIndexPath, toIndexPath: NSIndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(tableView: UITableView, canMoveRowAtIndexPath indexPath: NSIndexPath) -> Bool {
-        // Return NO if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-       
-        // Get the new view controller using [segue destinationViewController].
-        // Pass the selected object to the new view controller.
-    }
-*/
 }

@@ -8,24 +8,29 @@
 
 import UIKit
 
-class Group: NSObject {
+class Group: PFObject, PFSubclassing {
     
-    // The name of this Group
-    // ex: "iOS projects", "Finances"
+    var subGroups: [Group] = []
+    var subConvos: [Convo] = []
+    
     var name: String?
-
-    var objectId: String?
-    
     var parentId: String?
     
-    // The sub categories within this Group
-    // "lazy var" because we won't create this array in memory until needed
-    // ex: think common file directory structure
-    lazy var subGroups = [Group]()
+    override class func initialize() {
+        var onceToken : dispatch_once_t = 0;
+        dispatch_once(&onceToken) {
+            self.registerSubclass()
+        }
+    }
     
-    // The Convos stored in this Group
-    // Convos are actual conversations containing text, users, pictures, etc
-    lazy var convos = [Convo]()
+    override init() {
+        super.init()
+    }
+    
+    init(name: String) {
+        self.name = name
+        super.init()
+    }
     
     // initialize a new Convo, given an appropriate title
     init(name: String, parentId: String) {
@@ -34,31 +39,9 @@ class Group: NSObject {
         super.init()
     }
     
-    init(networkObjectId: String) {
-        super.init()
-        
-        var query = PFQuery(className: "Group")
-        if let groupObject = query.getObjectWithId(networkObjectId) {
-        
-//        query.getObjectInBackgroundWithId(networkObjectId) {
-//            (groupObject: PFObject!, error: NSError!) -> Void in
-//            if error == nil {
-                NSLog("Successfully retrieved group from the network")
-                
-                self.name = groupObject["name"] as? String
-                self.objectId = groupObject.objectId
-                self.parentId = groupObject["parentId"] as? String
-                let subGroups = groupObject["subGroups"] as [String]
-                
-//                for subGroupId in subGroups {
-//                    let subGroup = Group(networkObjectId: subGroupId)
-//                    self.subGroups.append(subGroup)
-//                }
-            }
-            else {
-                NSLog("Failed to retrieve group from the network")
-            }
-        
+    
+    class func parseClassName() -> String! {
+        return "Group"
     }
     
     func saveToNetwork() {
@@ -77,13 +60,28 @@ class Group: NSObject {
         }
     }
     
-    func addSubGroup(group: Group) {
+    func getSubGroups() -> [Group] {
         
-        // TODO: sync with Parse here
+        var query = Group.query()
+        query.fromLocalDatastore()
         
-        self.subGroups.append(group)
+        query.whereKey(PARENT_GROUP_KEY, equalTo: self)
+        var subGroups: [Group] = query.findObjects() as [Group]
+        println("\(subGroups.count) groups in the selected group")
+        
+        return subGroups
     }
     
-    // TODO: a Group might like to know it's "lineage" that can be displayed to the user, like a file path
-    // ex: Abraid/iOS/ProCom/...
+    func getSubConvos() -> [Convo] {
+        
+        var query = Convo.query()
+        query.fromLocalDatastore()
+        
+        query.whereKey(GROUP_KEY, equalTo: self)
+        var subConvos: [Convo] = query.findObjects() as [Convo]
+        println("\(subConvos.count) convos in the selected group")
+        
+        
+        return subConvos
+    }
 }

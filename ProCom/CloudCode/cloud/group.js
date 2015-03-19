@@ -5,7 +5,7 @@
 
 // 		{"userId":"kRaibtYs3r"}
 
-Parse.Cloud.define("getGroupsAndConvosForUser", function(request, response) {
+Parse.Cloud.define("getGroupsForUser", function(request, response) {
 	// Group.js
 	var User = Parse.Object.extend("User");
 	var Group = Parse.Object.extend("Group");
@@ -20,19 +20,24 @@ Parse.Cloud.define("getGroupsAndConvosForUser", function(request, response) {
 			// Successfully found user, get all conversations subscribed to
 			queryConvo.equalTo("users", user);
 			queryConvo.include('groupId');
+			queryConvo.include('incode');
 			queryConvo.find({
 				success: function(convos) {
-					var groups = [];
+					var groups = {};
+					groups.push("hola");
 
-					for (var i = 0; i < convos.length; i++) {
-						var convo = convos[i];
-						// Get the parent group of each Convo
-						groups.push(JSON.stringify(convo['groupId']));
-					}
+					// for (var i = 0; i < convos.length; i++) {
+					// 	var convo = convos[i];
+					// 	// var group = convo['groupId'].fetch();
+					// 	groups.push("hello");
+					// 	// Get the parent group of each Convo
+						
+					// }
+
 					response.success(groups);
 				},
 				error: function(convos, error) {
-					response.error("Failed to retrieve user's convos: " + error);
+					response.error("Failed to retrieve user's groups: " + error);
 				}
 			})
 		},

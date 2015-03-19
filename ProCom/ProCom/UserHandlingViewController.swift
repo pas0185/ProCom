@@ -16,7 +16,7 @@ class UserHandlingViewController: PFLogInViewController, PFLogInViewControllerDe
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         if (PFUser.currentUser() == nil)
         {
             var logInViewController:PFLogInViewController = PFLogInViewController()
@@ -29,16 +29,11 @@ class UserHandlingViewController: PFLogInViewController, PFLogInViewControllerDe
         }
         else
         {
-            var groupview = GroupTableViewController(group: nil)
-            self.presentViewController(groupview, animated: true, completion: nil)
+            var groupView = GroupTableViewController(group: nil)
+            self.navigationController?.pushViewController(groupView, animated: true)
         }
         
     }
-    
-    
-    
-    
-
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()

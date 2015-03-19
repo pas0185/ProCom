@@ -9,50 +9,64 @@
 import UIKit
 import CoreData
 
-
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        //Parse key set up
+        
+        // Parse setup
+        Group.registerSubclass()
+        Convo.registerSubclass()
+        Parse.enableLocalDatastore()
         Parse.setApplicationId("n3twpTW37Eh9SkLFRWM41bjmw2IoYPdb2dh3OAQC", clientKey: "TG5IOJyDtOkkijqBt3BXlSa1gKtxUm7k2dXBYxuF")
         
-//        self.testGetConvosForUser()
+        // Sign me in
+//        self.signInUser(PATRICK_USERNAME, password: PATRICK_PASSWORD, synchronous: true)
         
-        /*//----------------FB Login-------------------//
+        // Configure main view
+        self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        self.window?.makeKeyAndVisible()
         
-        FBLoginView.self
-        FBProfilePictureView.self*/
+        var navController = UINavigationController()
+        self.window?.rootViewController = navController
+        
+        
+        var userHandlingView = UserHandlingViewController()
+        navController.pushViewController(userHandlingView, animated: true)
+        
+//        var rootGroupView = GroupTableViewController(group: nil)
+//        navController.pushViewController(rootGroupView, animated: true)        
         
         return true
     }
     
-    func testGetConvosForUser() {
+    func signInUser(username: String, password: String, synchronous: Bool) {
         
-        let patrickUserId = "kRaibtYs3r"
-        let userQuery = PFQuery(className: "_User")
-        
-        userQuery.getObjectInBackgroundWithId(patrickUserId, block:{(PFObject user, NSError error) in
-            
+        // Synchronous
+        if synchronous {
+            var user = PFUser.logInWithUsername(username, password: password)
             if (user != nil) {
-            
-                let queryConvo = PFQuery(className: "Convo")
-                queryConvo.whereKey("users", equalTo: user)
-                queryConvo.findObjectsInBackgroundWithBlock({(NSArray convos, NSError error) in
-                    if (error != nil) {
-                        NSLog("error " + error.localizedDescription)
-                    }
-                    else {
-                        NSLog("convos %@", convos as NSArray)
-                        
-                        // Found Convos for this user
-                        
-                    }
-                })
+                println("Successfully logged in \(username)")
             }
-        })
+            else {
+                println("Failed to log in \(username)")
+            }
+        }
+            
+        // Asynchronous
+        else {
+            PFUser.logInWithUsernameInBackground(username, password: password) {
+                (user: PFUser!, error: NSError!) -> Void in
+                if (user != nil) {
+                    println("Successfully logged in \(username)")
+                }
+                else {
+                    println("Failed to log in \(username)")
+                }
+            }
+        }
     }
     
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: NSString?, annotation: AnyObject) -> Bool {
