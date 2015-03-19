@@ -10,11 +10,7 @@ import UIKit
 
 class BlurbTableViewController: JSQMessagesViewController {
     
-//    var TEST_USER_ID = "KWX6vxRm6s"
-//    var TEST_CONVO_ID = "bVCfzNGIqt"
-    
-//    blurbconvoid = "wuxLc8VgGz"
-    var user: PFUser? // PFUser.currentUser().objectId
+    var user: PFUser?
     var blurbs: [Blurb] = []
     var convo: Convo?
     
@@ -37,6 +33,22 @@ class BlurbTableViewController: JSQMessagesViewController {
         super.init(coder: aDecoder)
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        if let c = convo as Convo? {
+            self.fetchBlurbsForConvo(c)
+        }
+        
+        // Add an 'add user' button to navbar
+        var addButton: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "addButtonClicked")
+        self.navigationItem.rightBarButtonItem = addButton
+    }
+    
+    func addButtonClicked() {
+        
+        println("Add button clicked")
+    }
     
     func fetchBlurbsForConvo(convo: Convo) {
         
@@ -93,16 +105,6 @@ class BlurbTableViewController: JSQMessagesViewController {
             })
         }
     }
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        if let c = convo as Convo? {
-            self.fetchBlurbsForConvo(c)
-        }
-        
-    }
-    
     
     func setupAvatarImage(name: String, imageUrl: String?, incoming: Bool) {
         if let stringUrl = imageUrl {
@@ -173,10 +175,8 @@ class BlurbTableViewController: JSQMessagesViewController {
     
     override func didPressSendButton(button: UIButton!, withMessageText text: String!, sender: String!, date: NSDate!) {
 
-
         JSQSystemSoundPlayer.jsq_playMessageSentSound()
         sendMessage(text, sender: PFUser.currentUser().objectId, convo: self.convo!)
-//        sendMessage(text, sender: self.TEST_USER_ID, convoid: TEST_CONVO_ID)
         finishSendingMessage()
     }
     
