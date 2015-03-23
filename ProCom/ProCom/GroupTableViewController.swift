@@ -68,6 +68,11 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         
         super.viewDidLoad()
         
+        if let title = self.currentGroup?.objectForKey(NAME_KEY) as? String {
+            println("TITLE = \(title)")
+            self.navigationItem.title = title
+        }
+        
         // Add an 'add group' button to navbar
         var addButton: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "addGroupButtonClicked")
         self.navigationItem.rightBarButtonItem = addButton
