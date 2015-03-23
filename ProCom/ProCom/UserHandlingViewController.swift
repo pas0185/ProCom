@@ -19,13 +19,16 @@ class UserHandlingViewController: PFLogInViewController, PFLogInViewControllerDe
 
         if (PFUser.currentUser() == nil)
         {
-            var logInViewController:PFLogInViewController = PFLogInViewController()
-            logInViewController.delegate = self
-            
-            var signUpViewController:PFSignUpViewController = PFSignUpViewController()
-            signUpController.delegate = self
-            
-            self.presentViewController(logInViewController, animated: true, completion: nil)
+            var logInController = PFLogInViewController()
+            logInController.delegate = self
+            logInController.fields = (PFLogInFields.UsernameAndPassword
+                | PFLogInFields.LogInButton
+                | PFLogInFields.SignUpButton
+                | PFLogInFields.PasswordForgotten
+                | PFLogInFields.Facebook)
+            var loginDismissButton = logInView.dismissButton
+            loginDismissButton.removeFromSuperview()
+            self.navigationController?.presentViewController(logInController, animated:true, completion: nil)
         }
         else
         {
@@ -36,22 +39,22 @@ class UserHandlingViewController: PFLogInViewController, PFLogInViewControllerDe
     }
     
     
-    func logInViewController(logInController: PFLogInViewController!, shouldBeginLogInWithUsername username: String!, password: String!) -> Bool {
-        if (username.isEmpty && password.isEmpty) {
-            
-            
-            var alert = UIAlertView()
-            alert.title = "Missing Informatiom"
-            alert.message = "Fill in all information"
-            alert.delegate = nil
-            return false
-        }
-        else
-        {
-            return true // Begin login process
-        }
-        
-    }
+//    func logInViewController(logInController: PFLogInViewController!, shouldBeginLogInWithUsername username: String!, password: String!) -> Bool {
+//        if (username.isEmpty && password.isEmpty) {
+//            
+//            
+//            var alert = UIAlertView()
+//            alert.title = "Missing Informatiom"
+//            alert.message = "Fill in all information"
+//            alert.delegate = nil
+//            return false
+//        }
+//        else
+//        {
+//            return true // Begin login process
+//        }
+//        
+//    }
     
 
     override func didReceiveMemoryWarning() {
