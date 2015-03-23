@@ -205,6 +205,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
                 if (success) {
                     println("Successfully saved new group: \(groupname)")
                     self.groupArray.append(newGroup)
+                    newGroup.pin()
                     self.tableView.reloadData()
                 }
                 else {
@@ -242,6 +243,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
                 if (success) {
                     println("Successfully saved new convo: \(convoName)")
                     self.convoArray.append(newConvo)
+                    newConvo.pin()
                     self.tableView.reloadData()
                 }
                 else {
