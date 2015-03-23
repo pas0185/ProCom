@@ -45,6 +45,12 @@ class BlurbTableViewController: JSQMessagesViewController {
         self.navigationItem.rightBarButtonItem = addButton
     }
     
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+        collectionView.collectionViewLayout.springinessEnabled = true
+    }
+    
+    
     func addUserButtonClicked() {
         
         println("Add user button clicked")
@@ -163,7 +169,7 @@ class BlurbTableViewController: JSQMessagesViewController {
         let color = UIColor(red: r, green: g, blue: b, alpha: 0.5)
         
         let nameLength = countElements(name)
-        let initials : String? = name.substringToIndex(advance(sender.startIndex, min(3, nameLength)))
+        let initials : String? = name.substringToIndex(advance(sender.startIndex, min(2, nameLength)))
         let userImage = JSQMessagesAvatarFactory.avatarWithUserInitials(initials, backgroundColor: color, textColor: UIColor.blackColor(), font: UIFont.systemFontOfSize(CGFloat(13)), diameter: diameter)
         
         avatars[name] = userImage
