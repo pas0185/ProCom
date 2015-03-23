@@ -153,7 +153,9 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     func addGroupButtonClicked() {
 
         // User tapped 'add' button
-        self.promptGroupCreation()
+//        self.promptGroupCreation()
+        
+        self.promptConvoCreation()
     }
     
     func promptGroupCreation() {
@@ -186,6 +188,37 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         self.presentViewController(alert, animated: true, completion: nil)
     }
   
+    func promptConvoCreation() {
+        
+        // Prompt user for name of new convo
+        let alert = UIAlertController(title: "Create New Convo", message: "Enter a name for your convo", preferredStyle: UIAlertControllerStyle.Alert)
+        alert.addTextFieldWithConfigurationHandler(nil)
+        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil))
+        alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler:{ (alertAction:UIAlertAction!) in
+            let textField = alert.textFields![0] as UITextField
+            let convoName = textField.text
+            println(convoName)
+            
+            var newConvo = Convo()
+            
+            newConvo[NAME_KEY] = convoName
+            newConvo[GROUP_KEY] = self.currentGroup
+            newConvo.saveInBackgroundWithBlock {
+                (success: Bool, error: NSError!) -> Void in
+                if (success) {
+                    println("Successfully saved new convo: \(convoName)")
+                    self.convoArray.append(newConvo)
+                    self.tableView.reloadData()
+                }
+                else {
+                    println("Failed to save new convo: \(convoName)")
+                }
+            }
+        }))
+        
+        self.presentViewController(alert, animated: true, completion: nil)
+    }
+    
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
