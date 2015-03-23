@@ -238,6 +238,9 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
             
             newConvo[NAME_KEY] = convoName
             newConvo[GROUP_KEY] = self.currentGroup
+            var relation = newConvo.relationForKey(USERS_KEY)
+            relation.addObject(PFUser.currentUser())
+            
             newConvo.saveInBackgroundWithBlock {
                 (success: Bool, error: NSError!) -> Void in
                 if (success) {
