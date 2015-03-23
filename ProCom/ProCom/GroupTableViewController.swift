@@ -153,16 +153,22 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     func addGroupButtonClicked() {
 
         // User tapped 'add' button
-//        self.promptGroupCreation()
+        self.promptGroupCreation()
         
-        self.promptConvoCreation()
+//        self.promptConvoCreation()
     }
     
     func promptGroupCreation() {
         
         // Prompt user for name of new group
         let alert = UIAlertController(title: "Create New Group", message: "Enter a name for your group", preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addTextFieldWithConfigurationHandler(nil)
+        alert.addTextFieldWithConfigurationHandler({(textField: UITextField!) in
+            
+            textField.autocapitalizationType = .Words
+            textField.autocorrectionType = .Yes
+        
+        })
+        
         alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil))
         alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler:{ (alertAction:UIAlertAction!) in
             let textField = alert.textFields![0] as UITextField
@@ -192,7 +198,13 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         
         // Prompt user for name of new convo
         let alert = UIAlertController(title: "Create New Convo", message: "Enter a name for your convo", preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addTextFieldWithConfigurationHandler(nil)
+        alert.addTextFieldWithConfigurationHandler({(textField: UITextField!) in
+            
+            textField.autocapitalizationType = .Words
+            textField.autocorrectionType = .Yes
+            
+        })
+        
         alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil))
         alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler:{ (alertAction:UIAlertAction!) in
             let textField = alert.textFields![0] as UITextField
