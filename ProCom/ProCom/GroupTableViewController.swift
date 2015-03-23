@@ -152,10 +152,32 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     
     func addGroupButtonClicked() {
 
-        // User tapped 'add' button
-        self.promptGroupCreation()
+        self.promptChooseGroupOrConvoCreation()
+    }
+    
+    func promptChooseGroupOrConvoCreation() {
         
-//        self.promptConvoCreation()
+        // Prompt user to create a new convo or new group
+        let alert = UIAlertController(title: "Start Something New", message: "Would you like to start a new Group or a new Convo?", preferredStyle: UIAlertControllerStyle.Alert)
+
+        // Configure alert actions
+        var newGroupAction = UIAlertAction(title: "New Group", style: .Default, handler: {(alertAction:UIAlertAction!) in
+            self.promptGroupCreation()
+        })
+        
+        var newConvoAction = UIAlertAction(title: "New Convo", style: .Default, handler: {(alertAction:UIAlertAction!) in
+            self.promptConvoCreation()
+        })
+        
+        var cancelAction = UIAlertAction(title: "Cancel", style: .Default, handler: nil)
+        
+        // Add actions to alert
+        alert.addAction(newGroupAction)
+        alert.addAction(newConvoAction)
+        alert.addAction(cancelAction)
+        
+        // Display alert
+        self.presentViewController(alert, animated: true, completion: nil)
     }
     
     func promptGroupCreation() {
@@ -288,6 +310,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         
+        
         if indexPath.section == GROUP_TABLE_VIEW_SECTION {
             
             var selectedGroup = self.groupArray[indexPath.row] as Group
@@ -306,6 +329,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
             self.navigationController?.pushViewController(convoView, animated: true)
         }
         
+        tableView.deselectRowAtIndexPath(indexPath, animated: true)
     }
     
     override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
