@@ -28,10 +28,6 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
 
         super.init(style: UITableViewStyle.Grouped)
         
-        self.groupActivityIndicator.startAnimating()
-        self.convoActivityIndicator.startAnimating()
-        
-        
         self.currentGroup = group
         
         if self.currentGroup == nil {
@@ -40,6 +36,8 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
             if user != nil {
                 println("current user exists! Fetch his shit")
                 // Fetch groups and convos from network, pin to local datastore
+
+                self.groupActivityIndicator.startAnimating()
                 self.fetchAndPinAllGroups()
                 self.fetchAndPinConvosForUser(user)
             }
@@ -131,12 +129,11 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
                     // Append new group if not already present
                     self.groupArray.append(topLevelGroup)
                 }
-
             }
         }
         
+        self.groupActivityIndicator.stopAnimating()
         self.tableView.reloadData()
-        
     }
     
     func getTopLevelGroup(group: Group) -> Group {
@@ -270,16 +267,19 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // Return the number of sections.
         
-        var numSections: Int = 0
-        if self.groupArray.count > 0 {
-            numSections++
-        }
+        return 2
         
-        if self.convoArray.count > 0 {
-            numSections++
-        }
         
-        return numSections
+//        var numSections: Int = 0
+//        if self.groupArray.count > 0 {
+//            numSections++
+//        }
+//        
+//        if self.convoArray.count > 0 {
+//            numSections++
+//        }
+//        
+//        return numSections
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -346,18 +346,20 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     
     override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
 
-        if (section == GROUP_TABLE_VIEW_SECTION && self.groupArray.count > 0)
-            || (section == CONVO_TABLE_VIEW_SECTION && self.convoArray.count > 0) {
-                return TABLE_HEADER_HEIGHT
-        }
+        return TABLE_HEADER_HEIGHT
         
-        return 0
+//        if (section == GROUP_TABLE_VIEW_SECTION && self.groupArray.count > 0)
+//            || (section == CONVO_TABLE_VIEW_SECTION && self.convoArray.count > 0) {
+//                return TABLE_HEADER_HEIGHT
+//        }
+//        
+//        return 0
     }
     
     override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         var view = UIView(frame: CGRectMake(0, 0, tableView.frame.size.width, TABLE_HEADER_HEIGHT))
         var activityWidth = self.groupActivityIndicator.frame.width
-        var activityFrame = CGRectMake(view.frame.width - activityWidth - 15, 0, activityWidth, view.frame.height)
+        var activityFrame = CGRectMake(view.frame.width - activityWidth - 14, 0, activityWidth, view.frame.height)
         
         if section == GROUP_TABLE_VIEW_SECTION {
             var label = UILabel(frame: CGRectMake(0, 0, tableView.frame.size.width, TABLE_HEADER_HEIGHT))
