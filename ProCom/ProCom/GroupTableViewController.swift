@@ -23,7 +23,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     
     init(group: Group?) {
 
-        super.init(style: UITableViewStyle.Plain)
+        super.init(style: UITableViewStyle.Grouped)
         
         self.currentGroup = group
         

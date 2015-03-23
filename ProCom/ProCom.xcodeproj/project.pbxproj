@@ -867,6 +867,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/NightPhury/Desktop/GoogleDrive/Work/Abraid/ProCom/ProCom,
@@ -878,7 +880,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "7343e677-c1a8-4b5c-9226-bc65451f245f";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "ProCom/ProCom-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 			};
@@ -888,6 +890,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/NightPhury/Desktop/GoogleDrive/Work/Abraid/ProCom/ProCom,
@@ -899,7 +903,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "7343e677-c1a8-4b5c-9226-bc65451f245f";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "ProCom/ProCom-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 			};
