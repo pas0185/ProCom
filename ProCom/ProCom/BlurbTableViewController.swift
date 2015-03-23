@@ -13,6 +13,7 @@ class BlurbTableViewController: JSQMessagesViewController {
     var user: PFUser?
     var blurbs: [Blurb] = []
     var convo: Convo?
+    var refreshControl:UIRefreshControl!
     
     var refreshTime = NSTimer()
     var avatars = Dictionary<String, UIImage>()
@@ -40,6 +41,14 @@ class BlurbTableViewController: JSQMessagesViewController {
             self.fetchBlurbsForConvo(c)
         }
         
+        //refreshing the blurbs
+        self.refreshControl = UIRefreshControl()
+        self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
+        self.collectionView.addSubview(refreshControl)
+        
+        
+        
         // Add an 'add user' button to navbar
         var addButton: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "addUserButtonClicked")
         self.navigationItem.rightBarButtonItem = addButton
@@ -50,6 +59,11 @@ class BlurbTableViewController: JSQMessagesViewController {
         collectionView.collectionViewLayout.springinessEnabled = true
     }
     
+    func refresh(sender:AnyObject)
+    {
+        self.collectionView.reloadData()
+        self.refreshControl?.endRefreshing()
+    }
     
     func addUserButtonClicked() {
         
