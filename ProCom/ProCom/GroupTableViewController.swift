@@ -19,11 +19,18 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     var groupArray: [Group] = []
     var convoArray: [Convo] = []
     
+    var groupActivityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
+    var convoActivityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
+    
     // MARK: - Initialization
     
     init(group: Group?) {
 
         super.init(style: UITableViewStyle.Grouped)
+        
+        self.groupActivityIndicator.startAnimating()
+        self.convoActivityIndicator.startAnimating()
+        
         
         self.currentGroup = group
         
@@ -349,12 +356,17 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     
     override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         var view = UIView(frame: CGRectMake(0, 0, tableView.frame.size.width, TABLE_HEADER_HEIGHT))
-
+        var activityWidth = self.groupActivityIndicator.frame.width
+        var activityFrame = CGRectMake(view.frame.width - activityWidth - 15, 0, activityWidth, view.frame.height)
+        
         if section == GROUP_TABLE_VIEW_SECTION {
             var label = UILabel(frame: CGRectMake(0, 0, tableView.frame.size.width, TABLE_HEADER_HEIGHT))
             label.text = "Groups"
             label.textAlignment = NSTextAlignment.Center
             view.addSubview(label)
+            
+            self.groupActivityIndicator.frame = activityFrame
+            view.addSubview(self.groupActivityIndicator)
         }
         
         else if section == CONVO_TABLE_VIEW_SECTION {
@@ -363,6 +375,9 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
             label.text = "Convos"
             label.textAlignment = NSTextAlignment.Center
             view.addSubview(label)
+            
+            self.convoActivityIndicator.frame = activityFrame
+            view.addSubview(self.convoActivityIndicator)
         }
         
         return view
