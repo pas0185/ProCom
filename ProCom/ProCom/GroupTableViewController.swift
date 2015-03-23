@@ -174,6 +174,8 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
                 (success: Bool, error: NSError!) -> Void in
                 if (success) {
                     println("Successfully saved new group: \(groupname)")
+                    self.groupArray.append(newGroup)
+                    self.tableView.reloadData()
                 }
                 else {
                     println("Failed to save new group: \(groupname)")
@@ -188,7 +190,17 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // Return the number of sections.
-        return 2
+        
+        var numSections: Int = 0
+        if self.groupArray.count > 0 {
+            numSections++
+        }
+        
+        if self.convoArray.count > 0 {
+            numSections++
+        }
+        
+        return numSections
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -214,14 +226,14 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         
         if indexPath.section == GROUP_TABLE_VIEW_SECTION {
             
-            if let name = self.groupArray[indexPath.row].objectForKey("name") as? String {
+            if let name = self.groupArray[indexPath.row].objectForKey(NAME_KEY) as? String {
                 cell.textLabel?.text = name
             }
         }
         
         else if indexPath.section == CONVO_TABLE_VIEW_SECTION {
             
-            if let name = self.convoArray[indexPath.row].objectForKey("name") as? String {
+            if let name = self.convoArray[indexPath.row].objectForKey(NAME_KEY) as? String {
                 cell.textLabel?.text = name
             }
         }
@@ -238,7 +250,6 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
             var groupView = GroupTableViewController(group: selectedGroup)
             
             self.navigationController!.pushViewController(groupView, animated: true)
-
         }
         
         if indexPath.section == CONVO_TABLE_VIEW_SECTION {
@@ -248,7 +259,6 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
             var convoView = BlurbTableViewController(convo: convo)
             
             self.navigationController?.pushViewController(convoView, animated: true)
-            
         }
         
     }
