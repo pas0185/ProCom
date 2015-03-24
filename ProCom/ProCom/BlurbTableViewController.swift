@@ -198,7 +198,7 @@ class BlurbTableViewController: JSQMessagesViewController {
         blurb[USERNAME] = PFUser.currentUser()!.username
         blurb[TEXT] = text
         blurb.sender_ = PFUser.currentUser()!.username
-        
+        self.sender = PFUser.currentUser().username
         blurb.saveInBackgroundWithBlock {
             (success: Bool, error: NSError!) -> Void in
             if (success) {

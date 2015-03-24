@@ -21,13 +21,30 @@ class UserHandlingViewController: PFLogInViewController, PFLogInViewControllerDe
         {
             var logInController = PFLogInViewController()
             logInController.delegate = self
-            logInController.fields = (PFLogInFields.UsernameAndPassword
+            self.logInView.backgroundColor = UIColor.darkGrayColor()
+            var loginDismissButton = logInView.dismissButton
+            loginDismissButton.removeFromSuperview()
+            var logInButton = logInView.logInButton
+            if (logInButton.touchInside)
+            {
+                var groupView = GroupTableViewController(group: nil)
+                self.navigationController?.pushViewController(groupView, animated: true)
+            }
+            
+            
+            var signUpController = PFSignUpViewController()
+            signUpController.delegate = self
+            
+            self.signUpController.view.backgroundColor = UIColor.darkGrayColor()
+            
+            
+            self.fields = (PFLogInFields.UsernameAndPassword
                 | PFLogInFields.LogInButton
                 | PFLogInFields.SignUpButton
                 | PFLogInFields.PasswordForgotten
                 | PFLogInFields.Facebook)
-            var loginDismissButton = logInView.dismissButton
-            loginDismissButton.removeFromSuperview()
+            
+            
             self.navigationController?.presentViewController(logInController, animated:true, completion: nil)
         }
         else
@@ -37,24 +54,6 @@ class UserHandlingViewController: PFLogInViewController, PFLogInViewControllerDe
         }
         
     }
-    
-    
-//    func logInViewController(logInController: PFLogInViewController!, shouldBeginLogInWithUsername username: String!, password: String!) -> Bool {
-//        if (username.isEmpty && password.isEmpty) {
-//            
-//            
-//            var alert = UIAlertView()
-//            alert.title = "Missing Informatiom"
-//            alert.message = "Fill in all information"
-//            alert.delegate = nil
-//            return false
-//        }
-//        else
-//        {
-//            return true // Begin login process
-//        }
-//        
-//    }
     
 
     override func didReceiveMemoryWarning() {
