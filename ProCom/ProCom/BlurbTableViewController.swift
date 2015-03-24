@@ -43,7 +43,7 @@ class BlurbTableViewController: JSQMessagesViewController {
         
         //refreshing the blurbs
         self.refreshControl = UIRefreshControl()
-        self.refreshControl.attributedTitle = NSAttributedString(string: "Pull to refresh")
+        self.refreshControl.attributedTitle = NSAttributedString(string: "Getting Blurbs!")
         self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
         self.collectionView.addSubview(refreshControl)
         
@@ -238,7 +238,8 @@ class BlurbTableViewController: JSQMessagesViewController {
     override func collectionView(collectionView: JSQMessagesCollectionView!, bubbleImageViewForItemAtIndexPath indexPath: NSIndexPath!) -> UIImageView! {
         let blurb = blurbs[indexPath.item]
         
-        if blurb.sender() == PFUser.currentUser().username {
+        
+        if blurb.sender_ == PFUser.currentUser().username {
             return UIImageView(image: outgoingBubbleImageView.image, highlightedImage: outgoingBubbleImageView.highlightedImage)
         }
         
@@ -248,7 +249,7 @@ class BlurbTableViewController: JSQMessagesViewController {
     override func collectionView(collectionView: JSQMessagesCollectionView!, avatarImageViewForItemAtIndexPath indexPath: NSIndexPath!) -> UIImageView! {
         
         let message = blurbs[indexPath.item]
-        if let avatar = avatars[message.sender()] {
+        if let avatar = avatars[message.sender_] {
             return UIImageView(image: avatar)
         } else {
             setupAvatarImage(message.sender(), imageUrl: message.imageUrl(), incoming: true)
@@ -264,7 +265,7 @@ class BlurbTableViewController: JSQMessagesViewController {
         let cell = super.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as JSQMessagesCollectionViewCell
         
         let blurb = self.blurbs[indexPath.row]
-        if blurb.sender() == PFUser.currentUser().username {
+        if blurb.sender_ == PFUser.currentUser().username {
             cell.textView.textColor = UIColor.whiteColor()
         } else {
             cell.textView.textColor = UIColor.whiteColor()
