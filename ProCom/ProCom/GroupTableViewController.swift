@@ -208,6 +208,8 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
             
             var newGroup = Group()
             newGroup[NAME_KEY] = groupname
+            
+            // TODO: be able to add a new group with a nil parent group
             newGroup[PARENT_GROUP_KEY] = self.currentGroup
             newGroup.saveInBackgroundWithBlock {
                 (success: Bool, error: NSError!) -> Void in
