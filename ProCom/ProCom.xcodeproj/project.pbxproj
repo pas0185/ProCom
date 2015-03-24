@@ -519,7 +519,6 @@
 				CBCBA2CB1AAA8D5A00B2E303 /* UserHandlingViewController.swift */,
 				CBF01B511A9AE53300364AB6 /* BlurbTableViewController.swift */,
 				539D3B131A8FDC7A0093533F /* Blurb.swift */,
-				E27B3FEE1A8D75B800AE18C5 /* Images.xcassets */,
 				E27B3FE01A8D75B800AE18C5 /* Supporting Files */,
 			);
 			path = ProCom;
@@ -528,9 +527,10 @@
 		E27B3FE01A8D75B800AE18C5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				CBA7D46D1A92BDF10065AB70 /* Frameworks */,
+				E27B3FEE1A8D75B800AE18C5 /* Images.xcassets */,
 				E27B3FF01A8D75B800AE18C5 /* LaunchScreen.xib */,
 				E27B3FE41A8D75B800AE18C5 /* ProCom.xcdatamodeld */,
-				CBA7D46D1A92BDF10065AB70 /* Frameworks */,
 				E27B3FE11A8D75B800AE18C5 /* Info.plist */,
 				CBA7D49F1A92D0120065AB70 /* ProCom-Bridging-Header.h */,
 			);
@@ -867,8 +867,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development IOS Push Services: com.abraidcd.ProCom";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development IOS Push Services: com.abraidcd.ProCom";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/NightPhury/Desktop/GoogleDrive/Work/Abraid/ProCom/ProCom,
@@ -890,8 +890,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "Apple Development IOS Push Services: com.abraidcd.ProCom";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Development IOS Push Services: com.abraidcd.ProCom";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/NightPhury/Desktop/GoogleDrive/Work/Abraid/ProCom/ProCom,
