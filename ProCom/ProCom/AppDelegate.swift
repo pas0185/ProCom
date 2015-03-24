@@ -22,13 +22,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         Parse.enableLocalDatastore()
         Parse.setApplicationId("n3twpTW37Eh9SkLFRWM41bjmw2IoYPdb2dh3OAQC", clientKey: "TG5IOJyDtOkkijqBt3BXlSa1gKtxUm7k2dXBYxuF")
         
-        // Sign me in
-//        self.signInUser(PATRICK_USERNAME, password: PATRICK_PASSWORD, synchronous: true)
+        // Push notifications
+        self.setupPushNotifications(application)
         
         // Configure main view
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
         self.window?.makeKeyAndVisible()
-        
+
         var navController = UINavigationController()
         self.window?.rootViewController = navController
         
@@ -44,11 +44,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             
         }
 
-//        var rootGroupView = GroupTableViewController(group: nil)
-//        navController.pushViewController(rootGroupView, animated: true)        
-        
-        // Push notifications
-        self.setupPushNotifications(application)
         
         return true
     }
