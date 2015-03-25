@@ -14,6 +14,7 @@ import ParseUI
 class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDelegate {
 
     var window: UIWindow?
+    var navController: UINavigationController?
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
@@ -30,21 +31,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
         self.window?.makeKeyAndVisible()
 
-        var navController = UINavigationController()
+        self.navController = UINavigationController()
         self.window?.rootViewController = navController
 
-        if (PFUser.currentUser() == nil){
+        if (PFUser.currentUser() == nil) {
             
             var logInController = PFLogInViewController()
-            navController.presentViewController(logInController, animated: true, completion: nil)
+            self.navController?.presentViewController(logInController, animated: true, completion: nil)
             logInController.delegate = self
-            
-//            var userHandlingView = UserHandlingViewController()
-//            navController.presentViewController(userHandlingView, animated: true, completion: nil)
         }
         else {
-            var rootGroupView = GroupTableViewController(group: nil)
-            navController.pushViewController(rootGroupView, animated: true)
+            self.navController?.pushViewController(GroupTableViewController(group: nil), animated: true)
         }
 
         
@@ -61,11 +58,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
     func logInViewController(logInController: PFLogInViewController!, didLogInUser user: PFUser!) {
         println("logInViewController did log in user, dismiss this VC")
         logInController.dismissViewControllerAnimated(true, completion: nil)
+        self.navController?.pushViewController(GroupTableViewController(group: nil), animated: true)
     }
     
     func logInViewController(logInController: PFLogInViewController!, didFailToLogInWithError error: NSError!) {
         
-        println("Failed to log in user: \(error.localizedDescription)") 
+        println("Failed to log in user: \(error.localizedDescription)")
     }
     
     // MARK: - Push Notifications
