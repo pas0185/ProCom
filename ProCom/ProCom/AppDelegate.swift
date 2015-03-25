@@ -51,20 +51,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: - Push Notifications
     func setupPushNotifications(application: UIApplication) {
         
-        // Register for Push Notitications, if running iOS 8
-        if application.respondsToSelector("registerUserNotificationSettings:") {
-            
+        // Register for Push Notitications
+        
+        #if __IPHONE_8_0
+        
             let types:UIUserNotificationType = (.Alert | .Badge | .Sound)
             let settings:UIUserNotificationSettings = UIUserNotificationSettings(forTypes: types, categories: nil)
             
             application.registerUserNotificationSettings(settings)
             application.registerForRemoteNotifications()
-            
-        } else {
-            // Register for Push Notifications before iOS 8
+        #else
             application.registerForRemoteNotificationTypes(.Alert | .Badge | .Sound)
-        }
+        #endif
     }
+    
+    #if __IPHONE_8_0
+    
+    func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
+        // Register to receive notifications
+        application.registerForRemoteNotifications()
+    }
+    
+//    func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [NSObject : AnyObject], completionHandler: () -> Void) {
+//        
+//        // Handle the actions
+//        if identifier == "declineAction" {
+//            
+//        }
+//        else if identifier == "answerAction" {
+//            
+//        }
+//    }
+    
+    #endif
     
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         println("didRegisterForRemoteNotificationsWithDeviceToken")
@@ -73,7 +92,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         currentInstallation.setDeviceTokenFromData(deviceToken)
         currentInstallation.saveInBackgroundWithBlock { (succeeded, e) -> Void in
-            //code
+            
+            println("Successfully registered for remote notifications with device token")
         }
     }
     
