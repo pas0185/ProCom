@@ -81,16 +81,6 @@ class UserHandlingViewController: PFLogInViewController, PFLogInViewControllerDe
         // Dispose of any resources that can be recreated.
     }
     
-    // MARK: - PFLogInViewControllerDelegate
-    func logInViewController(logInController: PFLogInViewController!, shouldBeginLogInWithUsername username: String!, password: String!) -> Bool {
-        
-        println("Should begin login with username, password. Will return true")
-        return true
-    }
     
-    func logInViewController(logInController: PFLogInViewController!, didLogInUser user: PFUser!) {
-        println("logInViewController did log in user, dismiss this VC")
-        self.dismissViewControllerAnimated(true, completion: nil)
-    }
     
 }

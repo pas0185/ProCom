@@ -11,7 +11,7 @@ import CoreData
 import ParseUI
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate {
 
     var window: UIWindow?
     var navController: UINavigationController?
@@ -37,8 +37,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
         if (PFUser.currentUser() == nil) {
             
             var logInController = PFLogInViewController()
-            self.navController?.presentViewController(logInController, animated: true, completion: nil)
             logInController.delegate = self
+            
+            var signUpController = PFSignUpViewController()
+            signUpController.delegate = self
+            logInController.signUpController = signUpController
+            
+//            logInController.signUpController.delegate = self
+            
+            self.navController?.presentViewController(logInController, animated: true, completion: nil)
         }
         else {
             self.navController?.pushViewController(GroupTableViewController(group: nil), animated: true)
@@ -58,12 +65,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
     func logInViewController(logInController: PFLogInViewController!, didLogInUser user: PFUser!) {
         println("logInViewController did log in user, dismiss this VC")
         logInController.dismissViewControllerAnimated(true, completion: nil)
+        
+        // TODO: smoother transition to this on login
         self.navController?.pushViewController(GroupTableViewController(group: nil), animated: true)
     }
     
     func logInViewController(logInController: PFLogInViewController!, didFailToLogInWithError error: NSError!) {
         
         println("Failed to log in user: \(error.localizedDescription)")
+    }
+    
+    // MARK: - PFSignUpViewControllerDelegate
+    func signUpViewController(signUpController: PFSignUpViewController!, shouldBeginSignUp info: [NSObject : AnyObject]!) -> Bool {
+        println("Should beging signup")
+        return true
+    }
+    
+    func signUpViewController(signUpController: PFSignUpViewController!, didSignUpUser user: PFUser!) {
+        
+        println("Did sign up user")
+        
+        signUpController.dismissViewControllerAnimated(true, completion: nil)
+        
+        if self.navController?.presentedViewController != nil {
+            self.navController?.dismissViewControllerAnimated(true, completion: nil)
+        }
+        
+        self.navController?.pushViewController(GroupTableViewController(group: nil), animated: true)
+    }
+    
+    func signUpViewController(signUpController: PFSignUpViewController!, didFailToSignUpWithError error: NSError!) {
+        println("Failed to sign up user \(error.localizedDescription)")
     }
     
     // MARK: - Push Notifications
