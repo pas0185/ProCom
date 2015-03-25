@@ -19,57 +19,78 @@ class UserHandlingViewController: PFLogInViewController, PFLogInViewControllerDe
 
         if (PFUser.currentUser() == nil)
         {
-            var logInController = PFLogInViewController()
-            logInController.delegate = self
-            self.logInView.backgroundColor = UIColor.darkGrayColor()
-            var loginDismissButton = logInView.dismissButton
-            loginDismissButton.removeFromSuperview()
-            var logInButton = logInView.logInButton
-            if (logInButton.touchInside)
-            {
-                var groupView = GroupTableViewController(group: nil)
-                self.navigationController?.pushViewController(groupView, animated: true)
-            }
+            println("Current user not signed in yet, present PFLogInViewController")
             
             
-            var signUpController = PFSignUpViewController()
-            signUpController.delegate = self
             
-            self.signUpController.view.backgroundColor = UIColor.darkGrayColor()
+            // Configure Login View Controller
+//            var logInController = PFLogInViewController()
+//            logInController.delegate = self /* UserHandlingViewController */
+//            
+//            self.logInView.backgroundColor = UIColor.darkGrayColor()
+//
+//            var loginDismissButton = logInView.dismissButton
+//            loginDismissButton.removeFromSuperview()
+//            var logInButton = logInView.logInButton
+//            
+//            // Present Login View Controller
+//            self.navigationController?.presentViewController(logInController, animated:true, completion: nil)
+
+            
+//            if (logInButton.touchInside)
+//            {
+//                println("Login button tapped")
+//                var groupView = GroupTableViewController(group: nil)
+//                self.navigationController?.pushViewController(groupView, animated: true)
+//            }
+            
+            // Configure Sign Up view
+//            var signUpController = PFSignUpViewController()
+//            signUpController.delegate = self
+//            self.signUpController.view.backgroundColor = UIColor.darkGrayColor()
             
             
-            self.fields = (PFLogInFields.UsernameAndPassword
-                | PFLogInFields.LogInButton
-                | PFLogInFields.SignUpButton
-                | PFLogInFields.PasswordForgotten
-                | PFLogInFields.Facebook)
+//            self.fields = (PFLogInFields.UsernameAndPassword
+//                | PFLogInFields.LogInButton
+//                | PFLogInFields.SignUpButton
+//                | PFLogInFields.PasswordForgotten
+//                | PFLogInFields.Facebook)
             
             
-            self.navigationController?.presentViewController(logInController, animated:true, completion: nil)
         }
         else
         {
+            println("Current user is signed in, push group table view")
+            
+            self.dismissViewControllerAnimated(true, completion: nil)
             var groupView = GroupTableViewController(group: nil)
             self.navigationController?.pushViewController(groupView, animated: true)
         }
         
     }
     
+    override func viewDidAppear(animated: Bool) {
+        
+        
+        
+        
+    }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+    // MARK: - PFLogInViewControllerDelegate
+    func logInViewController(logInController: PFLogInViewController!, shouldBeginLogInWithUsername username: String!, password: String!) -> Bool {
+        
+        println("Should begin login with username, password. Will return true")
+        return true
     }
-    */
-
+    
+    func logInViewController(logInController: PFLogInViewController!, didLogInUser user: PFUser!) {
+        println("logInViewController did log in user, dismiss this VC")
+        self.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
 }

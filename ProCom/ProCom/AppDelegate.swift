@@ -8,9 +8,10 @@
 
 import UIKit
 import CoreData
+import ParseUI
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDelegate {
 
     var window: UIWindow?
     
@@ -31,21 +32,40 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
         var navController = UINavigationController()
         self.window?.rootViewController = navController
-        
 
-        if(PFUser.currentUser() == nil){
-            var userHandlingView = UserHandlingViewController()
-            navController.presentViewController(userHandlingView, animated: true, completion: nil)
-        }
-        else{
+        if (PFUser.currentUser() == nil){
             
+            var logInController = PFLogInViewController()
+            navController.presentViewController(logInController, animated: true, completion: nil)
+            logInController.delegate = self
+            
+//            var userHandlingView = UserHandlingViewController()
+//            navController.presentViewController(userHandlingView, animated: true, completion: nil)
+        }
+        else {
             var rootGroupView = GroupTableViewController(group: nil)
             navController.pushViewController(rootGroupView, animated: true)
-            
         }
 
         
         return true
+    }
+    
+    // MARK: - PFLogInViewControllerDelegate
+    func logInViewController(logInController: PFLogInViewController!, shouldBeginLogInWithUsername username: String!, password: String!) -> Bool {
+        
+        println("Should begin login with username, password. Will return true")
+        return true
+    }
+    
+    func logInViewController(logInController: PFLogInViewController!, didLogInUser user: PFUser!) {
+        println("logInViewController did log in user, dismiss this VC")
+        logInController.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    func logInViewController(logInController: PFLogInViewController!, didFailToLogInWithError error: NSError!) {
+        
+        println("Failed to log in user: \(error.localizedDescription)") 
     }
     
     // MARK: - Push Notifications

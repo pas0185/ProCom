@@ -31,10 +31,10 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         self.currentGroup = group
         
         if self.currentGroup == nil {
-            println("currentgroup is nil; this is the root group, I hope")
+            println("currentgroup is nil; this is the root group")
             var user = PFUser.currentUser()
             if user != nil {
-                println("current user exists! Fetch his shit")
+                println("current user exists! Fetch his groups")
                 // Fetch groups and convos from network, pin to local datastore
 
                 self.groupActivityIndicator.startAnimating()
