@@ -102,20 +102,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
     func setupPushNotifications(application: UIApplication) {
         
         // Register for Push Notitications
-        
-        #if __IPHONE_8_0
-        
+    
+        if NSProcessInfo().isOperatingSystemAtLeastVersion(NSOperatingSystemVersion(majorVersion: 8, minorVersion: 0, patchVersion: 0)) {
+            println("iOS >= 8.0.0")
             let types:UIUserNotificationType = (.Alert | .Badge | .Sound)
             let settings:UIUserNotificationSettings = UIUserNotificationSettings(forTypes: types, categories: nil)
             
             application.registerUserNotificationSettings(settings)
             application.registerForRemoteNotifications()
-        #else
+            
+        }
+        else {
+            println("iOS < 8.0.0")
             application.registerForRemoteNotificationTypes(.Alert | .Badge | .Sound)
-        #endif
+        }
     }
-    
-    #if __IPHONE_8_0
     
     func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
         // Register to receive notifications
@@ -133,7 +134,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
 //        }
 //    }
     
-    #endif
     
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         println("didRegisterForRemoteNotificationsWithDeviceToken")
@@ -148,7 +148,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
     }
     
     func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
-        println("failed to register for remote notifications:  (error)")
+        println("failed to register for remote notifications:  \(error)")
     }
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
