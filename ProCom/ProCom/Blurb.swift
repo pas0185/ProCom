@@ -14,35 +14,54 @@ class Blurb: PFObject, JSQMessageData {
         return "Blurb"
     }
     
-    var text_: String
-    var sender_: String
-    var date_: NSDate
-    var imageUrl_: String?
+    var message: String = ""
+    var username: String = ""
+//    var createdAt: NSDate?
+    //    var imagePathURL: String = ""
     
-    lazy var blurbs = [Blurb]()
+    override class func initialize() {
+        var onceToken : dispatch_once_t = 0;
+        dispatch_once(&onceToken) {
+            self.registerSubclass()
+        }
+    }
     
-    init(text: String?, sender: String?, date: NSDate?, imageUrl: String?) {
-        text_ = text!
-        sender_ = sender!
-        date_ = date!
-            
+    override init() {
         super.init()
+    }
+
+    init(message: String, username: String, date: NSDate?, imageUrl: String?, convoID: PFObject) {
+        super.init()
+        
+        self.message = message
+        self.username = username
+        
+        
+//        self["createdAt"] = date
+//        self.imageUrl = imageUrl!
+        
+//        self.setObject(convoID, forKey: CONVO_ID) = convoID!
+//        self.setObject(self.sender(), forKey: "username")
+//        self[USERNAME] = sender!
+//        self[TEXT] = text!
     }
     
     func text() -> String! {
-        return text_;
+        return self[TEXT] as String
+//        return self.message
     }
     
     func sender() -> String! {
-        return sender_;
+        return self[USERNAME] as String
+//        return self.username
     }
     
     func date() -> NSDate! {
-        return date_;
+        return self["createdAt"] as NSDate
     }
     
-    func imageUrl() -> String? {
-        return imageUrl_;
-    }
+//    func imageUrl() -> String? {
+//        return self.imagePathURL
+//    }
     
 }
