@@ -34,6 +34,8 @@ class BlurbTableViewController: JSQMessagesViewController {
         super.init(coder: aDecoder)
     }
     
+    //#MARK: - Loading Views
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -61,6 +63,8 @@ class BlurbTableViewController: JSQMessagesViewController {
         super.viewDidAppear(animated)
         collectionView.collectionViewLayout.springinessEnabled = true
     }
+    
+    //#MARK: - User Controls
     
     func refresh(sender:AnyObject)
     {
@@ -103,6 +107,8 @@ class BlurbTableViewController: JSQMessagesViewController {
                 }
         })
     }
+    
+    //#MARK: - Blurb handling
     
     func fetchBlurbsForConvo(convo: Convo) {
         
@@ -191,6 +197,9 @@ class BlurbTableViewController: JSQMessagesViewController {
         // ......
         
     }
+    
+    //#MARK: - Setting up Blurbs
+    
     func setupAvatarImage(name: String, imageUrl: String?, incoming: Bool) {
         if let stringUrl = imageUrl {
             if let url = NSURL(string: stringUrl) {
