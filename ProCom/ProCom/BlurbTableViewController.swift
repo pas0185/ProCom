@@ -37,6 +37,9 @@ class BlurbTableViewController: JSQMessagesViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.sender = PFUser.currentUser().username!
+       
+        
         if let c = convo as Convo? {
             self.fetchBlurbsForConvo(c)
         }
@@ -61,6 +64,7 @@ class BlurbTableViewController: JSQMessagesViewController {
     
     func refresh(sender:AnyObject)
     {
+        println("refresh called")
         self.collectionView.reloadData()
         self.refreshControl?.endRefreshing()
     }
@@ -104,58 +108,89 @@ class BlurbTableViewController: JSQMessagesViewController {
         
         automaticallyScrollsToMostRecentMessage = true
         
-        var user = PFUser.currentUser()
+        if (PFUser.currentUser() != nil) {
     
-        if (user != nil) {
-    
-            let queryBlurb = PFQuery(className: "Blurb")
+//            let queryBlurb = PFQuery(className: "Blurb")
+            let queryBlurb = Blurb.query()
             queryBlurb.includeKey("userId")
             queryBlurb.includeKey("createdAt")
             
             queryBlurb.whereKey("convoId", equalTo: convo)
             queryBlurb.orderByAscending("createdAt")
             
-            //Sending off query
-            queryBlurb.findObjectsInBackgroundWithBlock({(NSArray array, NSError error) in
+            //TODO: Save in local datastore
+            
+            
+            // Fetch all blurbs for this convo
+            queryBlurb.findObjectsInBackgroundWithBlock({
+                (array: [AnyObject]!, error: NSError!) -> Void in
                 
                 if (error == nil) {
+                    println("blurb query fetched \(array.count) objects")
+
+//                    dispatch_async(dispatch_get_main_queue()) {
                     
-                    for a in array {
-                        if let b = a as? PFObject {
-                            var message: String
-                            var user: String
-                            var date: NSDate
-                            if let blurbText = b.objectForKey("text") as? String
-                            {
-                                NSLog("text: %@", blurbText)
-                                message = blurbText
-                                if let blurbSender = b.objectForKey("userId") as? PFObject
-                                {
-                                    var username: String = blurbSender["username"] as String
-                                    NSLog("user: %@", username)
-                                    user = username
-                                    
-                                    var blurbDate = b.createdAt
-                                    NSLog("date: %@", blurbDate)
-                                    date = blurbDate
-                                    
-                                    var blurb = Blurb(text: message, sender: user, date: date, imageUrl: nil)
-                                    self.blurbs.append(blurb)
-                                    self.finishReceivingMessage()
-                                }
-                            }
-                        }
-                    }
+                        println("Pinnning blurb objects")
+                        PFObject.pinAll(array)
+                        println("Done pinning blurb objects")
                     
-                    NSLog("blurbs %@", array)
+                        var fetchedBlurbs = array as [Blurb]
+                        println("casted to blurbs count = \(fetchedBlurbs.count)")
                     
-                    //blurbs for this convo
-                    self.collectionView.reloadData()
+                        self.handleTheseBlurbs(fetchedBlurbs)
+//                        self.blurbs += array as [Blurb]
+                    
+//                        self.blurbs = array as [Blurb]
+                    
+//                        self.finishReceivingMessage()
+//                        self.collectionView.reloadData()
+                    
+//                    }
+
+                    // TODO: Dispatch this on main UI thread
+//                    self.collectionView.reloadData()
+                    
+                    
+//                    for a in array {
+//                        if let b = a as? PFObject {
+//                            if let blurbText = b.objectForKey("text") as? String
+//                            {
+//                                if let blurbSender = b.objectForKey("userId") as? PFObject
+//                                {
+//                                    var username: String = blurbSender["username"] as String
+//                                    var blurbDate = b.createdAt
+//                                    
+//                                    //Creating blurbs from the network
+//                                    var blurb = Blurb(text: blurbText, sender: username, date: blurbDate, imageUrl: nil, convoID: self.convo!)
+//                                    
+//                                    
+//                                    self.blurbs.append(blurb)
+//                                }
+//                            }
+//                        }
+//                    }
+                    
+//                    self.collectionView.reloadData()
                 }
             })
         }
     }
     
+    func handleTheseBlurbs(someBlurbs: [Blurb]) {
+        println("I'm handling \(someBlurbs.count) blurbs")
+        
+        for b in someBlurbs {
+            
+//            println("blurb \(b)")
+            self.blurbs.append(b)
+            
+        }
+        
+        self.collectionView.reloadData()
+        
+        // ......
+        
+    }
     func setupAvatarImage(name: String, imageUrl: String?, incoming: Bool) {
         if let stringUrl = imageUrl {
             if let url = NSURL(string: stringUrl) {
@@ -191,24 +226,18 @@ class BlurbTableViewController: JSQMessagesViewController {
     
     func sendMessage(text: String!, sender: String!, convo: Convo){
         
-        // TODO: fix Blurb's parameters and class members
-        var blurb = Blurb(text: text, sender: sender, date: NSDate(), imageUrl: nil)
-        blurb[CONVO_ID] = convo
-        blurb[USER_ID] = PFUser.currentUser()
-        blurb[USERNAME] = PFUser.currentUser()!.username
-        blurb[TEXT] = text
-        blurb.sender_ = PFUser.currentUser()!.username
-        self.sender = PFUser.currentUser().username
+        var blurb = Blurb(message: text, username: sender, date: NSDate(), imageUrl: nil, convoID: convo)
+        
         blurb.saveInBackgroundWithBlock {
             (success: Bool, error: NSError!) -> Void in
             if (success) {
-                NSLog("Blurb: %@", blurb)
+                println("Blurb successfully saved: \(text)")
                 self.blurbs.append(blurb)
                 self.finishReceivingMessage()
                 self.collectionView.reloadData()
                 
             } else {
-                NSLog("There was a problem sending the message")
+                println("There was a problem sending the message")
             }
         }
     }
@@ -232,14 +261,14 @@ class BlurbTableViewController: JSQMessagesViewController {
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, messageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageData! {
         
-        return blurbs[indexPath.item] as JSQMessageData
+        return self.blurbs[indexPath.item] as JSQMessageData
     }
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, bubbleImageViewForItemAtIndexPath indexPath: NSIndexPath!) -> UIImageView! {
         let blurb = blurbs[indexPath.item]
         
         
-        if blurb.sender_ == PFUser.currentUser().username {
+        if blurb[USER_ID] as PFObject == PFUser.currentUser() {
             return UIImageView(image: outgoingBubbleImageView.image, highlightedImage: outgoingBubbleImageView.highlightedImage)
         }
         
@@ -249,10 +278,10 @@ class BlurbTableViewController: JSQMessagesViewController {
     override func collectionView(collectionView: JSQMessagesCollectionView!, avatarImageViewForItemAtIndexPath indexPath: NSIndexPath!) -> UIImageView! {
         
         let message = blurbs[indexPath.item]
-        if let avatar = avatars[message.sender_] {
+        if let avatar = avatars[message.sender()] {
             return UIImageView(image: avatar)
         } else {
-            setupAvatarImage(message.sender(), imageUrl: message.imageUrl(), incoming: true)
+            setupAvatarImage(message.sender(), imageUrl: nil /*message.imageUrl()*/, incoming: true)
             return UIImageView(image:avatars[message.sender()])
         }
     }
@@ -262,10 +291,11 @@ class BlurbTableViewController: JSQMessagesViewController {
     }
 
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        
         let cell = super.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as JSQMessagesCollectionViewCell
         
         let blurb = self.blurbs[indexPath.row]
-        if blurb.sender_ == PFUser.currentUser().username {
+        if blurb[USERNAME] as NSString == PFUser.currentUser().username {
             cell.textView.textColor = UIColor.whiteColor()
         } else {
             cell.textView.textColor = UIColor.whiteColor()
@@ -273,6 +303,7 @@ class BlurbTableViewController: JSQMessagesViewController {
         
         let attributes : [NSObject:AnyObject] = [NSForegroundColorAttributeName:cell.textView.textColor, NSUnderlineStyleAttributeName: 1]
         cell.textView.linkTextAttributes = attributes
+        
         return cell
     }
     
@@ -297,20 +328,26 @@ class BlurbTableViewController: JSQMessagesViewController {
         return NSAttributedString(string:blurb.sender())
     }
     
+    
+    //Decideds where the blurb should be located ie. left or right side of the view
     override func collectionView(collectionView: JSQMessagesCollectionView!, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout!, heightForMessageBubbleTopLabelAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
-        let blurb = blurbs[indexPath.item]
-        
-        // Sent by me, skip
-        if blurb.sender() == PFUser.currentUser().username {
-            return CGFloat(0.0);
-        }
-        
-        // Same as previous sender, skip
-        if indexPath.item > 0 {
-            let previousblurb = blurbs[indexPath.item - 1];
-            if previousblurb.sender() == blurb.sender() {
+
+        if let blurb = blurbs[indexPath.item] as Blurb? {
+            
+            // Sent by me, skip
+            if blurb.sender() == PFUser.currentUser().username {
                 return CGFloat(0.0);
             }
+            
+            // Same as previous sender, skip
+            if indexPath.item > 0 {
+                if let previousblurb = self.blurbs[indexPath.item - 1] as Blurb? {
+                    if previousblurb.sender() == blurb.sender() {
+                        return CGFloat(0.0);
+                    }
+                }
+            }
+        
         }
         
         return kJSQMessagesCollectionViewCellLabelHeightDefault

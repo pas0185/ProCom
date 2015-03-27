@@ -339,9 +339,10 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
             self.navigationController!.pushViewController(groupView, animated: true)
         }
         
-        if indexPath.section == CONVO_TABLE_VIEW_SECTION {
-
+        else if indexPath.section == CONVO_TABLE_VIEW_SECTION {
+            
             var convo = self.convoArray[indexPath.row]
+            println("Convo was selected: \(convo)")
             
             var convoView = BlurbTableViewController(convo: convo)
             
