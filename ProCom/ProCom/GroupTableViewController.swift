@@ -123,8 +123,14 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     }
     
     func buildGroupHierarchy(convos: [Convo]) {
+        let currentInstallation = PFInstallation.currentInstallation()
         
         for c in convos {
+            if let incode = c.objectForKey("incode") as? String {
+//                var trimmedName = convoName.stringByReplacingOccurrencesOfString(" ", withString: "")
+                println("Incode name: \(incode)")
+                currentInstallation.addUniqueObject(String(incode), forKey: "channels")
+            }
             
             if let group = c.objectForKey("groupId") as? Group {
                 
@@ -136,6 +142,8 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
                 }
             }
         }
+        
+        currentInstallation.saveInBackgroundWithBlock(nil)
         
         self.groupActivityIndicator.stopAnimating()
         self.tableView.reloadData()
