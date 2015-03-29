@@ -511,8 +511,8 @@
 		E27B3FDF1A8D75B800AE18C5 /* ProCom */ = {
 			isa = PBXGroup;
 			children = (
-				1559537C1AAF87DB005777A4 /* Constants.swift */,
 				E27B3FE21A8D75B800AE18C5 /* AppDelegate.swift */,
+				1559537C1AAF87DB005777A4 /* Constants.swift */,
 				539D3B171A8FDD980093533F /* Convo.swift */,
 				539D3B151A8FDCEC0093533F /* Group.swift */,
 				539D3B191A8FDE6D0093533F /* GroupTableViewController.swift */,
@@ -867,8 +867,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Patrick Sheehan (2Q88R8ZYP5)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Patrick Sheehan (2Q88R8ZYP5)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/NightPhury/Desktop/GoogleDrive/Work/Abraid/ProCom/ProCom,
@@ -880,7 +880,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "76487aff-eb52-4453-9b5c-a3700ddf0913";
+				PROVISIONING_PROFILE = "b1bd28c1-f91e-4680-859f-4b8342e4a89a";
 				SWIFT_OBJC_BRIDGING_HEADER = "ProCom/ProCom-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 			};
@@ -890,8 +890,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Patrick Sheehan (2Q88R8ZYP5)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Patrick Sheehan (2Q88R8ZYP5)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/NightPhury/Desktop/GoogleDrive/Work/Abraid/ProCom/ProCom,
@@ -903,7 +903,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "76487aff-eb52-4453-9b5c-a3700ddf0913";
+				PROVISIONING_PROFILE = "b1bd28c1-f91e-4680-859f-4b8342e4a89a";
 				SWIFT_OBJC_BRIDGING_HEADER = "ProCom/ProCom-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 			};

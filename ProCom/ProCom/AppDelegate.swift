@@ -124,18 +124,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
         application.registerForRemoteNotifications()
     }
     
-//    func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [NSObject : AnyObject], completionHandler: () -> Void) {
-//        
-//        // Handle the actions
-//        if identifier == "declineAction" {
-//            
-//        }
-//        else if identifier == "answerAction" {
-//            
-//        }
-//    }
-    
-    
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
         println("didRegisterForRemoteNotificationsWithDeviceToken")
         
