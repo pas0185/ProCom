@@ -269,6 +269,21 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         self.presentViewController(alert, animated: true, completion: nil)
     }
     
+    func sendPushToMembers() {
+        var query = PFInstallation.query()
+        query.whereKey("deviceType", equalTo: "ios")
+        var error = NSErrorPointer()
+        PFPush.sendPushMessageToQuery(query, withMessage: "TEST MESSAGE", error: error)
+        
+        if error != nil {
+            println("Error sending push to members")
+        }
+        else {
+            println("Successfully sent push to members")
+        }
+        
+    }
+    
     // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {

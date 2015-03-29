@@ -144,7 +144,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
         println("didReceiveRemoteNotification")
         PFPush.handlePush(userInfo)
     }
-    
+        
     func signInUser(username: String, password: String, synchronous: Bool) {
         
         // Synchronous
