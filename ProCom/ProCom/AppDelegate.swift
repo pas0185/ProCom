@@ -143,6 +143,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
         println("didReceiveRemoteNotification in app delegate")
         
+        if let viewController = self.navController?.topViewController as? BlurbTableViewController {
+            println("Top view is blurb table view. Need to refresh for new message from push notification")
+            viewController.didReceiveRemoteNotification(userInfo)
+        }
         PFPush.handlePush(userInfo)
     }
     

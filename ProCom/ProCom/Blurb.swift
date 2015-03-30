@@ -37,7 +37,7 @@ class Blurb: PFObject, JSQMessageData {
         self.username = username
         
         self[TEXT] = message
-        self[USERNAME] = username
+        self[USERNAME] = PFUser.currentUser().username
         self[CONVO_ID] = convoID
         self[USER_ID] = PFUser.currentUser()
     }

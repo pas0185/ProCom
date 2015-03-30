@@ -181,20 +181,23 @@ class BlurbTableViewController: JSQMessagesViewController {
         }
     }
     
+    func didReceiveRemoteNotification(userInfo: [NSObject: AnyObject]) {
+        
+        println("Received remote notification in BlurbTableViewController")
+
+        // TODO: handle a refresh when notification received here
+    }
+    
     func handleTheseBlurbs(someBlurbs: [Blurb]) {
         println("I'm handling \(someBlurbs.count) blurbs")
         
         for b in someBlurbs {
             
-//            println("blurb \(b)")
             self.blurbs.append(b)
             
         }
         
         self.collectionView.reloadData()
-        
-        // ......
-        
     }
     
     //#MARK: - Setting up Blurbs
