@@ -115,7 +115,6 @@ class BlurbTableViewController: JSQMessagesViewController {
         
         if (PFUser.currentUser() != nil) {
     
-//            let queryBlurb = PFQuery(className: "Blurb")
             let queryBlurb = Blurb.query()
             queryBlurb.includeKey("userId")
             queryBlurb.includeKey("createdAt")
@@ -123,7 +122,7 @@ class BlurbTableViewController: JSQMessagesViewController {
             queryBlurb.whereKey("convoId", equalTo: convo)
             queryBlurb.orderByAscending("createdAt")
             
-            //TODO: Save in local datastore
+            //TODO: Save in local core datastore
             
             
             // Fetch all blurbs for this convo
@@ -235,9 +234,9 @@ class BlurbTableViewController: JSQMessagesViewController {
         avatars[name] = userImage
     }
     
-    func sendMessage(text: String!, sender: String!, convo: Convo){
+    func sendMessage(text: String) {
         
-        var blurb = Blurb(message: text, username: sender, date: NSDate(), imageUrl: nil, convoID: convo)
+        var blurb = Blurb(message: text, user: PFUser.currentUser(), convo: self.convo!)
         
         blurb.saveInBackgroundWithBlock {
             (success: Bool, error: NSError!) -> Void in
@@ -291,11 +290,11 @@ class BlurbTableViewController: JSQMessagesViewController {
     override func didPressAccessoryButton(sender: UIButton!) {
         println("Camera pressed!")
     }
-    
+
     override func didPressSendButton(button: UIButton!, withMessageText text: String!, sender: String!, date: NSDate!) {
 
         JSQSystemSoundPlayer.jsq_playMessageSentSound()
-        sendMessage(text, sender: PFUser.currentUser().objectId, convo: self.convo!)
+        self.sendMessage(text)
         finishSendingMessage()
     }
     
@@ -306,7 +305,6 @@ class BlurbTableViewController: JSQMessagesViewController {
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, bubbleImageViewForItemAtIndexPath indexPath: NSIndexPath!) -> UIImageView! {
         let blurb = blurbs[indexPath.item]
-        
         
         if blurb[USER_ID] as PFObject == PFUser.currentUser() {
             return UIImageView(image: outgoingBubbleImageView.image, highlightedImage: outgoingBubbleImageView.highlightedImage)
@@ -335,7 +333,7 @@ class BlurbTableViewController: JSQMessagesViewController {
         let cell = super.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as JSQMessagesCollectionViewCell
         
         let blurb = self.blurbs[indexPath.row]
-        if blurb[USERNAME] as NSString == PFUser.currentUser().username {
+        if blurb.sender() as NSString == PFUser.currentUser().username {
             cell.textView.textColor = UIColor.whiteColor()
         } else {
             cell.textView.textColor = UIColor.whiteColor()

@@ -14,11 +14,6 @@ class Blurb: PFObject, JSQMessageData {
         return "Blurb"
     }
     
-    var message: String = ""
-    var username: String = ""
-//    var createdAt: NSDate?
-    //    var imagePathURL: String = ""
-    
     override class func initialize() {
         var onceToken : dispatch_once_t = 0;
         dispatch_once(&onceToken) {
@@ -30,18 +25,15 @@ class Blurb: PFObject, JSQMessageData {
         super.init()
     }
 
-    init(message: String, username: String, date: NSDate?, imageUrl: String?, convoID: PFObject) {
+    init(message: String, user: PFUser, convo: Convo) {
         super.init()
-        
-        self.message = message
-        self.username = username
-        
+
         self[TEXT] = message
-        self[USERNAME] = PFUser.currentUser().username
-        self[CONVO_ID] = convoID
-        self[USER_ID] = PFUser.currentUser()
+        self[USERNAME] = user.username
+        self[CONVO_ID] = convo
+        self[USER_ID] = user
     }
-    
+
     func text() -> String! {
         return self[TEXT] as String
     }
