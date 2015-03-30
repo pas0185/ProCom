@@ -126,10 +126,9 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         let currentInstallation = PFInstallation.currentInstallation()
         
         for c in convos {
-            if let incode = c.objectForKey("incode") as? String {
-//                var trimmedName = convoName.stringByReplacingOccurrencesOfString(" ", withString: "")
-                println("Incode name: \(incode)")
-                currentInstallation.addUniqueObject(String(incode), forKey: "channels")
+            if let channelName = c.getChannelName() {
+                println("Channel name for convo = \(channelName)")
+                currentInstallation.addUniqueObject(channelName, forKey: "channels")
             }
             
             if let group = c.objectForKey("groupId") as? Group {

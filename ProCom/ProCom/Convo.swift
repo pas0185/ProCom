@@ -17,6 +17,13 @@ class Convo: PFObject, PFSubclassing {
     override init() {
         super.init()
     }
+    
+    func getChannelName() -> String! {
+        
+        let objectId = self.objectId
+        var channel = "channel" + objectId
+        return channel
+    }
 }
 
 
