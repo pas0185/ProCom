@@ -20,7 +20,6 @@ class BlurbTableViewController: JSQMessagesViewController {
     var outgoingBubbleImageView = JSQMessagesBubbleImageFactory.outgoingMessageBubbleImageViewWithColor(UIColor(red: 148/255, green: 34/255, blue: 50/255.0, alpha: 1))
     var incomingBubbleImageView = JSQMessagesBubbleImageFactory.incomingMessageBubbleImageViewWithColor(UIColor.grayColor())
     
-    
     init(convo: Convo) {
         super.init()
         self.convo = convo
@@ -242,12 +241,41 @@ class BlurbTableViewController: JSQMessagesViewController {
             if (success) {
                 println("Blurb successfully saved: \(text)")
                 self.blurbs.append(blurb)
-                self.finishReceivingMessage()
+//                self.finishSendingMessage()
+//                self.finishReceivingMessage()
                 self.collectionView.reloadData()
+                
+                self.pushNotifyOtherMembers()
                 
             } else {
                 println("There was a problem sending the message")
             }
+        }
+    }
+    
+    func pushNotifyOtherMembers() {
+        
+        if let channel = self.convo?.getChannelName() {
+            let data = [
+                "content-available" : 1,
+                "badge" : "Increment"
+            ]
+            let push = PFPush()
+            
+            push.setChannel(channel)
+            push.setData(data)
+            push.sendPushInBackgroundWithBlock {
+                (success: Bool, error: NSError!) -> Void in
+                if (success) {
+                    println("successfully notified other members")
+                }
+                else {
+                    println("failed to send push notification to other members")
+                }
+            }
+        }
+        else {
+            println("failed to send push notification to other members; failed to get channel name for convo")
         }
     }
     
