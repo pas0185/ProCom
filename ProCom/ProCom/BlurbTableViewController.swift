@@ -131,50 +131,15 @@ class BlurbTableViewController: JSQMessagesViewController {
                 
                 if (error == nil) {
                     println("blurb query fetched \(array.count) objects")
-
-//                    dispatch_async(dispatch_get_main_queue()) {
                     
-                        println("Pinnning blurb objects")
-                        PFObject.pinAll(array)
-                        println("Done pinning blurb objects")
-                    
-                        var fetchedBlurbs = array as [Blurb]
-                        println("casted to blurbs count = \(fetchedBlurbs.count)")
-                    
-                        self.handleTheseBlurbs(fetchedBlurbs)
-//                        self.blurbs += array as [Blurb]
-                    
-//                        self.blurbs = array as [Blurb]
-                    
-//                        self.finishReceivingMessage()
-//                        self.collectionView.reloadData()
-                    
-//                    }
-
-                    // TODO: Dispatch this on main UI thread
-//                    self.collectionView.reloadData()
-                    
-                    
-//                    for a in array {
-//                        if let b = a as? PFObject {
-//                            if let blurbText = b.objectForKey("text") as? String
-//                            {
-//                                if let blurbSender = b.objectForKey("userId") as? PFObject
-//                                {
-//                                    var username: String = blurbSender["username"] as String
-//                                    var blurbDate = b.createdAt
-//                                    
-//                                    //Creating blurbs from the network
-//                                    var blurb = Blurb(text: blurbText, sender: username, date: blurbDate, imageUrl: nil, convoID: self.convo!)
-//                                    
-//                                    
-//                                    self.blurbs.append(blurb)
-//                                }
-//                            }
-//                        }
-//                    }
-                    
-//                    self.collectionView.reloadData()
+                    println("Pinnning blurb objects")
+                    PFObject.pinAll(array)
+                    println("Done pinning blurb objects")
+                
+                    var fetchedBlurbs = array as [Blurb]
+                    println("casted to blurbs count = \(fetchedBlurbs.count)")
+                
+                    self.handleTheseBlurbs(fetchedBlurbs)
                 }
             })
         }
