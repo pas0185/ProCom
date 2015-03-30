@@ -141,10 +141,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
     }
     
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
-        println("didReceiveRemoteNotification")
+        println("didReceiveRemoteNotification in app delegate")
+        
         PFPush.handlePush(userInfo)
     }
-        
+    
     func signInUser(username: String, password: String, synchronous: Bool) {
         
         // Synchronous

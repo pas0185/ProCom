@@ -36,24 +36,18 @@ class Blurb: PFObject, JSQMessageData {
         self.message = message
         self.username = username
         
-        
-//        self["createdAt"] = date
-//        self.imageUrl = imageUrl!
-        
-//        self.setObject(convoID, forKey: CONVO_ID) = convoID!
-//        self.setObject(self.sender(), forKey: "username")
-//        self[USERNAME] = sender!
-//        self[TEXT] = text!
+        self[TEXT] = message
+        self[USERNAME] = username
+        self[CONVO_ID] = convoID
+        self[USER_ID] = PFUser.currentUser()
     }
     
     func text() -> String! {
         return self[TEXT] as String
-//        return self.message
     }
     
     func sender() -> String! {
         return self[USERNAME] as String
-//        return self.username
     }
     
     func date() -> NSDate! {
