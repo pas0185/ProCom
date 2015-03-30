@@ -51,8 +51,6 @@ class BlurbTableViewController: JSQMessagesViewController {
         self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
         self.collectionView.addSubview(refreshControl)
         
-        
-        
         // Add an 'add user' button to navbar
         var addButton: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "addUserButtonClicked")
         self.navigationItem.rightBarButtonItem = addButton
@@ -208,8 +206,7 @@ class BlurbTableViewController: JSQMessagesViewController {
             if (success) {
                 println("Blurb successfully saved: \(text)")
                 self.blurbs.append(blurb)
-//                self.finishSendingMessage()
-//                self.finishReceivingMessage()
+                self.finishSendingMessage()
                 self.collectionView.reloadData()
                 
                 self.pushNotifyOtherMembers()
