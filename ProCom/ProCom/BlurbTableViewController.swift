@@ -14,6 +14,8 @@ class BlurbTableViewController: JSQMessagesViewController {
     var blurbs: [Blurb] = []
     var convo: Convo?
     var refreshControl:UIRefreshControl!
+    var lastMessageTime: NSDate?
+    var notificationTime = NSDate()
     
     var refreshTime = NSTimer()
     var avatars = Dictionary<String, UIImage>()
@@ -42,7 +44,7 @@ class BlurbTableViewController: JSQMessagesViewController {
        
         
         if let c = convo as Convo? {
-            self.fetchBlurbsForConvo(c, lastMessageTime: nil)
+            self.fetchBlurbsForConvo(c)
         }
         
         //refreshing the blurbs
@@ -107,7 +109,7 @@ class BlurbTableViewController: JSQMessagesViewController {
     
     //#MARK: - Blurb handling
     
-    func fetchBlurbsForConvo(convo: Convo, lastMessageTime: NSDate?) {
+    func fetchBlurbsForConvo(convo: Convo) {
         
         automaticallyScrollsToMostRecentMessage = true
         
@@ -119,12 +121,9 @@ class BlurbTableViewController: JSQMessagesViewController {
             
             queryBlurb.whereKey("convoId", equalTo: convo)
             
-            // TODO: only fetch convos after last createdAt time
-            //          use lastMessageTime here
-            
-            if let date = lastMessageTime { // If its not nil
-                
-                
+            if let myDate = lastMessageTime{
+                queryBlurb.whereKey("createdAt", greaterThan: myDate)
+                println("Query for grabbing new objects was excecuted with this date: \(myDate)")
             }
             
             queryBlurb.orderByAscending("createdAt")
@@ -155,19 +154,29 @@ class BlurbTableViewController: JSQMessagesViewController {
     func didReceiveRemoteNotification(userInfo: [NSObject: AnyObject]) {
         
         println("Received remote notification in BlurbTableViewController")
-        println("User Info: \(userInfo)")
-        // TODO: handle a refresh when notification received here
-//        self.collectionView.reloadData()
+        self.fetchBlurbsForConvo(self.convo!)
+        self.finishReceivingMessage()
+        self.collectionView.reloadData()
     }
     
     func handleTheseBlurbs(someBlurbs: [Blurb]) {
         println("I'm handling \(someBlurbs.count) blurbs")
         
+        var localLastMessageTime: NSDate?
+        
         for b in someBlurbs {
-            
+            //TODO: Compare for most recent message time
+//            if b.createdAt < lastMessageTime
+//            {
+//                
+//            }
             self.blurbs.append(b)
-            
         }
+        
+        
+        
+        lastMessageTime = someBlurbs.last?.createdAt
+        println("The last message was \(lastMessageTime)")
         self.finishReceivingMessage()
         self.collectionView.reloadData()
     }
