@@ -42,7 +42,7 @@ class BlurbTableViewController: JSQMessagesViewController {
        
         
         if let c = convo as Convo? {
-            self.fetchBlurbsForConvo(c)
+            self.fetchBlurbsForConvo(c, lastMessageTime: nil)
         }
         
         //refreshing the blurbs
@@ -107,7 +107,7 @@ class BlurbTableViewController: JSQMessagesViewController {
     
     //#MARK: - Blurb handling
     
-    func fetchBlurbsForConvo(convo: Convo) {
+    func fetchBlurbsForConvo(convo: Convo, lastMessageTime: NSDate?) {
         
         automaticallyScrollsToMostRecentMessage = true
         
@@ -118,6 +118,15 @@ class BlurbTableViewController: JSQMessagesViewController {
             queryBlurb.includeKey("createdAt")
             
             queryBlurb.whereKey("convoId", equalTo: convo)
+            
+            // TODO: only fetch convos after last createdAt time
+            //          use lastMessageTime here
+            
+            if let date = lastMessageTime { // If its not nil
+                
+                
+            }
+            
             queryBlurb.orderByAscending("createdAt")
             
             //TODO: Save in local core datastore
