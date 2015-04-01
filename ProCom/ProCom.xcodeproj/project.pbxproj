@@ -867,8 +867,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Patrick Sheehan (2Q88R8ZYP5)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Patrick Sheehan (2Q88R8ZYP5)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/NightPhury/Desktop/GoogleDrive/Work/Abraid/ProCom/ProCom,
@@ -880,7 +880,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "b1bd28c1-f91e-4680-859f-4b8342e4a89a";
+				PROVISIONING_PROFILE = "12fcf729-0315-4aef-8dce-02740a6f5446";
 				SWIFT_OBJC_BRIDGING_HEADER = "ProCom/ProCom-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 			};
@@ -890,8 +890,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Patrick Sheehan (2Q88R8ZYP5)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Patrick Sheehan (2Q88R8ZYP5)";
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					/Users/NightPhury/Desktop/GoogleDrive/Work/Abraid/ProCom/ProCom,
@@ -903,7 +903,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "b1bd28c1-f91e-4680-859f-4b8342e4a89a";
+				PROVISIONING_PROFILE = "12fcf729-0315-4aef-8dce-02740a6f5446";
 				SWIFT_OBJC_BRIDGING_HEADER = "ProCom/ProCom-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 			};

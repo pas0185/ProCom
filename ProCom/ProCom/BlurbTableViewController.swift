@@ -155,8 +155,9 @@ class BlurbTableViewController: JSQMessagesViewController {
     func didReceiveRemoteNotification(userInfo: [NSObject: AnyObject]) {
         
         println("Received remote notification in BlurbTableViewController")
-
+        println("User Info: \(userInfo)")
         // TODO: handle a refresh when notification received here
+//        self.collectionView.reloadData()
     }
     
     func handleTheseBlurbs(someBlurbs: [Blurb]) {
@@ -167,7 +168,7 @@ class BlurbTableViewController: JSQMessagesViewController {
             self.blurbs.append(b)
             
         }
-        
+        self.finishReceivingMessage()
         self.collectionView.reloadData()
     }
     
