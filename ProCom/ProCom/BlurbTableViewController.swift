@@ -224,7 +224,6 @@ class BlurbTableViewController: JSQMessagesViewController {
             (success: Bool, error: NSError!) -> Void in
             if (success) {
                 println("Blurb successfully saved: \(text)")
-                self.blurbs.append(blurb)
                 self.finishSendingMessage()
                 self.collectionView.reloadData()
                 
