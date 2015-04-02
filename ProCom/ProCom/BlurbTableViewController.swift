@@ -25,6 +25,7 @@ class BlurbTableViewController: JSQMessagesViewController {
     init(convo: Convo) {
         super.init()
         self.convo = convo
+        self.activityController.startAnimating()
     }
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
@@ -111,6 +112,8 @@ class BlurbTableViewController: JSQMessagesViewController {
     
     func fetchBlurbsForConvo(convo: Convo) {
         
+        
+        
         automaticallyScrollsToMostRecentMessage = true
         
         if (PFUser.currentUser() != nil) {
@@ -151,12 +154,6 @@ class BlurbTableViewController: JSQMessagesViewController {
         }
     }
     
-    func didReceiveRemoteNotification(userInfo: [NSObject: AnyObject]) {
-        self.fetchBlurbsForConvo(self.convo!)
-        self.finishReceivingMessage()
-        self.collectionView.reloadData()
-    }
-    
     func handleTheseBlurbs(someBlurbs: [Blurb]) {
         println("I'm handling \(someBlurbs.count) blurbs")
         
@@ -164,10 +161,10 @@ class BlurbTableViewController: JSQMessagesViewController {
         
         for b in someBlurbs {
             //TODO: Compare for most recent message time
-//            if b.createdAt < lastMessageTime
-//            {
-//                
-//            }
+            //            if b.createdAt < lastMessageTime
+            //            {
+            //
+            //            }
             self.blurbs.append(b)
         }
         
@@ -176,14 +173,22 @@ class BlurbTableViewController: JSQMessagesViewController {
         lastMessageTime = someBlurbs.last?.createdAt
         println("The last message was \(lastMessageTime)")
         self.finishReceivingMessage()
+        self.activityController.stopAnimating()
         self.collectionView.reloadData()
     }
+    
+    func didReceiveRemoteNotification(userInfo: [NSObject: AnyObject]) {
+        self.fetchBlurbsForConvo(self.convo!)
+        self.finishReceivingMessage()
+        self.collectionView.reloadData()
+    }
+    
     
     func sendMessage(text: String) {
         
         var blurb = Blurb(message: text, user: PFUser.currentUser(), convo: self.convo!)
         
-        blurb.saveInBackgroundWithBlock {
+       blurb.saveInBackgroundWithBlock {
             (success: Bool, error: NSError!) -> Void in
             if (success) {
                 println("Blurb successfully saved: \(text)")
@@ -205,9 +210,12 @@ class BlurbTableViewController: JSQMessagesViewController {
                 "content-available" : 1,
                 "badge" : "Increment",
                 "alert" : username + " in " + currentConvo + " says: " + message,
-                "senderObjectId" : PFUser.currentUser().objectId
-            ]
+                "senderObjectId" : PFUser.currentUser().objectId,
+                "convoObject" : self.convo!.objectId,
+                "sound": "default"
+                ]
             
+            println("\(blurbs.last?.objectId as String!)")
             
             let push = PFPush()
             push.setChannel(channel)
