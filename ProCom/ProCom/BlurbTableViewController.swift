@@ -152,13 +152,9 @@ class BlurbTableViewController: JSQMessagesViewController {
     }
     
     func didReceiveRemoteNotification(userInfo: [NSObject: AnyObject]) {
-        if (PFUser.currentUser() == nil)
-        {
-            println("Received remote notification in BlurbTableViewController")
-            self.fetchBlurbsForConvo(self.convo!)
-            self.finishReceivingMessage()
-            self.collectionView.reloadData()
-        }
+        self.fetchBlurbsForConvo(self.convo!)
+        self.finishReceivingMessage()
+        self.collectionView.reloadData()
     }
     
     func handleTheseBlurbs(someBlurbs: [Blurb]) {
@@ -208,8 +204,11 @@ class BlurbTableViewController: JSQMessagesViewController {
             let data = [
                 "content-available" : 1,
                 "badge" : "Increment",
-                "alert" : username + " in " + currentConvo + " says: " + message
+                "alert" : username + " in " + currentConvo + " says: " + message,
+                "senderObjectId" : PFUser.currentUser().objectId
             ]
+            
+            
             let push = PFPush()
             push.setChannel(channel)
             push.setData(data)

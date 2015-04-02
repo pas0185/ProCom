@@ -34,6 +34,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
 
         self.navController = UINavigationController()
         self.window?.rootViewController = navController
+        
+        if let notificationPayload = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? NSDictionary{
+            notificationPayload.objectForKey("alert")
+        }
 
         if (PFUser.currentUser() == nil) {
             
@@ -147,7 +151,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
             println("Top view is blurb table view. Need to refresh for new message from push notification")
             viewController.didReceiveRemoteNotification(userInfo)
         }
-        PFPush.handlePush(userInfo)
+        
+        if let senderObjectId = userInfo["senderObjectId"] as? String {
+            
+            if PFUser.currentUser().objectId == senderObjectId {
+                // Don't do the notification thing
+                println("Remote notification received from the user that sent it (in AppDelegate)")
+            }
+            else {
+                println("Received remote notification in AppDelegate from a different user")
+                PFPush.handlePush(userInfo)
+            }
+        }
+
     }
     
     func signInUser(username: String, password: String, synchronous: Bool) {
