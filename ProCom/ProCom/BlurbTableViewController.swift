@@ -152,11 +152,13 @@ class BlurbTableViewController: JSQMessagesViewController {
     }
     
     func didReceiveRemoteNotification(userInfo: [NSObject: AnyObject]) {
-        
-        println("Received remote notification in BlurbTableViewController")
-        self.fetchBlurbsForConvo(self.convo!)
-        self.finishReceivingMessage()
-        self.collectionView.reloadData()
+        if (PFUser.currentUser() == nil)
+        {
+            println("Received remote notification in BlurbTableViewController")
+            self.fetchBlurbsForConvo(self.convo!)
+            self.finishReceivingMessage()
+            self.collectionView.reloadData()
+        }
     }
     
     func handleTheseBlurbs(someBlurbs: [Blurb]) {
@@ -181,6 +183,51 @@ class BlurbTableViewController: JSQMessagesViewController {
         self.collectionView.reloadData()
     }
     
+    func sendMessage(text: String) {
+        
+        var blurb = Blurb(message: text, user: PFUser.currentUser(), convo: self.convo!)
+        
+        blurb.saveInBackgroundWithBlock {
+            (success: Bool, error: NSError!) -> Void in
+            if (success) {
+                println("Blurb successfully saved: \(text)")
+                self.finishSendingMessage()
+                self.collectionView.reloadData()
+                
+                self.pushNotifyOtherMembers(text, currentConvo: self.convo?.objectForKey(NAME_KEY) as String, username: PFUser.currentUser().username)
+                
+            } else {
+                println("There was a problem sending the message")
+            }
+        }
+    }
+    
+    func pushNotifyOtherMembers(message: String, currentConvo: String, username: String) {
+        
+        if let channel = self.convo?.getChannelName() {
+            let data = [
+                "content-available" : 1,
+                "badge" : "Increment",
+                "alert" : username + " in " + currentConvo + " says: " + message
+            ]
+            let push = PFPush()
+            push.setChannel(channel)
+            push.setData(data)
+            push.sendPushInBackgroundWithBlock {
+                (success: Bool, error: NSError!) -> Void in
+                if (success) {
+                    println("successfully notified other members")
+                }
+                else {
+                    println("failed to send push notification to other members")
+                }
+            }
+        }
+        else {
+            println("failed to send push notification to other members; failed to get channel name for convo")
+        }
+    }
+
     //#MARK: - Setting up Blurbs
     
     func setupAvatarImage(name: String, imageUrl: String?, incoming: Bool) {
@@ -214,51 +261,6 @@ class BlurbTableViewController: JSQMessagesViewController {
         let userImage = JSQMessagesAvatarFactory.avatarWithUserInitials(initials, backgroundColor: color, textColor: UIColor.blackColor(), font: UIFont.systemFontOfSize(CGFloat(13)), diameter: diameter)
         
         avatars[name] = userImage
-    }
-    
-    func sendMessage(text: String) {
-        
-        var blurb = Blurb(message: text, user: PFUser.currentUser(), convo: self.convo!)
-        
-        blurb.saveInBackgroundWithBlock {
-            (success: Bool, error: NSError!) -> Void in
-            if (success) {
-                println("Blurb successfully saved: \(text)")
-                self.finishSendingMessage()
-                self.collectionView.reloadData()
-                
-                self.pushNotifyOtherMembers()
-                
-            } else {
-                println("There was a problem sending the message")
-            }
-        }
-    }
-    
-    func pushNotifyOtherMembers() {
-        
-        if let channel = self.convo?.getChannelName() {
-            let data = [
-                "content-available" : 1,
-                "badge" : "Increment"
-            ]
-            let push = PFPush()
-            
-            push.setChannel(channel)
-            push.setData(data)
-            push.sendPushInBackgroundWithBlock {
-                (success: Bool, error: NSError!) -> Void in
-                if (success) {
-                    println("successfully notified other members")
-                }
-                else {
-                    println("failed to send push notification to other members")
-                }
-            }
-        }
-        else {
-            println("failed to send push notification to other members; failed to get channel name for convo")
-        }
     }
     
     func receivedMessagePressed(sender: UIBarButtonItem) {
