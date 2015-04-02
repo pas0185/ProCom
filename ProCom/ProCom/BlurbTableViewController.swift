@@ -25,7 +25,6 @@ class BlurbTableViewController: JSQMessagesViewController {
     init(convo: Convo) {
         super.init()
         self.convo = convo
-        self.activityController.startAnimating()
     }
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: NSBundle?) {
@@ -173,7 +172,6 @@ class BlurbTableViewController: JSQMessagesViewController {
         lastMessageTime = someBlurbs.last?.createdAt
         println("The last message was \(lastMessageTime)")
         self.finishReceivingMessage()
-        self.activityController.stopAnimating()
         self.collectionView.reloadData()
     }
     

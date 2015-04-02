@@ -35,9 +35,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
         self.navController = UINavigationController()
         self.window?.rootViewController = navController
         
-        if let notificationPayload = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? NSDictionary{
-            notificationPayload.objectForKey("alert")
-        }
+        var replyAction : UIMutableUserNotificationAction = UIMutableUserNotificationAction()
+        replyAction.identifier = "REPLY_ACTION"
+        replyAction.title = "Yes, I need!"
+        
+        replyAction.activationMode = UIUserNotificationActivationMode.Foreground
+        replyAction.authenticationRequired = false
+
 
         if (PFUser.currentUser() == nil) {
             
