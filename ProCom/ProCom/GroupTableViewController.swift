@@ -68,6 +68,14 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         
         super.viewDidLoad()
         
+        // Retreive the managedObjectContext from AppDelegate
+        let managedObjectContext = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext
+        
+        // Print it to the console
+        println(managedObjectContext)
+        
+        
+        
         if let title = self.currentGroup?.objectForKey(NAME_KEY) as? String {
             println("TITLE = \(title)")
             self.navigationItem.title = title
