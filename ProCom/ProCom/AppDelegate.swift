@@ -43,6 +43,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
         replyAction.authenticationRequired = false
 
 
+        println("LAUNCH OPTIONS: \(launchOptions)")
+        
         if (PFUser.currentUser() == nil) {
             
             var logInController = PFLogInViewController()
@@ -151,6 +153,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
     func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
         println("didReceiveRemoteNotification in app delegate")
         
+        println("User Info: \(userInfo)")
+        if let convo: AnyObject = userInfo["convoObject"] {
+            println("Convo from push notification = \(convo)")
+        
+            var realConvo = Convo()
+            
+            var blurbViewControlerr = BlurbTableViewController(convo: realConvo)
+            self.navController?.pushViewController(blurbViewControlerr, animated: true)
+        
+        }
+        
+        
         if let viewController = self.navController?.topViewController as? BlurbTableViewController {
             println("Top view is blurb table view. Need to refresh for new message from push notification")
             viewController.didReceiveRemoteNotification(userInfo)
@@ -219,7 +233,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
     }
 
     func applicationDidBecomeActive(application: UIApplication) {
-        
+     
     }
 
     func applicationWillTerminate(application: UIApplication) {
