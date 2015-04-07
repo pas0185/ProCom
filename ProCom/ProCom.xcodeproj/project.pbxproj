@@ -19,6 +19,8 @@
 		CB33DD9A1A94E96100AE8FCF /* ParseUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB33DD951A94E96100AE8FCF /* ParseUI.framework */; };
 		CB5711061A94EC21001FA72F /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB5711041A94EC21001FA72F /* FacebookSDK.framework */; };
 		CB5711071A94EC21001FA72F /* FBAudienceNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CB5711051A94EC21001FA72F /* FBAudienceNetwork.framework */; };
+		CB8A0C471AD47B95001B6AF4 /* ConvoSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8A0C461AD47B95001B6AF4 /* ConvoSettingsViewController.swift */; };
+		CB8A0C4C1AD48137001B6AF4 /* settingsicon.png in Resources */ = {isa = PBXBuildFile; fileRef = CB8A0C4B1AD48137001B6AF4 /* settingsicon.png */; };
 		CBA7D4701A92BE600065AB70 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CBA7D46E1A92BE4D0065AB70 /* libsqlite3.dylib */; };
 		CBA7D48B1A92C0B00065AB70 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBA7D4891A92C0910065AB70 /* SystemConfiguration.framework */; };
 		CBA7D48C1A92C0B00065AB70 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBA7D4871A92C0840065AB70 /* Security.framework */; };
@@ -141,6 +143,8 @@
 		CB33DD951A94E96100AE8FCF /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseUI.framework; sourceTree = "<group>"; };
 		CB5711041A94EC21001FA72F /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FacebookSDK.framework; sourceTree = "<group>"; };
 		CB5711051A94EC21001FA72F /* FBAudienceNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FBAudienceNetwork.framework; sourceTree = "<group>"; };
+		CB8A0C461AD47B95001B6AF4 /* ConvoSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConvoSettingsViewController.swift; sourceTree = "<group>"; };
+		CB8A0C4B1AD48137001B6AF4 /* settingsicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settingsicon.png; sourceTree = "<group>"; };
 		CBA7D46E1A92BE4D0065AB70 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		CBA7D4771A92C02D0065AB70 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		CBA7D4791A92C0370065AB70 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -292,6 +296,14 @@
 				CB33DD951A94E96100AE8FCF /* ParseUI.framework */,
 			);
 			name = "Parse Framework";
+			sourceTree = "<group>";
+		};
+		CB8A0C481AD47E8D001B6AF4 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				CB8A0C4B1AD48137001B6AF4 /* settingsicon.png */,
+			);
+			name = Images;
 			sourceTree = "<group>";
 		};
 		CBA7D46D1A92BDF10065AB70 /* Frameworks */ = {
@@ -518,6 +530,7 @@
 				539D3B191A8FDE6D0093533F /* GroupTableViewController.swift */,
 				CBCBA2CB1AAA8D5A00B2E303 /* UserHandlingViewController.swift */,
 				CBF01B511A9AE53300364AB6 /* BlurbTableViewController.swift */,
+				CB8A0C461AD47B95001B6AF4 /* ConvoSettingsViewController.swift */,
 				539D3B131A8FDC7A0093533F /* Blurb.swift */,
 				E27B3FE01A8D75B800AE18C5 /* Supporting Files */,
 			);
@@ -527,6 +540,7 @@
 		E27B3FE01A8D75B800AE18C5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				CB8A0C481AD47E8D001B6AF4 /* Images */,
 				CBA7D46D1A92BDF10065AB70 /* Frameworks */,
 				E27B3FEE1A8D75B800AE18C5 /* Images.xcassets */,
 				E27B3FF01A8D75B800AE18C5 /* LaunchScreen.xib */,
@@ -689,6 +703,7 @@
 				CBCBA2C11AA665B000B2E303 /* JSQMessagesToolbarContentView.xib in Resources */,
 				CBCBA2811AA665B000B2E303 /* bubble_stroked_tailless.png in Resources */,
 				CBCBA2861AA665B000B2E303 /* camera@2x.png in Resources */,
+				CB8A0C4C1AD48137001B6AF4 /* settingsicon.png in Resources */,
 				CBCBA2991AA665B000B2E303 /* JSQMessagesViewController.xib in Resources */,
 				CBCBA27C1AA665B000B2E303 /* bubble_min@2x.png in Resources */,
 				CBCBA2801AA665B000B2E303 /* bubble_stroked@2x.png in Resources */,
@@ -733,6 +748,7 @@
 				CBCBA2AF1AA665B000B2E303 /* JSQMessagesCollectionViewCell.m in Sources */,
 				CBCBA2C61AA665B000B2E303 /* JSQSystemSoundPlayer.m in Sources */,
 				CBCBA2C31AA665B000B2E303 /* JSQMessagesTypingIndicatorFooterView.m in Sources */,
+				CB8A0C471AD47B95001B6AF4 /* ConvoSettingsViewController.swift in Sources */,
 				CBCBA2A41AA665B000B2E303 /* JSQMessagesCollectionViewFlowLayout.m in Sources */,
 				E27B3FE31A8D75B800AE18C5 /* AppDelegate.swift in Sources */,
 				E27B3FE61A8D75B800AE18C5 /* ProCom.xcdatamodeld in Sources */,

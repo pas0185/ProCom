@@ -53,9 +53,10 @@ class BlurbTableViewController: JSQMessagesViewController {
         self.refreshControl.addTarget(self, action: "refresh:", forControlEvents: UIControlEvents.ValueChanged)
         self.collectionView.addSubview(refreshControl)
         
-        // Add an 'add user' button to navbar
-        var addButton: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "addUserButtonClicked")
-        self.navigationItem.rightBarButtonItem = addButton
+        //Added a settings button to navbar
+        var settingsImage = UIImage(named: "settingsicon.png")
+        var settingButton: UIBarButtonItem = UIBarButtonItem(image: settingsImage, style: .Plain, target: self, action: "settingsButtonClicked")
+        self.navigationItem.rightBarButtonItem = settingButton
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -72,39 +73,9 @@ class BlurbTableViewController: JSQMessagesViewController {
         self.refreshControl?.endRefreshing()
     }
     
-    func addUserButtonClicked() {
-        
-        println("Add user button clicked")
-        
-        let alert = UIAlertController(title: "Add User to this Convo", message: "Enter your buddy's username", preferredStyle: UIAlertControllerStyle.Alert)
-        alert.addTextFieldWithConfigurationHandler(nil)
-        alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil))
-        alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler:{ (alertAction:UIAlertAction!) in
-            let textField = alert.textFields![0] as UITextField
-            let username = textField.text
-            println(username)
-            
-            if let convoId = self.convo?.objectId as String? {
-                
-                self.addUserToConvo(username, convoId: convoId)
-            }
-            
-        }))
-        
-        self.presentViewController(alert, animated: true, completion: nil)
-    }
-    
-    func addUserToConvo(username: String, convoId: String) {
-        PFCloud.callFunctionInBackground("addUserToConvoByUsername", withParameters: ["username": username,
-            "convoId": convoId], block: {
-                (result: AnyObject!, error: NSError!) -> Void in
-                if error == nil {
-                    println("Successfully added user!")
-                }
-                else {
-                    println("Failed to add user" + error.localizedDescription)
-                }
-        })
+    func settingsButtonClicked(){
+        var settingsPage = ConvoSettingsViewController(convo: convo!)
+        self.navigationController!.pushViewController(settingsPage, animated: true)
     }
     
     //#MARK: - Blurb handling
