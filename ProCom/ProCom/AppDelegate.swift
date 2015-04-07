@@ -157,10 +157,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
         if let convo: AnyObject = userInfo["convoObject"] {
             println("Convo from push notification = \(convo)")
         
-            var realConvo = Convo()
-            
-            var blurbViewControlerr = BlurbTableViewController(convo: realConvo)
-            self.navController?.pushViewController(blurbViewControlerr, animated: true)
+            var convoQuery = Convo.query()
+            if let actualConvo = convoQuery.getObjectWithId(convo as String) as? Convo {
+                // You got it?
+                println("\(actualConvo)")
+                var blurbViewControlerr = BlurbTableViewController(convo: actualConvo)
+                self.navController?.pushViewController(blurbViewControlerr, animated: true)
+                return
+            }
         
         }
         
