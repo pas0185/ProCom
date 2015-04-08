@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class Convo: PFObject, PFSubclassing {
     
@@ -23,6 +24,29 @@ class Convo: PFObject, PFSubclassing {
         let objectId = self.objectId
         var channel = "channel" + objectId
         return channel
+    }
+    
+    
+    func saveToCore() {
+        
+        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        
+        let managedContext = appDelegate.managedObjectContext!
+        
+        let entity = NSEntityDescription.entityForName("Convo", inManagedObjectContext: managedContext)
+        
+        let convo = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext)
+        
+        convo.setValue(self[NAME_KEY], forKey: NAME_KEY)
+        convo.setValue(self.objectId, forKey: OBJECT_ID_KEY)
+        
+        //        group.setValue( ... createdAt
+        //        group.setValue( ... group
+        
+        var error: NSError?
+        if !managedContext.save(&error) {
+            println("Could not save \(error), \(error?.userInfo)")
+        }
     }
 }
 
