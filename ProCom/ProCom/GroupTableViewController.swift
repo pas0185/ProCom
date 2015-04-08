@@ -7,7 +7,7 @@
 //
 
 import UIKit
-
+import CoreData
 
 class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     
@@ -21,6 +21,8 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     
     var groupActivityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
     var convoActivityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
+    
+    let managedObjectContext = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext
     
     // MARK: - Initialization
     
@@ -68,13 +70,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         
         super.viewDidLoad()
         
-        // Retreive the managedObjectContext from AppDelegate
-        let managedObjectContext = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext
-        
-        // Print it to the console
-        println(managedObjectContext)
-        
-        
+        self.saveGroupToCore()
         
         if let title = self.currentGroup?.objectForKey(NAME_KEY) as? String {
             println("TITLE = \(title)")
@@ -84,9 +80,52 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         // Add an 'add group' button to navbar
         var addButton: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "addGroupButtonClicked")
         self.navigationItem.rightBarButtonItem = addButton
+        
+        
+        self.fetchGroupFromCore()
     }
     
     // MARK: - Fetch Data
+    
+    func saveGroupToCore() {
+        
+        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        
+        let managedContext = appDelegate.managedObjectContext!
+        
+        let entity = NSEntityDescription.entityForName("Group", inManagedObjectContext: managedContext)
+        
+        let group = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext)
+        
+        // Assign fields in two different ways to see what works
+        group.setValue("Test Group Name", forKey: "name")
+        group.setValue("abcd1234", forKey: "objectId")
+        
+        var error: NSError?
+        if !managedContext.save(&error) {
+            println("Could not save \(error), \(error?.userInfo)")
+        }
+    }
+    
+    func fetchGroupFromCore() {
+        
+        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        
+        let managedContext = appDelegate.managedObjectContext!
+        
+        let fetchRequest = NSFetchRequest(entityName: "Group")
+
+        var error: NSError?
+
+        let fetchedResults = managedContext.executeFetchRequest(fetchRequest, error: &error) as [NSManagedObject]?
+        
+        if let results = fetchedResults {
+            println("Fetched Results: \(results)")
+        }
+        else {
+            println("Could not fetch \(error), \(error!.userInfo)")
+        }
+    }
     
     func fetchAndPinAllGroups() {
         

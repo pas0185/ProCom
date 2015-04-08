@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 class Group: PFObject, PFSubclassing {
     
@@ -38,7 +39,6 @@ class Group: PFObject, PFSubclassing {
         self.parentId = parentId
         super.init()
     }
-    
     
     class func parseClassName() -> String! {
         return "Group"
