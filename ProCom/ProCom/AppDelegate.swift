@@ -16,6 +16,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
     var window: UIWindow?
     var navController: UINavigationController?
     
+    func setParseAppIdAndClientKey() {
+        if let dictionary = NSDictionary(contentsOfFile: NSBundle.mainBundle().pathForResource("Keys", ofType: "plist")!) {
+            var appId = dictionary.objectForKey("PARSE_APPLICATION_ID") as String
+            var clientKey = dictionary.objectForKey("PARSE_CLIENT_KEY") as String
+            
+            Parse.setApplicationId(appId, clientKey: clientKey)
+        }
+    }
+    
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         
         // Parse setup
@@ -23,7 +32,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
         Convo.registerSubclass()
         Blurb.registerSubclass()
         Parse.enableLocalDatastore()
-        Parse.setApplicationId("n3twpTW37Eh9SkLFRWM41bjmw2IoYPdb2dh3OAQC", clientKey: "TG5IOJyDtOkkijqBt3BXlSa1gKtxUm7k2dXBYxuF")
+        
+        self.setParseAppIdAndClientKey()
         
         // Push notifications
         self.setupPushNotifications(application)
