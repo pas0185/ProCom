@@ -70,8 +70,6 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         
         super.viewDidLoad()
         
-        self.saveGroupToCore()
-        
         if let title = self.currentGroup?.objectForKey(NAME_KEY) as? String {
             println("TITLE = \(title)")
             self.navigationItem.title = title
@@ -87,25 +85,6 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     
     // MARK: - Fetch Data
     
-    func saveGroupToCore() {
-        
-        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
-        
-        let managedContext = appDelegate.managedObjectContext!
-        
-        let entity = NSEntityDescription.entityForName("Group", inManagedObjectContext: managedContext)
-        
-        let group = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext)
-        
-        // Assign fields in two different ways to see what works
-        group.setValue("Test Group Name", forKey: "name")
-        group.setValue("abcd1234", forKey: "objectId")
-        
-        var error: NSError?
-        if !managedContext.save(&error) {
-            println("Could not save \(error), \(error?.userInfo)")
-        }
-    }
     
     func fetchGroupFromCore() {
         

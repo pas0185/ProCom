@@ -8,6 +8,7 @@
 
 import Foundation
 
+let OBJECT_ID_KEY = "objectId"
 let GROUP_KEY = "groupId"
 let SUB_GROUP_KEY = "subGroups"
 let PARENT_GROUP_KEY = "parent"
@@ -24,8 +25,5 @@ let GROUP_TABLE_VIEW_SECTION = 0
 
 let CONVO_CLASS = "Convo"
 let CONVO_TABLE_VIEW_SECTION = 1
-
-let PATRICK_USERNAME = "patrick317"
-let PATRICK_PASSWORD = "ThisIsSecure"
 
 let TABLE_HEADER_HEIGHT = 40 as CGFloat

@@ -17,6 +17,8 @@ class Group: PFObject, PFSubclassing {
     var name: String?
     var parentId: String?
     
+    // MARK: - Initialization
+    
     override class func initialize() {
         var onceToken : dispatch_once_t = 0;
         dispatch_once(&onceToken) {
@@ -33,7 +35,6 @@ class Group: PFObject, PFSubclassing {
         super.init()
     }
     
-    // initialize a new Convo, given an appropriate title
     init(name: String, parentId: String) {
         self.name = name
         self.parentId = parentId
@@ -42,22 +43,6 @@ class Group: PFObject, PFSubclassing {
     
     class func parseClassName() -> String! {
         return "Group"
-    }
-    
-    func saveToNetwork() {
-        
-        var groupObject = PFObject(className: "Group")
-        groupObject["name"] = self.name
-        groupObject["parent"] = self.parentId
-        groupObject.saveInBackgroundWithBlock {
-            (success: Bool, error: NSError!) -> Void in
-            if (success) {
-                NSLog("Saved new group to the network")
-            }
-            else {
-                NSLog("Failed to save new group: %@", error.description)
-            }
-        }
     }
     
     func getSubGroups() -> [Group] {
@@ -83,5 +68,47 @@ class Group: PFObject, PFSubclassing {
         
         
         return subConvos
+    }
+    
+    // MARK: - Networking
+    
+    func saveToNetwork() {
+        
+        var groupObject = PFObject(className: "Group")
+        groupObject["name"] = self.name
+        groupObject["parent"] = self.parentId
+        groupObject.saveInBackgroundWithBlock {
+            (success: Bool, error: NSError!) -> Void in
+            if (success) {
+                NSLog("Saved new group to the network")
+            }
+            else {
+                NSLog("Failed to save new group: %@", error.description)
+            }
+        }
+    }
+    
+    // MARK: - Core Data
+    
+    func saveToCore() {
+        
+        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        
+        let managedContext = appDelegate.managedObjectContext!
+        
+        let entity = NSEntityDescription.entityForName("Group", inManagedObjectContext: managedContext)
+        
+        let group = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext)
+        
+        group.setValue(self.name, forKey: NAME_KEY)
+        group.setValue(self.objectId, forKey: OBJECT_ID_KEY)
+
+        //        group.setValue( ... createdAt
+        //        group.setValue( ... parent
+        
+        var error: NSError?
+        if !managedContext.save(&error) {
+            println("Could not save \(error), \(error?.userInfo)")
+        }
     }
 }
