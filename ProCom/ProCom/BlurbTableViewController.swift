@@ -57,6 +57,8 @@ class BlurbTableViewController: JSQMessagesViewController {
         var settingsImage = UIImage(named: "settingsicon.png")
         var settingButton: UIBarButtonItem = UIBarButtonItem(image: settingsImage, style: .Plain, target: self, action: "settingsButtonClicked")
         self.navigationItem.rightBarButtonItem = settingButton
+        
+        self.navigationItem.title = convo?.objectForKey(NAME_KEY) as String?
     }
     
     override func viewDidAppear(animated: Bool) {
