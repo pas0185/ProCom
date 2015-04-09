@@ -9,6 +9,13 @@
 /* Begin PBXBuildFile section */
 		1559537D1AAF87DB005777A4 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1559537C1AAF87DB005777A4 /* Constants.swift */; };
 		159CCA691AD5788E00C16C25 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 159CCA681AD5788E00C16C25 /* Keys.plist */; };
+		15E8C5BF1AD6551E00AF91EF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15E8C5BE1AD6551E00AF91EF /* Foundation.framework */; };
+		15E8C5D01AD65DE100AF91EF /* ManagedGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = 15E8C5CE1AD65DE000AF91EF /* ManagedGroup.h */; };
+		15E8C5D11AD65DE100AF91EF /* ManagedGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 15E8C5CF1AD65DE100AF91EF /* ManagedGroup.m */; };
+		15E8C5D41AD65DE100AF91EF /* ManagedBlurb.h in Headers */ = {isa = PBXBuildFile; fileRef = 15E8C5D21AD65DE100AF91EF /* ManagedBlurb.h */; };
+		15E8C5D51AD65DE100AF91EF /* ManagedBlurb.m in Sources */ = {isa = PBXBuildFile; fileRef = 15E8C5D31AD65DE100AF91EF /* ManagedBlurb.m */; };
+		15E8C5D81AD65DE100AF91EF /* ManagedConvo.h in Headers */ = {isa = PBXBuildFile; fileRef = 15E8C5D61AD65DE100AF91EF /* ManagedConvo.h */; };
+		15E8C5D91AD65DE100AF91EF /* ManagedConvo.m in Sources */ = {isa = PBXBuildFile; fileRef = 15E8C5D71AD65DE100AF91EF /* ManagedConvo.m */; };
 		539D3B141A8FDC7A0093533F /* Blurb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539D3B131A8FDC7A0093533F /* Blurb.swift */; };
 		539D3B161A8FDCEC0093533F /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539D3B151A8FDCEC0093533F /* Group.swift */; };
 		539D3B181A8FDD980093533F /* Convo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539D3B171A8FDD980093533F /* Convo.swift */; };
@@ -134,6 +141,13 @@
 /* Begin PBXFileReference section */
 		1559537C1AAF87DB005777A4 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		159CCA681AD5788E00C16C25 /* Keys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
+		15E8C5BE1AD6551E00AF91EF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		15E8C5CE1AD65DE000AF91EF /* ManagedGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ManagedGroup.h; path = ProCom/ManagedGroup.h; sourceTree = "<group>"; };
+		15E8C5CF1AD65DE100AF91EF /* ManagedGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ManagedGroup.m; path = ProCom/ManagedGroup.m; sourceTree = "<group>"; };
+		15E8C5D21AD65DE100AF91EF /* ManagedBlurb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ManagedBlurb.h; path = ProCom/ManagedBlurb.h; sourceTree = "<group>"; };
+		15E8C5D31AD65DE100AF91EF /* ManagedBlurb.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ManagedBlurb.m; path = ProCom/ManagedBlurb.m; sourceTree = "<group>"; };
+		15E8C5D61AD65DE100AF91EF /* ManagedConvo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ManagedConvo.h; path = ProCom/ManagedConvo.h; sourceTree = "<group>"; };
+		15E8C5D71AD65DE100AF91EF /* ManagedConvo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ManagedConvo.m; path = ProCom/ManagedConvo.m; sourceTree = "<group>"; };
 		539D3B131A8FDC7A0093533F /* Blurb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Blurb.swift; sourceTree = "<group>"; };
 		539D3B151A8FDCEC0093533F /* Group.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
 		539D3B171A8FDD980093533F /* Convo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Convo.swift; sourceTree = "<group>"; };
@@ -256,6 +270,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				15E8C5BF1AD6551E00AF91EF /* Foundation.framework in Frameworks */,
 				CBA7D48B1A92C0B00065AB70 /* SystemConfiguration.framework in Frameworks */,
 				CBA7D48C1A92C0B00065AB70 /* Security.framework in Frameworks */,
 				CBA7D48D1A92C0B00065AB70 /* QuartzCore.framework in Frameworks */,
@@ -288,6 +303,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		15E8C5DA1AD65DE900AF91EF /* Core Data Models */ = {
+			isa = PBXGroup;
+			children = (
+				E27B3FE41A8D75B800AE18C5 /* ProCom.xcdatamodeld */,
+				15E8C5D61AD65DE100AF91EF /* ManagedConvo.h */,
+				15E8C5D71AD65DE100AF91EF /* ManagedConvo.m */,
+				15E8C5D21AD65DE100AF91EF /* ManagedBlurb.h */,
+				15E8C5D31AD65DE100AF91EF /* ManagedBlurb.m */,
+				15E8C5CE1AD65DE000AF91EF /* ManagedGroup.h */,
+				15E8C5CF1AD65DE100AF91EF /* ManagedGroup.m */,
+			);
+			name = "Core Data Models";
+			path = ..;
+			sourceTree = "<group>";
+		};
+		15E8C5DB1AD65DF900AF91EF /* Parse Network Models */ = {
+			isa = PBXGroup;
+			children = (
+				539D3B171A8FDD980093533F /* Convo.swift */,
+				539D3B151A8FDCEC0093533F /* Group.swift */,
+				539D3B131A8FDC7A0093533F /* Blurb.swift */,
+			);
+			name = "Parse Network Models";
+			sourceTree = "<group>";
+		};
 		CB33DD901A94E93D00AE8FCF /* Parse Framework */ = {
 			isa = PBXGroup;
 			children = (
@@ -311,6 +351,7 @@
 		CBA7D46D1A92BDF10065AB70 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				15E8C5BE1AD6551E00AF91EF /* Foundation.framework */,
 				CBCBA2CD1AAA936D00B2E303 /* Social.framework */,
 				CBCBA21F1AA665B000B2E303 /* JSQMessagesViewController */,
 				CBCBA2751AA665B000B2E303 /* JSQSystemSoundPlayer */,
@@ -527,13 +568,12 @@
 			children = (
 				E27B3FE21A8D75B800AE18C5 /* AppDelegate.swift */,
 				1559537C1AAF87DB005777A4 /* Constants.swift */,
-				539D3B171A8FDD980093533F /* Convo.swift */,
-				539D3B151A8FDCEC0093533F /* Group.swift */,
+				15E8C5DB1AD65DF900AF91EF /* Parse Network Models */,
+				15E8C5DA1AD65DE900AF91EF /* Core Data Models */,
 				539D3B191A8FDE6D0093533F /* GroupTableViewController.swift */,
 				CBCBA2CB1AAA8D5A00B2E303 /* UserHandlingViewController.swift */,
 				CBF01B511A9AE53300364AB6 /* BlurbTableViewController.swift */,
 				CB8A0C461AD47B95001B6AF4 /* ConvoSettingsViewController.swift */,
-				539D3B131A8FDC7A0093533F /* Blurb.swift */,
 				E27B3FE01A8D75B800AE18C5 /* Supporting Files */,
 			);
 			path = ProCom;
@@ -546,7 +586,6 @@
 				CBA7D46D1A92BDF10065AB70 /* Frameworks */,
 				E27B3FEE1A8D75B800AE18C5 /* Images.xcassets */,
 				E27B3FF01A8D75B800AE18C5 /* LaunchScreen.xib */,
-				E27B3FE41A8D75B800AE18C5 /* ProCom.xcdatamodeld */,
 				E27B3FE11A8D75B800AE18C5 /* Info.plist */,
 				CBA7D49F1A92D0120065AB70 /* ProCom-Bridging-Header.h */,
 				159CCA681AD5788E00C16C25 /* Keys.plist */,
@@ -590,14 +629,17 @@
 				CBCBA2B31AA665B000B2E303 /* JSQMessagesCollectionViewCellOutgoing.h in Headers */,
 				CBCBA2AB1AA665B000B2E303 /* JSQMessageData.h in Headers */,
 				CBCBA29E1AA665B000B2E303 /* JSQMessagesTimestampFormatter.h in Headers */,
+				15E8C5D41AD65DE100AF91EF /* ManagedBlurb.h in Headers */,
 				CBCBA2C21AA665B000B2E303 /* JSQMessagesTypingIndicatorFooterView.h in Headers */,
 				CBCBA2BC1AA665B000B2E303 /* JSQMessagesLoadEarlierHeaderView.h in Headers */,
+				15E8C5D01AD65DE100AF91EF /* ManagedGroup.h in Headers */,
 				CBCBA2C51AA665B000B2E303 /* JSQSystemSoundPlayer.h in Headers */,
 				CBCBA2A21AA665B000B2E303 /* JSQMessages.h in Headers */,
 				CBCBA2A51AA665B000B2E303 /* JSQMessagesCollectionViewFlowLayoutInvalidationContext.h in Headers */,
 				CBCBA2911AA665B000B2E303 /* UIImage+JSQMessages.h in Headers */,
 				CBCBA2A91AA665B000B2E303 /* JSQMessage.h in Headers */,
 				CBCBA2B81AA665B000B2E303 /* JSQMessagesInputToolbar.h in Headers */,
+				15E8C5D81AD65DE100AF91EF /* ManagedConvo.h in Headers */,
 				CBCBA2BA1AA665B000B2E303 /* JSQMessagesLabel.h in Headers */,
 				CBCBA2931AA665B000B2E303 /* UIView+JSQMessages.h in Headers */,
 				CBCBA2AC1AA665B000B2E303 /* JSQMessagesCollectionView.h in Headers */,
@@ -748,6 +790,8 @@
 				CBCBA29B1AA665B000B2E303 /* JSQMessagesAvatarFactory.m in Sources */,
 				CBCBA2BD1AA665B000B2E303 /* JSQMessagesLoadEarlierHeaderView.m in Sources */,
 				CBCBA2921AA665B000B2E303 /* UIImage+JSQMessages.m in Sources */,
+				15E8C5D51AD65DE100AF91EF /* ManagedBlurb.m in Sources */,
+				15E8C5D11AD65DE100AF91EF /* ManagedGroup.m in Sources */,
 				CBCBA2961AA665B000B2E303 /* JSQMessagesKeyboardController.m in Sources */,
 				CBCBA2AF1AA665B000B2E303 /* JSQMessagesCollectionViewCell.m in Sources */,
 				CBCBA2C61AA665B000B2E303 /* JSQSystemSoundPlayer.m in Sources */,
@@ -756,6 +800,7 @@
 				CBCBA2A41AA665B000B2E303 /* JSQMessagesCollectionViewFlowLayout.m in Sources */,
 				E27B3FE31A8D75B800AE18C5 /* AppDelegate.swift in Sources */,
 				E27B3FE61A8D75B800AE18C5 /* ProCom.xcdatamodeld in Sources */,
+				15E8C5D91AD65DE100AF91EF /* ManagedConvo.m in Sources */,
 				CBCBA28C1AA665B000B2E303 /* JSQSystemSoundPlayer+JSQMessages.m in Sources */,
 				539D3B1A1A8FDE6D0093533F /* GroupTableViewController.swift in Sources */,
 				CBCBA2B71AA665B000B2E303 /* JSQMessagesComposerTextView.m in Sources */,
@@ -1002,7 +1047,8 @@
 				E27B3FE51A8D75B800AE18C5 /* ProCom.xcdatamodel */,
 			);
 			currentVersion = E27B3FE51A8D75B800AE18C5 /* ProCom.xcdatamodel */;
-			path = ProCom.xcdatamodeld;
+			name = ProCom.xcdatamodeld;
+			path = ProCom/ProCom.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
