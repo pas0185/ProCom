@@ -81,16 +81,16 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         
     }
     
-    // MARK: - Networking
+    // MARK: - Convos (Network and Core Data)
     
-    
-    
-    func addConvosToCoreData(convos: [Convo]) -> [Convo] {
-        // Add new convos to Core Data
+    func fetchConvos(user: PFUser) {
+        // Fetch a user's subscribed conversations
         
-        // HANDLE DUPLICATES!
+        // Get all from Core Data
+        var coreConvos: [NSManagedObject] = self.fetchConvosFromCoreData(user)
         
-        return []
+        // Get all from Network that are NOT in Core Data, and put them into Core
+        self.fetchConvosFromNetworkAndSaveToCoreData(user, existingConvos: coreConvos)
         
     }
     
@@ -121,12 +121,13 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         let convoQuery = Convo.query()
         convoQuery.whereKey(USERS_KEY, equalTo: user)
         
+        // Don't fetch Convos we already have
         var existingConvoIds: [String] = []
         for convo in existingConvos as [ManagedConvo] {
             existingConvoIds.append(convo.pfId)
         }
-
         convoQuery.whereKey(OBJECT_ID_KEY, notContainedIn: existingConvoIds)
+        
         convoQuery.includeKey(GROUP_KEY)
         
         convoQuery.findObjectsInBackgroundWithBlock ({
@@ -137,69 +138,48 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
                 dispatch_async(dispatch_get_main_queue()) {
                     
                     PFObject.pinAll(objects)
-                    
-                    var convos = objects as [Convo]
-                    for convo in convos {
-                        convo.saveToCore()
-                    }
-                    
-//                    for convo in existingConvos {
-                    
-//                        println("CONVO = \(convo)")
-                        //                        println("Fetched a convo that had already been found")
-                        //
-                        //
-                        //                        else {
-                        //                            println("Fetched a new convo, save it to Core Data")
-                        //                            convo.saveToCore()
-                        //                        }
-//                    }
-                    
-                    //                    self.buildGroupHierarchy(convos)
-                }
-            }
-        })
-    }
 
-    func fetchConvos(user: PFUser) {
-        // Fetch a user's subscribed conversations
-        
-        // Get all from Core Data
-        var coreConvos: [NSManagedObject] = self.fetchConvosFromCoreData(user)
-        
-        // Get all from Network that are NOT in Core Data, and put them into Core
-        self.fetchConvosFromNetworkAndSaveToCoreData(user, existingConvos: coreConvos)
-        
-        return
-        
-        
-        // DONE DONE DONE
-        
-        let convoQuery = Convo.query()
-        convoQuery.whereKey(USERS_KEY, equalTo: user)
-        convoQuery.includeKey(GROUP_KEY)
-        
-        convoQuery.findObjectsInBackgroundWithBlock ({
-            (objects: [AnyObject]!, error: NSError!) -> Void in
-            
-            if (error == nil) {
-                println("Fetched \(objects.count) convo objects from network")
-                dispatch_async(dispatch_get_main_queue()) {
+                    let currentInstallation = PFInstallation.currentInstallation()
                     
-                    println("Pinnning convo objects")
-                    PFObject.pinAll(objects)
-                    println("Done pinning convo objects")
-                    
-                    var convos = objects as [Convo]
-                    for convo in convos {
+                    for convo in objects as [Convo] {
                         convo.saveToCore()
+                        if let channelName = convo.getChannelName() {
+                            println("Subscribing to convo channel: \(channelName)")
+                            currentInstallation.addUniqueObject(channelName, forKey: "channels")
+                        }
                     }
                     
-                    self.buildGroupHierarchy(convos)
+                    self.fetchGroups(convos)
                 }
             }
         })
     }
+    
+    // MARK: - Groups (Network and Core Data)
+    
+    func fetchGroups(convos: [Convo]) {
+        // Fetch the Groups that build up the hierarchy of the given Convos
+        
+        for c in convos {
+            
+            if let group = c.objectForKey("groupId") as? Group {
+                
+                var topLevelGroup = self.getTopLevelGroup(group)
+                if contains(self.groupArray, topLevelGroup) == false {
+                    
+                    // Append new group if not already present
+                    self.groupArray.append(topLevelGroup)
+                }
+            }
+        }
+        
+        currentInstallation.saveInBackgroundWithBlock(nil)
+        
+        self.groupActivityIndicator.stopAnimating()
+        self.tableView.reloadData()
+    }
+    
+    
     
     func fetchAndPinAllGroups() {
         
@@ -218,53 +198,8 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         })
     }
     
-    // MARK: - Core Data
     
-    func fetchGroupFromCore() {
-        
-        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
-        
-        let managedContext = appDelegate.managedObjectContext!
-        
-        let fetchRequest = NSFetchRequest(entityName: "Group")
-
-        var error: NSError?
-
-        let fetchedResults = managedContext.executeFetchRequest(fetchRequest, error: &error) as [NSManagedObject]?
-        
-        if let results = fetchedResults {
-            println("Fetched Results: \(results)")
-        }
-        else {
-            println("Could not fetch \(error), \(error!.userInfo)")
-        }
-    }
     
-    func buildGroupHierarchy(convos: [Convo]) {
-        let currentInstallation = PFInstallation.currentInstallation()
-        
-        for c in convos {
-            if let channelName = c.getChannelName() {
-                println("Channel name for convo = \(channelName)")
-                currentInstallation.addUniqueObject(channelName, forKey: "channels")
-            }
-            
-            if let group = c.objectForKey("groupId") as? Group {
-                
-                var topLevelGroup = self.getTopLevelGroup(group)
-                if contains(self.groupArray, topLevelGroup) == false {
-                
-                    // Append new group if not already present
-                    self.groupArray.append(topLevelGroup)
-                }
-            }
-        }
-        
-        currentInstallation.saveInBackgroundWithBlock(nil)
-        
-        self.groupActivityIndicator.stopAnimating()
-        self.tableView.reloadData()
-    }
     
     func getTopLevelGroup(group: Group) -> Group {
         
