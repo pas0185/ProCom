@@ -32,7 +32,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
         Convo.registerSubclass()
         Blurb.registerSubclass()
         Parse.enableLocalDatastore()
-        Parse.setApplicationId("n3twpTW37Eh9SkLFRWM41bjmw2IoYPdb2dh3OAQC", clientKey: "TG5IOJyDtOkkijqBt3BXlSa1gKtxUm7k2dXBYxuF")
+        
+        self.setParseAppIdAndClientKey()
         
         // Push notifications
         self.setupPushNotifications(application)
@@ -144,7 +145,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
     }
     
     func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
-        println("didRegisterForRemoteNotificationsWithDeviceToken")
         
         let currentInstallation = PFInstallation.currentInstallation()
         

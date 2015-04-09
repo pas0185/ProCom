@@ -15,7 +15,7 @@
 
 @dynamic createdAt;
 @dynamic name;
-@dynamic objectId;
+@dynamic pfId;
 @dynamic parent;
 @dynamic subGroups;
 @dynamic convos;

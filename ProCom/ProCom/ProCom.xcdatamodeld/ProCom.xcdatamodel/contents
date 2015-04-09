@@ -2,28 +2,26 @@
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="6751" systemVersion="14C109" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Blurb" representedClassName="ManagedBlurb" syncable="YES">
         <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
-        <attribute name="objectId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pfId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="convo" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Convo" inverseName="blurbs" inverseEntity="Convo" syncable="YES"/>
     </entity>
     <entity name="Convo" representedClassName="ManagedConvo" syncable="YES">
-        <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="objectId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pfId" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="blurbs" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Blurb" inverseName="convo" inverseEntity="Blurb" syncable="YES"/>
         <relationship name="groupId" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Group" inverseName="convos" inverseEntity="Group" syncable="YES"/>
     </entity>
     <entity name="Group" representedClassName="ManagedGroup" syncable="YES">
-        <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="objectId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="pfId" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="convos" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Convo" inverseName="groupId" inverseEntity="Convo" syncable="YES"/>
         <relationship name="parent" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Group" inverseName="subGroups" inverseEntity="Group" syncable="YES"/>
         <relationship name="subGroups" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Group" inverseName="parent" inverseEntity="Group" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Convo" positionX="297" positionY="45" width="128" height="118"/>
-        <element name="Group" positionX="108" positionY="47" width="128" height="133"/>
+        <element name="Convo" positionX="297" positionY="45" width="128" height="103"/>
+        <element name="Group" positionX="108" positionY="47" width="128" height="118"/>
         <element name="Blurb" positionX="477" positionY="45" width="128" height="103"/>
     </elements>
 </model>

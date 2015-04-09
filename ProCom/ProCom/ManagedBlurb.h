@@ -13,7 +13,7 @@
 
 @interface ManagedBlurb : NSManagedObject
 
-@property (nonatomic, retain) NSString * objectId;
+@property (nonatomic, retain) NSString * pfId;
 @property (nonatomic, retain) NSString * text;
 @property (nonatomic, retain) NSDate * createdAt;
 @property (nonatomic, retain) ManagedConvo *convo;

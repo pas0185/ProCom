@@ -4,3 +4,7 @@
 #import "JSQMessagesViewController/JSQMessages.h"
 #import "JSQMessages.h"
 #import "JSQMessageData.h"
+
+#import "ManagedConvo.h"
+#import "ManagedBlurb.h"
+#import "ManagedGroup.h"

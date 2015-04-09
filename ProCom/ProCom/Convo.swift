@@ -35,17 +35,20 @@ class Convo: PFObject, PFSubclassing {
         
         let entity = NSEntityDescription.entityForName("Convo", inManagedObjectContext: managedContext)
         
-        let convo = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext)
+        let mgdConvo = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext)
         
-        convo.setValue(self.objectId, forKey: OBJECT_ID_KEY)
-        convo.setValue(self[NAME_KEY], forKey: NAME_KEY)
-        convo.setValue(self[CREATED_AT_KEY], forKey: CREATED_AT_KEY)
-//        convo.setValue(self[GROUP_KEY], forKey: GROUP_KEY)
+        self.assignValuesToManagedObject(mgdConvo)
 
         var error: NSError?
         if !managedContext.save(&error) {
             println("Could not save \(error), \(error?.userInfo)")
         }
+    }
+    
+    func assignValuesToManagedObject(mgdObject: NSManagedObject) {
+        mgdObject.setValue(self.objectId, forKey: "pfId")
+        mgdObject.setValue(self[NAME_KEY], forKey: "name")
+//        mgdObject.setValue(self[GROUP_KEY], forKey: GROUP_KEY)
     }
     
     class func convosFromNSManagedObjects(objects: [NSManagedObject]) -> [Convo] {

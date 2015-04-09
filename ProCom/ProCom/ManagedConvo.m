@@ -10,13 +10,12 @@
 #import "ManagedBlurb.h"
 #import "ManagedGroup.h"
 
-
 @implementation ManagedConvo
 
-@dynamic createdAt;
 @dynamic name;
-@dynamic objectId;
+@dynamic pfId;
 @dynamic groupId;
 @dynamic blurbs;
+
 
 @end

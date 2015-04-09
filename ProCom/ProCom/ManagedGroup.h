@@ -15,7 +15,7 @@
 
 @property (nonatomic, retain) NSDate * createdAt;
 @property (nonatomic, retain) NSString * name;
-@property (nonatomic, retain) NSString * objectId;
+@property (nonatomic, retain) NSString * pfId;
 @property (nonatomic, retain) ManagedGroup *parent;
 @property (nonatomic, retain) NSSet *subGroups;
 @property (nonatomic, retain) NSSet *convos;
