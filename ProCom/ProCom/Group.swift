@@ -98,17 +98,38 @@ class Group: PFObject, PFSubclassing {
         
         let entity = NSEntityDescription.entityForName("Group", inManagedObjectContext: managedContext)
         
-        let group = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext)
+        let mgdGroup = ManagedGroup(entity: entity!, insertIntoManagedObjectContext: managedContext)
         
-        group.setValue(self.name, forKey: NAME_KEY)
-        group.setValue(self.objectId, forKey: OBJECT_ID_KEY)
-
-        //        group.setValue( ... createdAt
-        //        group.setValue( ... parent
-        
+        self.assignValuesToManagedObject(mgdGroup)
+                
         var error: NSError?
         if !managedContext.save(&error) {
             println("Could not save \(error), \(error?.userInfo)")
         }
     }
+    
+    func assignValuesToManagedObject(mgdGroup: ManagedGroup) {
+        mgdGroup.pfId = self.objectId
+        mgdGroup.name = self[NAME_KEY] as String
+        
+        // TODO: parentGroup, childBlurbs
+    }
+    
+    class func groupsFromNSManagedObjects(objects: [NSManagedObject]) -> [Group] {
+        
+        var groups: [Group] = []
+        
+        for obj in objects {
+            var group = Group()
+
+            group.setValue(obj.valueForKey(NAME_KEY), forKey: NAME_KEY)
+            
+            // TODO: parent group
+            
+            groups.append(group)
+        }
+        
+        return groups
+    }
+    
 }

@@ -95,7 +95,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     }
     
     func fetchConvosFromCoreData(user: PFUser) -> [NSManagedObject] {
-        // Return all convos saved in Core Data
+        // Return all Convos saved in Core Data
         
         let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
         let managedContext = appDelegate.managedObjectContext!
@@ -106,7 +106,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         let fetchedResults = managedContext.executeFetchRequest(fetchRequest, error: &error) as [NSManagedObject]?
         
         if let results = fetchedResults {
-            println("Fetched \(results.count) convos from Core Data:")
+            println("Fetched \(results.count) Convos from Core Data:")
         }
         else {
             println("Could not fetch \(error), \(error!.userInfo)")
@@ -141,14 +141,27 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
 
                     let currentInstallation = PFInstallation.currentInstallation()
                     
-                    for convo in objects as [Convo] {
+                    var convos = objects as [Convo]
+                    
+                    for convo in convos {
                         convo.saveToCore()
+
+                        if let parentGroup = convo.objectForKey("groupId") as? Group {
+                            
+                            parentGroup.saveToCore()
+                        }
+
                         if let channelName = convo.getChannelName() {
                             println("Subscribing to convo channel: \(channelName)")
                             currentInstallation.addUniqueObject(channelName, forKey: "channels")
                         }
                     }
+                    currentInstallation.saveInBackgroundWithBlock(nil)
                     
+                    var coreConvos = Convo.convosFromNSManagedObjects(existingConvos)
+                    convos.extend(coreConvos)
+                    
+                    // Now go fetch the groups for the new convos
                     self.fetchGroups(convos)
                 }
             }
@@ -160,46 +173,66 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     func fetchGroups(convos: [Convo]) {
         // Fetch the Groups that build up the hierarchy of the given Convos
         
-        for c in convos {
+        // Fetch all Groups already in Core Data
+        var coreGroups: [NSManagedObject] = self.fetchGroupsFromCoreData()
+        
+        // Get parent groups of the provided Convos
+        var parentGroups: [Group] = []
+        for convo in convos {
             
-            if let group = c.objectForKey("groupId") as? Group {
+            if let parentGroup = convo.objectForKey("groupId") as? Group {
+
+                parentGroups.append(parentGroup)
                 
-                var topLevelGroup = self.getTopLevelGroup(group)
-                if contains(self.groupArray, topLevelGroup) == false {
-                    
-                    // Append new group if not already present
-                    self.groupArray.append(topLevelGroup)
-                }
+//                var topLevelGroup = self.getTopLevelGroup(parentGroup)
+//                if contains(self.groupArray, topLevelGroup) == false {
+//                    
+//                    // Append new group if not already present
+//                    self.groupArray.append(topLevelGroup)
+//                }
             }
+//            else {
+//                println("Failed to get parent group for a convo: \(convo)")
+//            }
         }
         
-        currentInstallation.saveInBackgroundWithBlock(nil)
+        println("Using \(convos.count) convos; successfully found \(parentGroups.count) groups")
+        // Recursively fetch hierarchy
+        
+        var allGroups = Group.groupsFromNSManagedObjects(coreGroups)
+        allGroups.extend(parentGroups)
+        println("All groups: \(allGroups)")
+        
+        // ************** //
+        // ***BOOKMARK*** //
+        // ************** //
+        
         
         self.groupActivityIndicator.stopAnimating()
         self.tableView.reloadData()
     }
     
-    
-    
-    func fetchAndPinAllGroups() {
+    func fetchGroupsFromCoreData() -> [NSManagedObject] {
+        // Return all Groups saved in Core Data
         
-        let query = Group.query()
-        query.includeKey(PARENT_GROUP_KEY)
-        query.findObjectsInBackgroundWithBlock({(objects:[AnyObject]!, error:NSError!) in
-            if (error == nil) {
-                println("Fetched \(objects.count) group objects")
-                dispatch_async(dispatch_get_main_queue()) {
-                    
-                    println("Pinnning group objects")
-                    PFObject.pinAll(objects)
-                    println("Done pinning group objects")
-                }
-            }
-        })
+        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let managedContext = appDelegate.managedObjectContext!
+        
+        let fetchRequest = NSFetchRequest(entityName: "Group")
+        var error: NSError?
+        
+        let fetchedResults = managedContext.executeFetchRequest(fetchRequest, error: &error) as [NSManagedObject]?
+        
+        if let results = fetchedResults {
+            println("Fetched \(results.count) Groups from Core Data:")
+        }
+        else {
+            println("Could not fetch \(error), \(error!.userInfo)")
+        }
+        
+        return fetchedResults!
+        
     }
-    
-    
-    
     
     func getTopLevelGroup(group: Group) -> Group {
         
@@ -216,6 +249,27 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         // If no parent, he is the top level, return it
         return group
     }
+    
+    
+    
+    
+//    func fetchAndPinAllGroups() {
+//        
+//        let query = Group.query()
+//        query.includeKey(PARENT_GROUP_KEY)
+//        query.findObjectsInBackgroundWithBlock({(objects:[AnyObject]!, error:NSError!) in
+//            if (error == nil) {
+//                println("Fetched \(objects.count) group objects")
+//                dispatch_async(dispatch_get_main_queue()) {
+//                    
+//                    println("Pinnning group objects")
+//                    PFObject.pinAll(objects)
+//                    println("Done pinning group objects")
+//                }
+//            }
+//        })
+//    }
+    
     
     // MARK: - Push Data
     
