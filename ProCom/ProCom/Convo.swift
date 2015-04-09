@@ -6,6 +6,7 @@
 //  Copyright (c) 2015 Abraid. All rights reserved.
 //
 
+import Foundation
 import UIKit
 import CoreData
 
@@ -36,17 +37,34 @@ class Convo: PFObject, PFSubclassing {
         
         let convo = NSManagedObject(entity: entity!, insertIntoManagedObjectContext: managedContext)
         
-        convo.setValue(self[NAME_KEY], forKey: NAME_KEY)
         convo.setValue(self.objectId, forKey: OBJECT_ID_KEY)
+        convo.setValue(self[NAME_KEY], forKey: NAME_KEY)
         convo.setValue(self[CREATED_AT_KEY], forKey: CREATED_AT_KEY)
-        
+//        convo.setValue(self[GROUP_KEY], forKey: GROUP_KEY)
 
-        //        group.setValue( ... group
-        
         var error: NSError?
         if !managedContext.save(&error) {
             println("Could not save \(error), \(error?.userInfo)")
         }
+    }
+    
+    class func convosFromNSManagedObjects(objects: [NSManagedObject]) -> [Convo] {
+        
+        var convos: [Convo] = []
+        
+        for obj in objects {
+            var convo = Convo()
+//            convo.setValue(obj.valueForKey(OBJECT_ID_KEY), forKey: OBJECT_ID_KEY)
+            convo.setValue(obj.valueForKey(NAME_KEY), forKey: NAME_KEY)
+            convo.setValue(obj.valueForKey(CREATED_AT_KEY), forKey: CREATED_AT_KEY)
+
+            // TODO: parent group
+            // TODO: users
+            
+            convos.append(convo)
+        }
+        
+        return convos
     }
 }
 

@@ -40,8 +40,8 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
                 // Fetch groups and convos from network, pin to local datastore
 
                 self.groupActivityIndicator.startAnimating()
-                self.fetchAndPinAllGroups()
-                self.fetchAndPinConvosForUser(user)
+//                self.fetchAndPinAllGroups()
+                self.fetchConvos(user)
             }
             
         }
@@ -83,27 +83,113 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         self.fetchGroupFromCore()
     }
     
-    // MARK: - Fetch Data
+    // MARK: - Networking
     
-    
-    func fetchGroupFromCore() {
+    func fetchConvosFromCoreData(user: PFUser) -> [Convo] {
+        // Return all convos saved in Core Data
+        
+        var coreConvos: [Convo] = []
         
         let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
-        
         let managedContext = appDelegate.managedObjectContext!
         
-        let fetchRequest = NSFetchRequest(entityName: "Group")
-
+        let fetchRequest = NSFetchRequest(entityName: "Convo")
         var error: NSError?
-
+        
         let fetchedResults = managedContext.executeFetchRequest(fetchRequest, error: &error) as [NSManagedObject]?
         
         if let results = fetchedResults {
             println("Fetched Results: \(results)")
+            coreConvos = Convo.convosFromNSManagedObjects(results)
         }
         else {
             println("Could not fetch \(error), \(error!.userInfo)")
         }
+        
+        return coreConvos
+    }
+    
+    func fetchConvosFromNetworkAndSaveToCoreData(user: PFUser, existingConvos: [Convo]) {
+        // Get all unfetched convos from the Network and save them to Core Data
+        
+        let convoQuery = Convo.query()
+        convoQuery.whereKey(USERS_KEY, equalTo: user)
+        convoQuery.includeKey(GROUP_KEY)
+        
+        convoQuery.findObjectsInBackgroundWithBlock ({
+            (objects: [AnyObject]!, error: NSError!) -> Void in
+            
+            if (error == nil) {
+                println("Fetched \(objects.count) convos from network")
+                dispatch_async(dispatch_get_main_queue()) {
+                    
+                    PFObject.pinAll(objects)
+
+                    for convo in existingConvos {
+                        
+                        println("CONVO = \(convo)")
+//                        println("Fetched a convo that had already been found")
+//                        
+//                        
+//                        else {
+//                            println("Fetched a new convo, save it to Core Data")
+//                            convo.saveToCore()
+//                        }
+                    }
+                    
+//                    self.buildGroupHierarchy(convos)
+                }
+            }
+        })
+    }
+    
+    func addConvosToCoreData(convos: [Convo]) -> [Convo] {
+        // Add new convos to Core Data
+        
+        // HANDLE DUPLICATES!
+        
+        return []
+        
+    }
+    
+    func fetchConvos(user: PFUser) {
+        // Fetch a user's subscribed conversations
+        
+        // Get all from Core Data
+        var coreConvos: [Convo] = self.fetchConvosFromCoreData(user)
+        
+        // Get all from Network that are NOT in Core Data, and put them into Core
+        self.fetchConvosFromNetworkAndSaveToCoreData(user, existingConvos: coreConvos)
+        
+        return
+        
+        
+        // DONE DONE DONE
+        
+        let convoQuery = Convo.query()
+        convoQuery.whereKey(USERS_KEY, equalTo: user)
+        convoQuery.includeKey(GROUP_KEY)
+        
+        convoQuery.findObjectsInBackgroundWithBlock ({
+            (objects: [AnyObject]!, error: NSError!) -> Void in
+            
+            if (error == nil) {
+                println("Fetched \(objects.count) convo objects from network")
+                dispatch_async(dispatch_get_main_queue()) {
+                    
+                    println("Pinnning convo objects")
+                    PFObject.pinAll(objects)
+                    println("Done pinning convo objects")
+                    
+                    var convos = objects as [Convo]
+                    for convo in convos {
+                        convo.saveToCore()
+                    }
+                    
+                    self.buildGroupHierarchy(convos)
+                }
+            }
+        })
     }
     
     func fetchAndPinAllGroups() {
@@ -123,29 +209,26 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         })
     }
     
-    func fetchAndPinConvosForUser(user: PFUser) {
-        // Fetch a user's subscribed conversations from the network
+    // MARK: - Core Data
+    
+    func fetchGroupFromCore() {
         
-        let convoQuery = Convo.query()
-        convoQuery.whereKey(USERS_KEY, equalTo: user)
-        convoQuery.includeKey(GROUP_KEY)
+        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
         
-        convoQuery.findObjectsInBackgroundWithBlock ({
-            (objects: [AnyObject]!, error: NSError!) -> Void in
-            
-            if (error == nil) {
-                println("Fetched \(objects.count) convo objects from network")
-                dispatch_async(dispatch_get_main_queue()) {
-                    
-                    println("Pinnning convo objects")
-                    PFObject.pinAll(objects)
-                    println("Done pinning convo objects")
-                    
-                    var convos = objects as [Convo]
-                    self.buildGroupHierarchy(convos)
-                }
-            }
-        })
+        let managedContext = appDelegate.managedObjectContext!
+        
+        let fetchRequest = NSFetchRequest(entityName: "Group")
+
+        var error: NSError?
+
+        let fetchedResults = managedContext.executeFetchRequest(fetchRequest, error: &error) as [NSManagedObject]?
+        
+        if let results = fetchedResults {
+            println("Fetched Results: \(results)")
+        }
+        else {
+            println("Could not fetch \(error), \(error!.userInfo)")
+        }
     }
     
     func buildGroupHierarchy(convos: [Convo]) {
