@@ -293,6 +293,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
     func applicationDidBecomeActive(application: UIApplication) {
         FBAppCall.handleDidBecomeActiveWithSession(PFFacebookUtils.session())
         
+        if let current: PFInstallation = PFInstallation.currentInstallation(){
+            if (current.badge != 0) {
+            current.badge = 0
+            current.save()
+            }
+        }
     }
 
     func applicationWillTerminate(application: UIApplication) {
