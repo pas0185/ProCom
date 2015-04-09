@@ -10,6 +10,7 @@
 		1559537D1AAF87DB005777A4 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1559537C1AAF87DB005777A4 /* Constants.swift */; };
 		159CCA631AD49C1200C16C25 /* Group.h in Headers */ = {isa = PBXBuildFile; fileRef = 159CCA611AD49C1200C16C25 /* Group.h */; };
 		159CCA641AD49C1200C16C25 /* Group.m in Sources */ = {isa = PBXBuildFile; fileRef = 159CCA621AD49C1200C16C25 /* Group.m */; };
+		159CCA6B1AD57CB900C16C25 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 159CCA6A1AD57CB900C16C25 /* Keys.plist */; };
 		539D3B141A8FDC7A0093533F /* Blurb.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539D3B131A8FDC7A0093533F /* Blurb.swift */; };
 		539D3B161A8FDCEC0093533F /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539D3B151A8FDCEC0093533F /* Group.swift */; };
 		539D3B181A8FDD980093533F /* Convo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539D3B171A8FDD980093533F /* Convo.swift */; };
@@ -136,6 +137,7 @@
 		1559537C1AAF87DB005777A4 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		159CCA611AD49C1200C16C25 /* Group.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Group.h; sourceTree = "<group>"; };
 		159CCA621AD49C1200C16C25 /* Group.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Group.m; sourceTree = "<group>"; };
+		159CCA6A1AD57CB900C16C25 /* Keys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
 		539D3B131A8FDC7A0093533F /* Blurb.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Blurb.swift; sourceTree = "<group>"; };
 		539D3B151A8FDCEC0093533F /* Group.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
 		539D3B171A8FDD980093533F /* Convo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Convo.swift; sourceTree = "<group>"; };
@@ -552,6 +554,7 @@
 				159CCA611AD49C1200C16C25 /* Group.h */,
 				159CCA621AD49C1200C16C25 /* Group.m */,
 				E27B3FE11A8D75B800AE18C5 /* Info.plist */,
+				159CCA6A1AD57CB900C16C25 /* Keys.plist */,
 				CBA7D49F1A92D0120065AB70 /* ProCom-Bridging-Header.h */,
 			);
 			name = "Supporting Files";
@@ -721,6 +724,7 @@
 				CBCBA28A1AA665B000B2E303 /* message_sent.aiff in Resources */,
 				CBCBA27E1AA665B000B2E303 /* bubble_min_tailless@2x.png in Resources */,
 				CBCBA2831AA665B000B2E303 /* bubble_tailless.png in Resources */,
+				159CCA6B1AD57CB900C16C25 /* Keys.plist in Resources */,
 				CBCBA2BE1AA665B000B2E303 /* JSQMessagesLoadEarlierHeaderView.xib in Resources */,
 				E27B3FEF1A8D75B800AE18C5 /* Images.xcassets in Resources */,
 			);
