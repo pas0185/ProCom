@@ -46,8 +46,23 @@ class Blurb: PFObject, JSQMessageData {
         return self["createdAt"] as NSDate
     }
     
-//    func imageUrl() -> String? {
-//        return self.imagePathURL
-//    }
+    func userAvatar() -> NSData!{
+        if let currentUser = self[USER_ID] as? PFUser{
+            currentUser.fetchIfNeeded()
+            if let profilePifc = currentUser["profilePicture"] as NSData?{
+                return profilePifc
+            }
+            return nil
+        }
+        return nil
+    }
+    
+    func imageUrl() -> NSData? {
+//        var profilePic = PFQuery().getObjectWithId(PFUser.currentUser().objectId)
+//        profilePic.
+//        profilePic.whereKey("profilePicture", equalTo: NSData()) as UIImage
+//        return profilePic
+        return nil
+    }
     
 }

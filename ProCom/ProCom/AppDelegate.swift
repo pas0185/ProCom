@@ -10,6 +10,8 @@ import UIKit
 import CoreData
 import ParseUI
 
+
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate {
 
@@ -34,7 +36,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
         Parse.enableLocalDatastore()
         
         self.setParseAppIdAndClientKey()
-        
+
+        PFAnalytics.trackAppOpenedWithLaunchOptionsInBackground(launchOptions?, block: nil)
+        PFFacebookUtils.initializeFacebook()
+
         // Push notifications
         self.setupPushNotifications(application)
         
@@ -46,25 +51,64 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
         self.window?.rootViewController = navController
         
         var replyAction : UIMutableUserNotificationAction = UIMutableUserNotificationAction()
-        replyAction.identifier = "REPLY_ACTION"
-        replyAction.title = "Yes, I need!"
-        
+       
         replyAction.activationMode = UIUserNotificationActivationMode.Foreground
         replyAction.authenticationRequired = false
 
 
         println("LAUNCH OPTIONS: \(launchOptions)")
-        
+    
         if (PFUser.currentUser() == nil) {
             
             var logInController = PFLogInViewController()
             logInController.delegate = self
+            logInController.fields = PFLogInFields.Facebook
             
             var signUpController = PFSignUpViewController()
             signUpController.delegate = self
             logInController.signUpController = signUpController
+            if let dismissButton = logInController.logInView.dismissButton{
+                dismissButton.hidden = true
+                if let fbButton = logInController.logInView.facebookButton{
+                    fbButton.hidden = false
+                }
+                
+            }
             
-//            logInController.signUpController.delegate = self
+            if let session = PFFacebookUtils.session() {
+                if session.isOpen {
+                    println("session is open")
+                    FBRequestConnection.startForMeWithCompletionHandler({ (connection: FBRequestConnection!, result: AnyObject!, error: NSError!) -> Void in
+                        println("done me request")
+                        if let dict = result as? Dictionary<String, AnyObject>{
+                            let name:String = dict["name"] as AnyObject? as String
+                            let facebookID:String = dict["id"] as AnyObject? as String
+                            let email:String = dict["email"] as AnyObject? as String
+                            
+                            let pictureURL = "https://graph.facebook.com/\(facebookID)/picture?type=large&return_ssl_resources=1"
+                            
+                            var URLRequest = NSURL(string: pictureURL)
+                            var URLRequestNeeded = NSURLRequest(URL: URLRequest!)
+                            
+                            
+                            NSURLConnection.sendAsynchronousRequest(URLRequestNeeded, queue: NSOperationQueue.mainQueue(), completionHandler: {(response: NSURLResponse!,data: NSData!, error: NSError!) -> Void in
+                                if error == nil {
+                                    println("DATA FOR IMAGE: \(data)")
+                                    var picture = PFFile(data: data)
+                                    PFUser.currentUser().setObject(picture, forKey: "profilePicture")
+                                    PFUser.currentUser().save()
+                                }
+                                else {
+                                    println("Error: \(error.localizedDescription)")
+                                }
+                            })
+                            PFUser.currentUser().setValue(name, forKey: "username")
+                            PFUser.currentUser().setValue(email, forKey: "email")
+                            PFUser.currentUser().save()
+                        }
+                    })
+                }
+            }
             
             self.navController?.presentViewController(logInController, animated: true, completion: nil)
         }
@@ -167,12 +211,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
         if let convo: AnyObject = userInfo["convoObject"] {
             println("Convo from push notification = \(convo)")
         
+            //TODO: Reload the view controller
+            
             var convoQuery = Convo.query()
             if let actualConvo = convoQuery.getObjectWithId(convo as String) as? Convo {
                 // You got it?
                 println("\(actualConvo)")
-                var blurbViewControlerr = BlurbTableViewController(convo: actualConvo)
-                self.navController?.pushViewController(blurbViewControlerr, animated: true)
+                var blurbViewControler = BlurbTableViewController(convo: actualConvo)
+                self.navController?.pushViewController(blurbViewControler, animated: true)
                 return
             }
         
@@ -225,11 +271,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
         }
     }
     
-    func application(application: UIApplication, openURL url: NSURL, sourceApplication: NSString?, annotation: AnyObject) -> Bool {
-        
-        var wasHandled:Bool = FBAppCall.handleOpenURL(url, sourceApplication: sourceApplication)
-        return wasHandled
-        
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
+            return FBAppCall.handleOpenURL(url, sourceApplication:sourceApplication,
+                withSession:PFFacebookUtils.session())
     }
     
     func applicationWillResignActive(application: UIApplication) {
@@ -247,7 +291,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
     }
 
     func applicationDidBecomeActive(application: UIApplication) {
-     
+        FBAppCall.handleDidBecomeActiveWithSession(PFFacebookUtils.session())
+        
     }
 
     func applicationWillTerminate(application: UIApplication) {

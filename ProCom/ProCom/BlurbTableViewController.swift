@@ -206,19 +206,15 @@ class BlurbTableViewController: JSQMessagesViewController {
 
     //#MARK: - Setting up Blurbs
     
-    func setupAvatarImage(name: String, imageUrl: String?, incoming: Bool) {
-        if let stringUrl = imageUrl {
-            if let url = NSURL(string: stringUrl) {
-                if let data = NSData(contentsOfURL: url) {
-                    let image = UIImage(data: data)
-                    let diameter = incoming ? UInt(collectionView.collectionViewLayout.incomingAvatarViewSize.width) : UInt(collectionView.collectionViewLayout.outgoingAvatarViewSize.width)
-                    let avatarImage = JSQMessagesAvatarFactory.avatarWithImage(image, diameter: diameter)
-                    avatars[name] = avatarImage
-                    return
-                }
-            }
+    func setupAvatarImage(name: String, userPic: NSData, incoming: Bool) {
+        if let data = userPic as NSData? {
+            
+                let image = UIImage(data: data)
+                let diameter = incoming ? UInt(collectionView.collectionViewLayout.incomingAvatarViewSize.width) : UInt(collectionView.collectionViewLayout.outgoingAvatarViewSize.width)
+                let avatarImage = JSQMessagesAvatarFactory.avatarWithImage(image, diameter: diameter)
+                avatars[name] = avatarImage
+                return
         }
-        
         // At some point, we failed at getting the image (probably broken URL), so default to avatarColor
         setupAvatarColor(name, incoming: incoming)
     }
@@ -277,7 +273,7 @@ class BlurbTableViewController: JSQMessagesViewController {
         if let avatar = avatars[message.sender()] {
             return UIImageView(image: avatar)
         } else {
-            setupAvatarImage(message.sender(), imageUrl: nil /*message.imageUrl()*/, incoming: true)
+            setupAvatarImage(message.sender(), userPic: message.userAvatar(), incoming: true)
             return UIImageView(image:avatars[message.sender()])
         }
     }
