@@ -26,7 +26,6 @@ class Convo: PFObject, PFSubclassing {
         return channel
     }
     
-    
     func saveToCore() {
         
         let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
@@ -39,8 +38,9 @@ class Convo: PFObject, PFSubclassing {
         
         convo.setValue(self[NAME_KEY], forKey: NAME_KEY)
         convo.setValue(self.objectId, forKey: OBJECT_ID_KEY)
+        convo.setValue(self[CREATED_AT_KEY], forKey: CREATED_AT_KEY)
         
-        //        group.setValue( ... createdAt
+
         //        group.setValue( ... group
         
         var error: NSError?
