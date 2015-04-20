@@ -17,7 +17,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     var group: ManagedGroup?
     
     
-    var currentGroup: Group? = nil
+//    var currentGroup: Group? = nil
 //    var groupArray: [Group] = []
 //    var convoArray: [Convo] = []
 
@@ -52,7 +52,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         
         // Convos from Core Data
         self.convoActivityIndicator.startAnimating()
-        CoreDataManager.sharedInstance.fetchConvos(forGroup: self.currentGroup) {
+        CoreDataManager.sharedInstance.fetchConvos(forGroup: self.group) {
             (convos: [ManagedConvo]) in
             
             println("Received from CoreDataManager: \(convos.count) convos")
@@ -61,11 +61,13 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
             // Assign these convos and reload TableView
             self.mgdConvos = convos
             self.tableView.reloadData()
+            
+            //TODO: now go check the network
         }
         
         // Groups from Core Data
         self.groupActivityIndicator.startAnimating()
-        CoreDataManager.sharedInstance.fetchGroups(forGroup: self.currentGroup) {
+        CoreDataManager.sharedInstance.fetchGroups(forGroup: self.group) {
             (groups: [ManagedGroup]) in
             
             println("Received from CoreDataManager: \(groups.count) groups")
@@ -74,6 +76,8 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
             // Assign these groups and reload TableView
             self.mgdGroups = groups
             self.tableView.reloadData()
+            
+            //TODO: now go check the network
         }
         
         
@@ -327,23 +331,23 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
             newGroup[NAME_KEY] = groupname
             
             // TODO: be able to add a new group with a nil parent group
-            newGroup[PARENT_GROUP_KEY] = self.currentGroup
-            newGroup.saveInBackgroundWithBlock {
-                (success: Bool, error: NSError!) -> Void in
-                if (success) {
-                    println("Successfully saved new group: \(groupname)")
-                    
-                    // FIXME
-//                    CoreDataManager.addNewGroup(group)
-                    
-//                    self.groupArray.append(newGroup)
-//                    newGroup.pin()
-//                    self.tableView.reloadData()
-                }
-                else {
-                    println("Failed to save new group: \(groupname)")
-                }
-            }
+//            newGroup[PARENT_GROUP_KEY] = self.currentGroup
+//            newGroup.saveInBackgroundWithBlock {
+//                (success: Bool, error: NSError!) -> Void in
+//                if (success) {
+//                    println("Successfully saved new group: \(groupname)")
+//                    
+//                    // FIXME
+////                    CoreDataManager.addNewGroup(group)
+//                    
+////                    self.groupArray.append(newGroup)
+////                    newGroup.pin()
+////                    self.tableView.reloadData()
+//                }
+//                else {
+//                    println("Failed to save new group: \(groupname)")
+//                }
+//            }
         }))
         
         self.presentViewController(alert, animated: true, completion: nil)
@@ -369,7 +373,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
             var newConvo = Convo()
             
             newConvo[NAME_KEY] = convoName
-            newConvo[GROUP_KEY] = self.currentGroup
+//            newConvo[GROUP_KEY] = self.currentGroup
             var relation = newConvo.relationForKey(USERS_KEY)
             relation.addObject(PFUser.currentUser())
             
@@ -463,7 +467,6 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     }
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
         
         if indexPath.section == GROUP_TABLE_VIEW_SECTION {
             

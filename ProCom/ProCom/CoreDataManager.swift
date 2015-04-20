@@ -18,12 +18,16 @@ class CoreDataManager: NSObject {
         return _CoreDataManagerInstance
     }
     
-    func fetchConvos(forGroup group: Group?, completion: (convos: [ManagedConvo]) -> Void) {
+    func fetchConvos(forGroup group: ManagedGroup?, completion: (convos: [ManagedConvo]) -> Void) {
         // Return all Convos saved in Core Data
         
         var convos = [ManagedConvo]()
         
         var fetchRequest = NSFetchRequest(entityName: "Convo")
+        if let groupId = group?.pfId {
+            println("Convo predicate from core: parent group ID = \(groupId)")
+            fetchRequest.predicate  = NSPredicate(format: "parentGroupId == %@", groupId)
+        }
         var error: NSError?
         
         // Send fetch request
@@ -37,12 +41,16 @@ class CoreDataManager: NSObject {
         completion(convos: convos)
     }
     
-    func fetchGroups(forGroup group: Group?, completion: (groups: [ManagedGroup]) -> Void) {
+    func fetchGroups(forGroup group: ManagedGroup?, completion: (groups: [ManagedGroup]) -> Void) {
         // Return all Groups saved in Core Data
         
         var groups = [ManagedGroup]()
         
         var fetchRequest = NSFetchRequest(entityName: "Group")
+        if let groupId = group?.pfId {
+            println("Group predicate from core: parent group ID = \(groupId)")
+            fetchRequest.predicate  = NSPredicate(format: "parentGroupId == %@", groupId)
+        }
         var error: NSError?
         
         // Send fetch request
