@@ -63,6 +63,14 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
             self.tableView.reloadData()
             
             //TODO: now go check the network
+            NetworkController.sharedInstance.fetchNewConvos(forGroup: self.group, convos: convos, completion: {
+                (newConvos: [Convo]) in
+                
+                // Received new convos from the network
+                
+            })
+            
+            
         }
         
         // Groups from Core Data
