@@ -30,8 +30,12 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     
     init(group: ManagedGroup?) {
         super.init(style: UITableViewStyle.Grouped)
-        
-        self.group = group
+        if group != nil {
+            self.group = group!
+        }
+        else {
+            //TODO: Assign some default home Group object
+        }
     }
     
     override init(style: UITableViewStyle) {
@@ -50,28 +54,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         
         super.viewDidLoad()
         
-        // Convos from Core Data
-        self.convoActivityIndicator.startAnimating()
-        CoreDataManager.sharedInstance.fetchConvos(forGroup: self.group) {
-            (convos: [ManagedConvo]) in
-            
-            println("Received from CoreDataManager: \(convos.count) convos")
-            self.convoActivityIndicator.stopAnimating()
-            
-            // Assign these convos and reload TableView
-            self.mgdConvos = convos
-            self.tableView.reloadData()
-            
-            //TODO: now go check the network
-            NetworkController.sharedInstance.fetchNewConvos(forGroup: self.group, convos: convos, completion: {
-                (newConvos: [Convo]) in
-                
-                // Received new convos from the network
-                
-            })
-            
-            
-        }
+        self.fetchConvos()
         
         // Groups from Core Data
         self.groupActivityIndicator.startAnimating()
@@ -95,6 +78,40 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         
     }
     
+    func fetchConvos() {
+        // Convos from Core Data
+        self.convoActivityIndicator.startAnimating()
+        CoreDataManager.sharedInstance.fetchConvos(forGroup: self.group) {
+            (convos: [ManagedConvo]) in
+            
+            println("Received from CoreDataManager: \(convos.count) convos")
+            
+            // Assign these convos and reload TableView
+            self.mgdConvos = convos
+            self.tableView.reloadData()
+            
+            // Look for new convos on the network (in the background)
+            NetworkController.sharedInstance.fetchNewConvos(forGroup: self.group, existingConvos: convos, user: PFUser.currentUser(), completion: {
+                (convos: [Convo]) in
+                
+                // Received new convos from the network
+                println("GroupTableView received \(newConvos.count) new convos from network")
+                
+                
+                // Save new Convos to Core Data
+                CoreDataManager.sharedInstance.saveNewConvos(convos, completion: {
+                    (newMgdConvos: [ManagedConvo]) -> Void in
+                    
+                    // Add new *converted* Convos to the TableView Data Source
+                    self.mgdConvos.extend(newMgdConvos)
+                    self.tableView.reloadData()
+                })
+                
+                self.convoActivityIndicator.stopAnimating()
+            })
+        }
+    }
+        
     // MARK: - Convos (Network and Core Data)
     
 //    func fetchConvos(user: PFUser, completionBlock: () -> Void) {
