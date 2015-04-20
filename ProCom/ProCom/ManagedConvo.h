@@ -18,8 +18,8 @@
 
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * pfId;
-@property (nonatomic, retain) ManagedGroup *groupId;
-@property (nonatomic, retain) NSSet *blurbs;
+@property (nonatomic, retain) NSString * parentGroupId;
+
 @end
 
 @interface ManagedConvo (CoreDataGeneratedAccessors)

@@ -10,14 +10,10 @@
 #import "ManagedConvo.h"
 #import "ManagedGroup.h"
 
-
 @implementation ManagedGroup
 
-@dynamic createdAt;
 @dynamic name;
 @dynamic pfId;
-@dynamic parent;
-@dynamic subGroups;
-@dynamic convos;
+@dynamic parentGroupId;
 
 @end

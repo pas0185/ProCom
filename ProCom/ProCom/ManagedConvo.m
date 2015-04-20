@@ -14,8 +14,6 @@
 
 @dynamic name;
 @dynamic pfId;
-@dynamic groupId;
-@dynamic blurbs;
-
+@dynamic parentGroupId;
 
 @end
