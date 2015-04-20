@@ -29,7 +29,7 @@ class Convo: PFObject, PFSubclassing {
         encoder.encodeObject(self.parseClassName, forKey: kPFObjectClassName)
         encoder.encodeObject(self.objectId, forKey:kPFObjectObjectId)
         encoder.encodeObject(self.allKeys(), forKey:kPFObjectAllKeys)
-        for key in self.allKeys() as [String]{
+        for key in self.allKeys() as! [String]{
             encoder.encodeObject(self[key], forKey:key)
         }
     }
@@ -37,12 +37,12 @@ class Convo: PFObject, PFSubclassing {
     func initWithCoder(aDecoder: NSCoder!) -> Convo {
         
         // Decode the className and objectId
-        var aClassName = aDecoder.decodeObjectForKey(kPFObjectClassName) as String
-        var anObjectId = aDecoder.decodeObjectForKey(kPFObjectObjectId) as String
+        var aClassName = aDecoder.decodeObjectForKey(kPFObjectClassName) as! String
+        var anObjectId = aDecoder.decodeObjectForKey(kPFObjectObjectId) as! String
         
-        var convo = PFObject(withoutDataWithClassName: aClassName, objectId: anObjectId) as Convo
+        var convo = PFObject(withoutDataWithClassName: aClassName, objectId: anObjectId) as! Convo
         
-        var allKeys = aDecoder.decodeObjectForKey(kPFObjectAllKeys) as [String]
+        var allKeys = aDecoder.decodeObjectForKey(kPFObjectAllKeys) as! [String]
         for key in allKeys {
             if let obj: AnyObject = aDecoder.decodeObjectForKey(key) {
                 convo[key] = obj
@@ -62,7 +62,7 @@ class Convo: PFObject, PFSubclassing {
     
     func saveToCore() {
         
-        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         
         let managedContext = appDelegate.managedObjectContext!
         
@@ -80,7 +80,7 @@ class Convo: PFObject, PFSubclassing {
     
     func assignValuesToManagedObject(mgdConvo: ManagedConvo) {
         mgdConvo.pfId = self.objectId
-        mgdConvo.name = self[NAME_KEY] as String
+        mgdConvo.name = self[NAME_KEY] as! String
 
         // TODO: parent group
     }

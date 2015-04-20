@@ -35,15 +35,15 @@ class Blurb: PFObject, JSQMessageData {
     }
 
     func text() -> String! {
-        return self[TEXT] as String
+        return self[TEXT] as! String
     }
     
     func sender() -> String! {
-        return self[USERNAME] as String
+        return self[USERNAME] as! String
     }
     
     func date() -> NSDate! {
-        return self["createdAt"] as NSDate
+        return self["createdAt"] as! NSDate
     }
     
 //    func imageUrl() -> String? {

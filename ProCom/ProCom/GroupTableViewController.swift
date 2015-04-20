@@ -22,7 +22,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     var groupActivityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
     var convoActivityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
     
-    let managedObjectContext = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext
+    let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
     
     // MARK: - Initialization
     
@@ -97,13 +97,13 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     func fetchConvosFromCoreData(user: PFUser) -> [NSManagedObject] {
         // Return all Convos saved in Core Data
         
-        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let managedContext = appDelegate.managedObjectContext!
         
         let fetchRequest = NSFetchRequest(entityName: "Convo")
         var error: NSError?
         
-        let fetchedResults = managedContext.executeFetchRequest(fetchRequest, error: &error) as [NSManagedObject]?
+        let fetchedResults = managedContext.executeFetchRequest(fetchRequest, error: &error) as! [NSManagedObject]?
         
         if let results = fetchedResults {
             println("Fetched \(results.count) Convos from Core Data:")
@@ -123,7 +123,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         
         // Don't fetch Convos we already have
         var existingConvoIds: [String] = []
-        for convo in existingConvos as [ManagedConvo] {
+        for convo in existingConvos as! [ManagedConvo] {
             existingConvoIds.append(convo.pfId)
         }
         convoQuery.whereKey(OBJECT_ID_KEY, notContainedIn: existingConvoIds)
@@ -141,7 +141,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
 
                     let currentInstallation = PFInstallation.currentInstallation()
                     
-                    var convos = objects as [Convo]
+                    var convos = objects as! [Convo]
                     
                     for convo in convos {
                         convo.saveToCore()
@@ -215,13 +215,13 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     func fetchGroupsFromCoreData() -> [NSManagedObject] {
         // Return all Groups saved in Core Data
         
-        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         let managedContext = appDelegate.managedObjectContext!
         
         let fetchRequest = NSFetchRequest(entityName: "Group")
         var error: NSError?
         
-        let fetchedResults = managedContext.executeFetchRequest(fetchRequest, error: &error) as [NSManagedObject]?
+        let fetchedResults = managedContext.executeFetchRequest(fetchRequest, error: &error) as! [NSManagedObject]?
         
         if let results = fetchedResults {
             println("Fetched \(results.count) Groups from Core Data:")
@@ -316,7 +316,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         
         alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil))
         alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler:{ (alertAction:UIAlertAction!) in
-            let textField = alert.textFields![0] as UITextField
+            let textField = alert.textFields![0] as! UITextField
             let groupname = textField.text
             println(groupname)
             
@@ -355,7 +355,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         
         alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil))
         alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler:{ (alertAction:UIAlertAction!) in
-            let textField = alert.textFields![0] as UITextField
+            let textField = alert.textFields![0] as! UITextField
             let convoName = textField.text
             println(convoName)
             

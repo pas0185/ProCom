@@ -18,8 +18,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
     
     func setParseAppIdAndClientKey() {
         if let dictionary = NSDictionary(contentsOfFile: NSBundle.mainBundle().pathForResource("Keys", ofType: "plist")!) {
-            var appId = dictionary.objectForKey("PARSE_APPLICATION_ID") as String
-            var clientKey = dictionary.objectForKey("PARSE_CLIENT_KEY") as String
+            var appId = dictionary.objectForKey("PARSE_APPLICATION_ID") as! String
+            var clientKey = dictionary.objectForKey("PARSE_CLIENT_KEY") as! String
             
             Parse.setApplicationId(appId, clientKey: clientKey)
         }
@@ -167,7 +167,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
             println("Convo from push notification = \(convo)")
         
             var convoQuery = Convo.query()
-            if let actualConvo = convoQuery.getObjectWithId(convo as String) as? Convo {
+            if let actualConvo = convoQuery.getObjectWithId(convo as! String) as? Convo {
                 // You got it?
                 println("\(actualConvo)")
                 var blurbViewControlerr = BlurbTableViewController(convo: actualConvo)
@@ -224,11 +224,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
         }
     }
     
-    func application(application: UIApplication, openURL url: NSURL, sourceApplication: NSString?, annotation: AnyObject) -> Bool {
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
         
-        var wasHandled:Bool = FBAppCall.handleOpenURL(url, sourceApplication: sourceApplication)
-        return wasHandled
-        
+        return FBAppCall.handleOpenURL(url, sourceApplication: sourceApplication)
     }
     
     func applicationWillResignActive(application: UIApplication) {
@@ -260,7 +258,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
     lazy var applicationDocumentsDirectory: NSURL = {
         // The directory the application uses to store the Core Data store file. This code uses a directory named "com.abraid.ProCom" in the application's documents Application Support directory.
         let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
-        return urls[urls.count-1] as NSURL
+        return urls[urls.count-1] as! NSURL
     }()
 
     lazy var managedObjectModel: NSManagedObjectModel = {
@@ -283,7 +281,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
             dict[NSLocalizedDescriptionKey] = "Failed to initialize the application's saved data"
             dict[NSLocalizedFailureReasonErrorKey] = failureReason
             dict[NSUnderlyingErrorKey] = error
-            error = NSError(domain: "YOUR_ERROR_DOMAIN", code: 9999, userInfo: dict)
+            error = NSError(domain: "YOUR_ERROR_DOMAIN", code: 9999, userInfo: dict as [NSObject : AnyObject])
             // Replace this with code to handle the error appropriately.
             // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
             NSLog("Unresolved error \(error), \(error!.userInfo)")
