@@ -10,11 +10,7 @@ import UIKit
 import CoreData
 
 class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
-    
-    let TEST_USER_ID = "kRaibtYs3r"
-    let HOME_GROUP_ID = "fZRM5e8UVo"
-    let TEST_LOW_GROUP_ID = "e6rLvyv80V"
-    
+
     var currentGroup: Group? = nil
     var groupArray: [Group] = []
     var convoArray: [Convo] = []
@@ -48,16 +44,21 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         
         super.viewDidLoad()
         
-        
+        self.convoActivityIndicator.startAnimating()
         CoreDataManager.sharedInstance.fetchConvos(forGroup: self.currentGroup) {
             (convos: [ManagedConvo]) in
             
             println("Received from CoreDataManager: \(convos.count) convos")
-            
+            self.convoActivityIndicator.stopAnimating()
         }
         
-        CoreDataManager.sharedInstance.fetchGroups(forGroup: self.currentGroup)
-        
+        self.convoActivityIndicator.startAnimating()
+        CoreDataManager.sharedInstance.fetchGroups(forGroup: self.currentGroup) {
+            (groups: [ManagedGroup]) in
+            
+            println("Received from CoreDataManager: \(groups.count) groups")
+            self.groupActivityIndicator.stopAnimating()
+        }
         
         // Add an 'add group' button to navbar
         var addButton: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "addGroupButtonClicked")

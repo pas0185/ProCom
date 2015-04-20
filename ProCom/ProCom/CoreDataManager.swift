@@ -26,18 +26,18 @@ class CoreDataManager: NSObject {
         var fetchRequest = NSFetchRequest(entityName: "Convo")
         var error: NSError?
         
+        // Send fetch request
         convos = managedObjectContext!.executeFetchRequest(fetchRequest, error: &error) as! [ManagedConvo]
         
         if error != nil {
             println(error!.localizedDescription)
         }
         
-        
-        // TODO Notify someone
+        // Notify the fetch is finished to the completion block
         completion(convos: convos)
     }
     
-    func fetchGroups(forGroup group: Group?) {
+    func fetchGroups(forGroup group: Group?, completion: (groups: [ManagedGroup]) -> Void) {
         // Return all Groups saved in Core Data
         
         var groups = [ManagedGroup]()
@@ -45,13 +45,14 @@ class CoreDataManager: NSObject {
         var fetchRequest = NSFetchRequest(entityName: "Group")
         var error: NSError?
         
+        // Send fetch request
         groups = managedObjectContext!.executeFetchRequest(fetchRequest, error: &error) as! [ManagedGroup]
         
         if error != nil {
             println(error!.localizedDescription)
         }
         
-        
-        // TODO Notify someone
+        // Notify the fetch is finished to the completion block
+        completion(groups: groups)
     }
 }
