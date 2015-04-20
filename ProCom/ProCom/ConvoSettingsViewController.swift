@@ -13,7 +13,7 @@ class ConvoSettingsViewController: UIViewController {
     var userConvo: Convo?
     
     init(convo: Convo) {
-        super.init()
+        super.init(nibName: nil, bundle: nil)
         self.userConvo = convo
     }
 
@@ -30,7 +30,7 @@ class ConvoSettingsViewController: UIViewController {
         
         self.view.backgroundColor = UIColor.whiteColor()
         
-        let addUser = UIButton.buttonWithType(UIButtonType.System) as UIButton
+        let addUser = UIButton.buttonWithType(UIButtonType.System) as! UIButton
         addUser.frame = CGRectMake(100, 100, 100, 100)
         addUser.center = self.view.center
         addUser.backgroundColor = UIColor.greenColor()
@@ -56,7 +56,7 @@ class ConvoSettingsViewController: UIViewController {
         alert.addTextFieldWithConfigurationHandler(nil)
         alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil))
         alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler:{ (alertAction:UIAlertAction!) in
-            let textField = alert.textFields![0] as UITextField
+            let textField = alert.textFields![0] as! UITextField
             let username = textField.text
             println(username)
             

@@ -20,8 +20,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
     
     func setParseAppIdAndClientKey() {
         if let dictionary = NSDictionary(contentsOfFile: NSBundle.mainBundle().pathForResource("Keys", ofType: "plist")!) {
-            var appId = dictionary.objectForKey("PARSE_APPLICATION_ID") as String
-            var clientKey = dictionary.objectForKey("PARSE_CLIENT_KEY") as String
+            var appId = dictionary.objectForKey("PARSE_APPLICATION_ID") as! String
+            var clientKey = dictionary.objectForKey("PARSE_CLIENT_KEY") as! String
             
             Parse.setApplicationId(appId, clientKey: clientKey)
         }
@@ -37,7 +37,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
         
         self.setParseAppIdAndClientKey()
 
-        PFAnalytics.trackAppOpenedWithLaunchOptionsInBackground(launchOptions?, block: nil)
+        PFAnalytics.trackAppOpenedWithLaunchOptionsInBackground(launchOptions, block: nil)
         PFFacebookUtils.initializeFacebook()
 
         // Push notifications
@@ -81,9 +81,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
                     FBRequestConnection.startForMeWithCompletionHandler({ (connection: FBRequestConnection!, result: AnyObject!, error: NSError!) -> Void in
                         println("done me request")
                         if let dict = result as? Dictionary<String, AnyObject>{
-                            let name:String = dict["name"] as AnyObject? as String
-                            let facebookID:String = dict["id"] as AnyObject? as String
-                            let email:String = dict["email"] as AnyObject? as String
+                            let name:String = dict["name"] as AnyObject? as! String
+                            let facebookID:String = dict["id"] as AnyObject? as! String
+                            let email:String = dict["email"] as AnyObject? as! String
                             
                             let pictureURL = "https://graph.facebook.com/\(facebookID)/picture?type=large&return_ssl_resources=1"
                             
@@ -214,7 +214,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
             //TODO: Reload the view controller
             
             var convoQuery = Convo.query()
-            if let actualConvo = convoQuery.getObjectWithId(convo as String) as? Convo {
+            if let actualConvo = convoQuery.getObjectWithId(convo as! String) as? Convo {
                 // You got it?
                 println("\(actualConvo)")
                 var blurbViewControler = BlurbTableViewController(convo: actualConvo)
@@ -312,7 +312,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
     lazy var applicationDocumentsDirectory: NSURL = {
         // The directory the application uses to store the Core Data store file. This code uses a directory named "com.abraid.ProCom" in the application's documents Application Support directory.
         let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
-        return urls[urls.count-1] as NSURL
+        return urls[urls.count-1] as! NSURL
     }()
 
     lazy var managedObjectModel: NSManagedObjectModel = {
@@ -335,7 +335,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
             dict[NSLocalizedDescriptionKey] = "Failed to initialize the application's saved data"
             dict[NSLocalizedFailureReasonErrorKey] = failureReason
             dict[NSUnderlyingErrorKey] = error
-            error = NSError(domain: "YOUR_ERROR_DOMAIN", code: 9999, userInfo: dict)
+            error = NSError(domain: "YOUR_ERROR_DOMAIN", code: 9999, userInfo: dict as [NSObject : AnyObject])
             // Replace this with code to handle the error appropriately.
             // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
             NSLog("Unresolved error \(error), \(error!.userInfo)")

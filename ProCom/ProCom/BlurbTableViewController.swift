@@ -23,7 +23,7 @@ class BlurbTableViewController: JSQMessagesViewController {
     var incomingBubbleImageView = JSQMessagesBubbleImageFactory.incomingMessageBubbleImageViewWithColor(UIColor.grayColor())
     
     init(convo: Convo) {
-        super.init()
+        super.init(nibName: nil, bundle: nil)
         self.convo = convo
     }
     
@@ -58,7 +58,7 @@ class BlurbTableViewController: JSQMessagesViewController {
         var settingButton: UIBarButtonItem = UIBarButtonItem(image: settingsImage, style: .Plain, target: self, action: "settingsButtonClicked")
         self.navigationItem.rightBarButtonItem = settingButton
         
-        self.navigationItem.title = convo?.objectForKey(NAME_KEY) as String?
+        self.navigationItem.title = convo?.objectForKey(NAME_KEY) as! String?
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -117,7 +117,7 @@ class BlurbTableViewController: JSQMessagesViewController {
                     PFObject.pinAll(array)
                     println("Done pinning blurb objects")
                 
-                    var fetchedBlurbs = array as [Blurb]
+                    var fetchedBlurbs = array as! [Blurb]
                     println("casted to blurbs count = \(fetchedBlurbs.count)")
                 
                     self.handleTheseBlurbs(fetchedBlurbs)
@@ -166,7 +166,7 @@ class BlurbTableViewController: JSQMessagesViewController {
                 self.finishSendingMessage()
                 self.collectionView.reloadData()
                 
-                self.pushNotifyOtherMembers(text, currentConvo: self.convo?.objectForKey(NAME_KEY) as String, username: PFUser.currentUser().username)
+                self.pushNotifyOtherMembers(text, currentConvo: self.convo?.objectForKey(NAME_KEY) as! String, username: PFUser.currentUser().username)
                 
             } else {
                 println("There was a problem sending the message")
@@ -190,7 +190,7 @@ class BlurbTableViewController: JSQMessagesViewController {
             
             let push = PFPush()
             push.setChannel(channel)
-            push.setData(data)
+            push.setData(data as [NSObject : AnyObject])
             push.sendPushInBackgroundWithBlock {
                 (success: Bool, error: NSError!) -> Void in
                 if (success) {
@@ -230,7 +230,7 @@ class BlurbTableViewController: JSQMessagesViewController {
         let b = CGFloat(Float(rgbValue & 0xFF)/255.0)
         let color = UIColor(red: r, green: g, blue: b, alpha: 0.5)
         
-        let nameLength = countElements(name)
+        let nameLength = count(name)
         let initials : String? = name.substringToIndex(advance(sender.startIndex, min(2, nameLength)))
         let userImage = JSQMessagesAvatarFactory.avatarWithUserInitials(initials, backgroundColor: color, textColor: UIColor.blackColor(), font: UIFont.systemFontOfSize(CGFloat(13)), diameter: diameter)
         
@@ -262,7 +262,7 @@ class BlurbTableViewController: JSQMessagesViewController {
     override func collectionView(collectionView: JSQMessagesCollectionView!, bubbleImageViewForItemAtIndexPath indexPath: NSIndexPath!) -> UIImageView! {
         let blurb = blurbs[indexPath.item]
         
-        if blurb[USER_ID] as PFObject == PFUser.currentUser() {
+        if blurb[USER_ID] as! PFObject == PFUser.currentUser() {
             return UIImageView(image: outgoingBubbleImageView.image, highlightedImage: outgoingBubbleImageView.highlightedImage)
         }
         
@@ -286,7 +286,7 @@ class BlurbTableViewController: JSQMessagesViewController {
 
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         
-        let cell = super.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as JSQMessagesCollectionViewCell
+        let cell = super.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as! JSQMessagesCollectionViewCell
         
         let blurb = self.blurbs[indexPath.row]
         if blurb.sender() as NSString == PFUser.currentUser().username {

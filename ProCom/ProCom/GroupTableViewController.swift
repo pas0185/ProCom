@@ -22,7 +22,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     var groupActivityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
     var convoActivityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
     
-    let managedObjectContext = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext
+    let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
     
     // MARK: - Initialization
     
@@ -73,7 +73,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         self.saveGroupToCore()
         
         // Retreive the managedObjectContext from AppDelegate
-        let managedObjectContext = (UIApplication.sharedApplication().delegate as AppDelegate).managedObjectContext
+        let managedObjectContext = (UIApplication.sharedApplication().delegate as! AppDelegate).managedObjectContext
         
         // Print it to the console
         println(managedObjectContext)
@@ -95,7 +95,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     
     func saveGroupToCore() {
         
-        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         
         let managedContext = appDelegate.managedObjectContext!
         
@@ -115,7 +115,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     
     func fetchGroupFromCore() {
         
-        let appDelegate = UIApplication.sharedApplication().delegate as AppDelegate
+        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
         
         let managedContext = appDelegate.managedObjectContext!
         
@@ -123,7 +123,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
 
         var error: NSError?
 
-        let fetchedResults = managedContext.executeFetchRequest(fetchRequest, error: &error) as [NSManagedObject]?
+        let fetchedResults = managedContext.executeFetchRequest(fetchRequest, error: &error) as! [NSManagedObject]?
         
         if let results = fetchedResults {
             println("Fetched Results: \(results)")
@@ -168,7 +168,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
                     PFObject.pinAll(objects)
                     println("Done pinning convo objects")
                     
-                    var convos = objects as [Convo]
+                    var convos = objects as! [Convo]
                     self.buildGroupHierarchy(convos)
                 }
             }
@@ -262,7 +262,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         
         alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil))
         alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler:{ (alertAction:UIAlertAction!) in
-            let textField = alert.textFields![0] as UITextField
+            let textField = alert.textFields![0] as! UITextField
             let groupname = textField.text
             println(groupname)
             
@@ -301,7 +301,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         
         alert.addAction(UIAlertAction(title: "Cancel", style: UIAlertActionStyle.Default, handler: nil))
         alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler:{ (alertAction:UIAlertAction!) in
-            let textField = alert.textFields![0] as UITextField
+            let textField = alert.textFields![0] as! UITextField
             let convoName = textField.text
             println(convoName)
             

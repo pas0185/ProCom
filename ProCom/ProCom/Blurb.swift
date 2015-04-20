@@ -35,21 +35,21 @@ class Blurb: PFObject, JSQMessageData {
     }
 
     func text() -> String! {
-        return self[TEXT] as String
+        return self[TEXT] as! String
     }
     
     func sender() -> String! {
-        return self[USERNAME] as String
+        return self[USERNAME] as! String
     }
     
     func date() -> NSDate! {
-        return self["createdAt"] as NSDate
+        return self["createdAt"] as! NSDate
     }
     
     func userAvatar() -> NSData!{
         if let currentUser = self[USER_ID] as? PFUser{
             currentUser.fetchIfNeeded()
-            if let profilePifc = currentUser["profilePicture"] as NSData?{
+            if let profilePifc = currentUser["profilePicture"] as! NSData?{
                 return profilePifc
             }
             return nil

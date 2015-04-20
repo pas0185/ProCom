@@ -66,7 +66,7 @@ class Group: PFObject, PFSubclassing {
         query.fromLocalDatastore()
         
         query.whereKey(PARENT_GROUP_KEY, equalTo: self)
-        var subGroups: [Group] = query.findObjects() as [Group]
+        var subGroups: [Group] = query.findObjects() as! [Group]
         println("\(subGroups.count) groups in the selected group")
         
         return subGroups
@@ -78,7 +78,7 @@ class Group: PFObject, PFSubclassing {
         query.fromLocalDatastore()
         
         query.whereKey(GROUP_KEY, equalTo: self)
-        var subConvos: [Convo] = query.findObjects() as [Convo]
+        var subConvos: [Convo] = query.findObjects() as! [Convo]
         println("\(subConvos.count) convos in the selected group")
         
         
