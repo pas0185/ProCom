@@ -27,31 +27,9 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     // MARK: - Initialization
     
     init(group: Group?) {
-
         super.init(style: UITableViewStyle.Grouped)
         
         self.currentGroup = group
-        
-        if self.currentGroup == nil {
-            println("currentgroup is nil; this is the root group")
-            var user = PFUser.currentUser()
-            if user != nil {
-                println("current user exists! Fetch his groups")
-                // Fetch groups and convos from network, pin to local datastore
-
-                self.groupActivityIndicator.startAnimating()
-//                self.fetchAndPinAllGroups()
-                self.fetchConvos(user)
-            }
-            
-        }
-        else {
-            println("currentgroup aint nil")
-            var g = self.currentGroup!
-            self.groupArray = g.getSubGroups()
-            self.convoArray = g.getSubConvos()
-
-        }
     }
     
     override init(style: UITableViewStyle) {
@@ -70,10 +48,16 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         
         super.viewDidLoad()
         
-        if let title = self.currentGroup?.objectForKey(NAME_KEY) as? String {
-            println("TITLE = \(title)")
-            self.navigationItem.title = title
+        
+        CoreDataManager.sharedInstance.fetchConvos(forGroup: self.currentGroup) {
+            (convos: [ManagedConvo]) in
+            
+            println("Received from CoreDataManager: \(convos.count) convos")
+            
         }
+        
+        CoreDataManager.sharedInstance.fetchGroups(forGroup: self.currentGroup)
+        
         
         // Add an 'add group' button to navbar
         var addButton: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "addGroupButtonClicked")
@@ -83,7 +67,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     
     // MARK: - Convos (Network and Core Data)
     
-    func fetchConvos(user: PFUser) {
+    func fetchConvos(user: PFUser, completionBlock: () -> Void) {
         // Fetch a user's subscribed conversations
         
         // Get all from Core Data
@@ -92,6 +76,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         // Get all from Network that are NOT in Core Data, and put them into Core
         self.fetchConvosFromNetworkAndSaveToCoreData(user, existingConvos: coreConvos)
         
+        completionBlock()
     }
     
     func fetchConvosFromCoreData(user: PFUser) -> [NSManagedObject] {
@@ -162,7 +147,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
                     convos.extend(coreConvos)
                     
                     // Now go fetch the groups for the new convos
-                    self.fetchGroups(convos)
+//                    self.fetchGroups(convos)
                 }
             }
         })

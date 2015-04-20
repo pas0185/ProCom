@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1559537D1AAF87DB005777A4 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1559537C1AAF87DB005777A4 /* Constants.swift */; };
+		155C685A1AE56AAD00132EC5 /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 155C68591AE56AAD00132EC5 /* CoreDataManager.swift */; };
 		159CCA691AD5788E00C16C25 /* Keys.plist in Resources */ = {isa = PBXBuildFile; fileRef = 159CCA681AD5788E00C16C25 /* Keys.plist */; };
 		15E8C5BF1AD6551E00AF91EF /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 15E8C5BE1AD6551E00AF91EF /* Foundation.framework */; };
 		15E8C5D01AD65DE100AF91EF /* ManagedGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = 15E8C5CE1AD65DE000AF91EF /* ManagedGroup.h */; };
@@ -140,6 +141,7 @@
 
 /* Begin PBXFileReference section */
 		1559537C1AAF87DB005777A4 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		155C68591AE56AAD00132EC5 /* CoreDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		159CCA681AD5788E00C16C25 /* Keys.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Keys.plist; sourceTree = "<group>"; };
 		15E8C5BE1AD6551E00AF91EF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		15E8C5CE1AD65DE000AF91EF /* ManagedGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ManagedGroup.h; path = ProCom/ManagedGroup.h; sourceTree = "<group>"; };
@@ -566,13 +568,15 @@
 		E27B3FDF1A8D75B800AE18C5 /* ProCom */ = {
 			isa = PBXGroup;
 			children = (
+				CBA7D49F1A92D0120065AB70 /* ProCom-Bridging-Header.h */,
 				E27B3FE21A8D75B800AE18C5 /* AppDelegate.swift */,
 				1559537C1AAF87DB005777A4 /* Constants.swift */,
 				15E8C5DB1AD65DF900AF91EF /* Parse Network Models */,
 				15E8C5DA1AD65DE900AF91EF /* Core Data Models */,
 				539D3B191A8FDE6D0093533F /* GroupTableViewController.swift */,
-				CBCBA2CB1AAA8D5A00B2E303 /* UserHandlingViewController.swift */,
+				155C68591AE56AAD00132EC5 /* CoreDataManager.swift */,
 				CBF01B511A9AE53300364AB6 /* BlurbTableViewController.swift */,
+				CBCBA2CB1AAA8D5A00B2E303 /* UserHandlingViewController.swift */,
 				CB8A0C461AD47B95001B6AF4 /* ConvoSettingsViewController.swift */,
 				E27B3FE01A8D75B800AE18C5 /* Supporting Files */,
 			);
@@ -587,7 +591,6 @@
 				E27B3FEE1A8D75B800AE18C5 /* Images.xcassets */,
 				E27B3FF01A8D75B800AE18C5 /* LaunchScreen.xib */,
 				E27B3FE11A8D75B800AE18C5 /* Info.plist */,
-				CBA7D49F1A92D0120065AB70 /* ProCom-Bridging-Header.h */,
 				159CCA681AD5788E00C16C25 /* Keys.plist */,
 			);
 			name = "Supporting Files";
@@ -817,6 +820,7 @@
 				CBF01B521A9AE53300364AB6 /* BlurbTableViewController.swift in Sources */,
 				CBCBA2A61AA665B000B2E303 /* JSQMessagesCollectionViewFlowLayoutInvalidationContext.m in Sources */,
 				CBCBA2B91AA665B000B2E303 /* JSQMessagesInputToolbar.m in Sources */,
+				155C685A1AE56AAD00132EC5 /* CoreDataManager.swift in Sources */,
 				CBCBA2A11AA665B000B2E303 /* JSQMessagesToolbarButtonFactory.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
