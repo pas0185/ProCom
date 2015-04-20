@@ -11,10 +11,16 @@ import CoreData
 
 class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
 
-    var currentGroup: Group? = nil
-    var groupArray: [Group] = []
-    var convoArray: [Convo] = []
     
+    var mgdGroups = [ManagedGroup]()
+    var mgdConvos = [ManagedConvo]()
+    var group: ManagedGroup?
+    
+    
+    var currentGroup: Group? = nil
+//    var groupArray: [Group] = []
+//    var convoArray: [Convo] = []
+
     var groupActivityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
     var convoActivityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
     
@@ -22,10 +28,10 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     
     // MARK: - Initialization
     
-    init(group: Group?) {
+    init(group: ManagedGroup?) {
         super.init(style: UITableViewStyle.Grouped)
         
-        self.currentGroup = group
+        self.group = group
     }
     
     override init(style: UITableViewStyle) {
@@ -44,21 +50,32 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         
         super.viewDidLoad()
         
+        // Convos from Core Data
         self.convoActivityIndicator.startAnimating()
         CoreDataManager.sharedInstance.fetchConvos(forGroup: self.currentGroup) {
             (convos: [ManagedConvo]) in
             
             println("Received from CoreDataManager: \(convos.count) convos")
             self.convoActivityIndicator.stopAnimating()
+            
+            // Assign these convos and reload TableView
+            self.mgdConvos = convos
+            self.tableView.reloadData()
         }
         
-        self.convoActivityIndicator.startAnimating()
+        // Groups from Core Data
+        self.groupActivityIndicator.startAnimating()
         CoreDataManager.sharedInstance.fetchGroups(forGroup: self.currentGroup) {
             (groups: [ManagedGroup]) in
             
             println("Received from CoreDataManager: \(groups.count) groups")
             self.groupActivityIndicator.stopAnimating()
+            
+            // Assign these groups and reload TableView
+            self.mgdGroups = groups
+            self.tableView.reloadData()
         }
+        
         
         // Add an 'add group' button to navbar
         var addButton: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "addGroupButtonClicked")
@@ -68,38 +85,38 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     
     // MARK: - Convos (Network and Core Data)
     
-    func fetchConvos(user: PFUser, completionBlock: () -> Void) {
-        // Fetch a user's subscribed conversations
-        
-        // Get all from Core Data
-        var coreConvos: [NSManagedObject] = self.fetchConvosFromCoreData(user)
-        
-        // Get all from Network that are NOT in Core Data, and put them into Core
-        self.fetchConvosFromNetworkAndSaveToCoreData(user, existingConvos: coreConvos)
-        
-        completionBlock()
-    }
-    
-    func fetchConvosFromCoreData(user: PFUser) -> [NSManagedObject] {
-        // Return all Convos saved in Core Data
-        
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        let managedContext = appDelegate.managedObjectContext!
-        
-        let fetchRequest = NSFetchRequest(entityName: "Convo")
-        var error: NSError?
-        
-        let fetchedResults = managedContext.executeFetchRequest(fetchRequest, error: &error) as! [NSManagedObject]?
-        
-        if let results = fetchedResults {
-            println("Fetched \(results.count) Convos from Core Data:")
-        }
-        else {
-            println("Could not fetch \(error), \(error!.userInfo)")
-        }
-        
-        return fetchedResults!
-    }
+//    func fetchConvos(user: PFUser, completionBlock: () -> Void) {
+//        // Fetch a user's subscribed conversations
+//        
+//        // Get all from Core Data
+//        var coreConvos: [NSManagedObject] = self.fetchConvosFromCoreData(user)
+//        
+//        // Get all from Network that are NOT in Core Data, and put them into Core
+//        self.fetchConvosFromNetworkAndSaveToCoreData(user, existingConvos: coreConvos)
+//        
+//        completionBlock()
+//    }
+//    
+//    func fetchConvosFromCoreData(user: PFUser) -> [NSManagedObject] {
+//        // Return all Convos saved in Core Data
+//        
+//        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+//        let managedContext = appDelegate.managedObjectContext!
+//        
+//        let fetchRequest = NSFetchRequest(entityName: "Convo")
+//        var error: NSError?
+//        
+//        let fetchedResults = managedContext.executeFetchRequest(fetchRequest, error: &error) as! [NSManagedObject]?
+//        
+//        if let results = fetchedResults {
+//            println("Fetched \(results.count) Convos from Core Data:")
+//        }
+//        else {
+//            println("Could not fetch \(error), \(error!.userInfo)")
+//        }
+//        
+//        return fetchedResults!
+//    }
     
     func fetchConvosFromNetworkAndSaveToCoreData(user: PFUser, existingConvos: [NSManagedObject]) {
         // Get all unfetched convos from the Network and save them to Core Data
@@ -156,69 +173,69 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     
     // MARK: - Groups (Network and Core Data)
     
-    func fetchGroups(convos: [Convo]) {
-        // Fetch the Groups that build up the hierarchy of the given Convos
-        
-        // Fetch all Groups already in Core Data
-        var coreGroups: [NSManagedObject] = self.fetchGroupsFromCoreData()
-        
-        // Get parent groups of the provided Convos
-        var parentGroups: [Group] = []
-        for convo in convos {
-            
-            if let parentGroup = convo.objectForKey("groupId") as? Group {
-
-                parentGroups.append(parentGroup)
-                
-//                var topLevelGroup = self.getTopLevelGroup(parentGroup)
-//                if contains(self.groupArray, topLevelGroup) == false {
-//                    
-//                    // Append new group if not already present
-//                    self.groupArray.append(topLevelGroup)
-//                }
-            }
-//            else {
-//                println("Failed to get parent group for a convo: \(convo)")
+//    func fetchGroups(convos: [Convo]) {
+//        // Fetch the Groups that build up the hierarchy of the given Convos
+//        
+//        // Fetch all Groups already in Core Data
+//        var coreGroups: [NSManagedObject] = self.fetchGroupsFromCoreData()
+//        
+//        // Get parent groups of the provided Convos
+//        var parentGroups: [Group] = []
+//        for convo in convos {
+//            
+//            if let parentGroup = convo.objectForKey("groupId") as? Group {
+//
+//                parentGroups.append(parentGroup)
+//                
+////                var topLevelGroup = self.getTopLevelGroup(parentGroup)
+////                if contains(self.groupArray, topLevelGroup) == false {
+////                    
+////                    // Append new group if not already present
+////                    self.groupArray.append(topLevelGroup)
+////                }
 //            }
-        }
-        
-        println("Using \(convos.count) convos; successfully found \(parentGroups.count) groups")
-        // Recursively fetch hierarchy
-        
-        var allGroups = Group.groupsFromNSManagedObjects(coreGroups)
-        allGroups.extend(parentGroups)
-        println("All groups: \(allGroups)")
-        
-        // ************** //
-        // ***BOOKMARK*** //
-        // ************** //
-        
-        
-        self.groupActivityIndicator.stopAnimating()
-        self.tableView.reloadData()
-    }
-    
-    func fetchGroupsFromCoreData() -> [NSManagedObject] {
-        // Return all Groups saved in Core Data
-        
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        let managedContext = appDelegate.managedObjectContext!
-        
-        let fetchRequest = NSFetchRequest(entityName: "Group")
-        var error: NSError?
-        
-        let fetchedResults = managedContext.executeFetchRequest(fetchRequest, error: &error) as! [NSManagedObject]?
-        
-        if let results = fetchedResults {
-            println("Fetched \(results.count) Groups from Core Data:")
-        }
-        else {
-            println("Could not fetch \(error), \(error!.userInfo)")
-        }
-        
-        return fetchedResults!
-        
-    }
+////            else {
+////                println("Failed to get parent group for a convo: \(convo)")
+////            }
+//        }
+//        
+//        println("Using \(convos.count) convos; successfully found \(parentGroups.count) groups")
+//        // Recursively fetch hierarchy
+//        
+//        var allGroups = Group.groupsFromNSManagedObjects(coreGroups)
+//        allGroups.extend(parentGroups)
+//        println("All groups: \(allGroups)")
+//        
+//        // ************** //
+//        // ***BOOKMARK*** //
+//        // ************** //
+//        
+//        
+//        self.groupActivityIndicator.stopAnimating()
+//        self.tableView.reloadData()
+//    }
+//    
+//    func fetchGroupsFromCoreData() -> [NSManagedObject] {
+//        // Return all Groups saved in Core Data
+//        
+//        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+//        let managedContext = appDelegate.managedObjectContext!
+//        
+//        let fetchRequest = NSFetchRequest(entityName: "Group")
+//        var error: NSError?
+//        
+//        let fetchedResults = managedContext.executeFetchRequest(fetchRequest, error: &error) as! [NSManagedObject]?
+//        
+//        if let results = fetchedResults {
+//            println("Fetched \(results.count) Groups from Core Data:")
+//        }
+//        else {
+//            println("Could not fetch \(error), \(error!.userInfo)")
+//        }
+//        
+//        return fetchedResults!
+//        
+//    }
     
     func getTopLevelGroup(group: Group) -> Group {
         
@@ -315,9 +332,13 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
                 (success: Bool, error: NSError!) -> Void in
                 if (success) {
                     println("Successfully saved new group: \(groupname)")
-                    self.groupArray.append(newGroup)
-                    newGroup.pin()
-                    self.tableView.reloadData()
+                    
+                    // FIXME
+//                    CoreDataManager.addNewGroup(group)
+                    
+//                    self.groupArray.append(newGroup)
+//                    newGroup.pin()
+//                    self.tableView.reloadData()
                 }
                 else {
                     println("Failed to save new group: \(groupname)")
@@ -356,9 +377,12 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
                 (success: Bool, error: NSError!) -> Void in
                 if (success) {
                     println("Successfully saved new convo: \(convoName)")
-                    self.convoArray.append(newConvo)
-                    newConvo.pin()
-                    self.tableView.reloadData()
+                    // FIXME
+                    // CoreDataManager.addNewConvo(convo)
+                    
+//                    self.convoArray.append(newConvo)
+//                    newConvo.pin()
+//                    self.tableView.reloadData()
                 }
                 else {
                     println("Failed to save new convo: \(convoName)")
@@ -388,20 +412,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // Return the number of sections.
-        
         return 2
-        
-        
-//        var numSections: Int = 0
-//        if self.groupArray.count > 0 {
-//            numSections++
-//        }
-//        
-//        if self.convoArray.count > 0 {
-//            numSections++
-//        }
-//        
-//        return numSections
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -409,16 +420,17 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         
         if section == GROUP_TABLE_VIEW_SECTION {
             
-            return self.groupArray.count
+            return self.mgdGroups.count
+//            return self.groupArray.count
         }
 
         if section == CONVO_TABLE_VIEW_SECTION {
             
-            return self.convoArray.count
+            return self.mgdConvos.count
+//            return self.convoArray.count
         }
         
         return 0
-    
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
@@ -427,16 +439,24 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         
         if indexPath.section == GROUP_TABLE_VIEW_SECTION {
             
-            if let name = self.groupArray[indexPath.row].objectForKey(NAME_KEY) as? String {
+            if let name = self.mgdGroups[indexPath.row].name {
                 cell.textLabel?.text = name
             }
+            
+//            if let name = self.groupArray[indexPath.row].objectForKey(NAME_KEY) as? String {
+//                cell.textLabel?.text = name
+//            }
         }
         
         else if indexPath.section == CONVO_TABLE_VIEW_SECTION {
             
-            if let name = self.convoArray[indexPath.row].objectForKey(NAME_KEY) as? String {
+            if let name = self.mgdConvos[indexPath.row].name {
                 cell.textLabel?.text = name
             }
+            
+//            if let name = self.convoArray[indexPath.row].objectForKey(NAME_KEY) as? String {
+//                cell.textLabel?.text = name
+//            }
         }
         
         return cell
@@ -447,7 +467,9 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         
         if indexPath.section == GROUP_TABLE_VIEW_SECTION {
             
-            var selectedGroup = self.groupArray[indexPath.row] as Group
+            // Selected a Group
+            
+            var selectedGroup = self.mgdGroups[indexPath.row]
             
             var groupView = GroupTableViewController(group: selectedGroup)
             
@@ -456,12 +478,13 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         
         else if indexPath.section == CONVO_TABLE_VIEW_SECTION {
             
-            var convo = self.convoArray[indexPath.row]
-            println("Convo was selected: \(convo)")
+            // Seleted a Convo
             
-            var convoView = BlurbTableViewController(convo: convo)
+//            var convo = self.mgdConvos[indexPath.row] as! Convo
+//            println("Convo was selected: \(convo)")
+//            var convoView = BlurbTableViewController(convo: convo)
             
-            self.navigationController?.pushViewController(convoView, animated: true)
+//            self.navigationController?.pushViewController(convoView, animated: true)
         }
         
         tableView.deselectRowAtIndexPath(indexPath, animated: true)
@@ -470,13 +493,6 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     override func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
 
         return TABLE_HEADER_HEIGHT
-        
-//        if (section == GROUP_TABLE_VIEW_SECTION && self.groupArray.count > 0)
-//            || (section == CONVO_TABLE_VIEW_SECTION && self.convoArray.count > 0) {
-//                return TABLE_HEADER_HEIGHT
-//        }
-//        
-//        return 0
     }
     
     override func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -484,7 +500,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         var activityWidth = self.groupActivityIndicator.frame.width
         var activityFrame = CGRectMake(view.frame.width - activityWidth - 14, 0, activityWidth, view.frame.height)
         
-        if section == GROUP_TABLE_VIEW_SECTION {
+        if section == GROUP_TABLE_VIEW_SECTION && self.mgdGroups.count > 0 {
             var label = UILabel(frame: CGRectMake(0, 0, tableView.frame.size.width, TABLE_HEADER_HEIGHT))
             label.text = "Groups"
             label.textAlignment = NSTextAlignment.Center
@@ -494,7 +510,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
             view.addSubview(self.groupActivityIndicator)
         }
         
-        else if section == CONVO_TABLE_VIEW_SECTION {
+        else if section == CONVO_TABLE_VIEW_SECTION && self.mgdConvos.count > 0 {
             
             var label = UILabel(frame: CGRectMake(0, 0, tableView.frame.size.width, TABLE_HEADER_HEIGHT))
             label.text = "Convos"
