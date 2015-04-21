@@ -56,6 +56,20 @@ class NetworkController: NSObject {
         }
     }
     
+    func saveNewGroup(group: Group, completionHandler: (group: Group) -> Void) {
+
+        group.saveInBackgroundWithBlock {
+            (success: Bool, error: NSError!) -> Void in
+            if (success) {
+                println("Successfully saved new group: \(group)")
+                completionHandler(group: group)
+            }
+            else {
+                println("Failed to save new group: \(group)")
+            }
+        }
+    }
+    
     func fetchNewGroups(groupId: String, existingGroupIds: [String], completion: (newGroups: [Group]) -> Void) {
         
         var groups = [Group]()
@@ -76,7 +90,5 @@ class NetworkController: NSObject {
                 completion(newGroups: groups)
             }
         })
-        
-        
     }
 }

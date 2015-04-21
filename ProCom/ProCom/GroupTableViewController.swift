@@ -191,109 +191,6 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         })
     }
     
-    // MARK: - Groups (Network and Core Data)
-    
-//    func fetchGroups(convos: [Convo]) {
-//        // Fetch the Groups that build up the hierarchy of the given Convos
-//        
-//        // Fetch all Groups already in Core Data
-//        var coreGroups: [NSManagedObject] = self.fetchGroupsFromCoreData()
-//        
-//        // Get parent groups of the provided Convos
-//        var parentGroups: [Group] = []
-//        for convo in convos {
-//            
-//            if let parentGroup = convo.objectForKey("groupId") as? Group {
-//
-//                parentGroups.append(parentGroup)
-//                
-////                var topLevelGroup = self.getTopLevelGroup(parentGroup)
-////                if contains(self.groupArray, topLevelGroup) == false {
-////                    
-////                    // Append new group if not already present
-////                    self.groupArray.append(topLevelGroup)
-////                }
-//            }
-////            else {
-////                println("Failed to get parent group for a convo: \(convo)")
-////            }
-//        }
-//        
-//        println("Using \(convos.count) convos; successfully found \(parentGroups.count) groups")
-//        // Recursively fetch hierarchy
-//        
-//        var allGroups = Group.groupsFromNSManagedObjects(coreGroups)
-//        allGroups.extend(parentGroups)
-//        println("All groups: \(allGroups)")
-//        
-//        // ************** //
-//        // ***BOOKMARK*** //
-//        // ************** //
-//        
-//        
-//        self.groupActivityIndicator.stopAnimating()
-//        self.tableView.reloadData()
-//    }
-//    
-//    func fetchGroupsFromCoreData() -> [NSManagedObject] {
-//        // Return all Groups saved in Core Data
-//        
-//        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-//        let managedContext = appDelegate.managedObjectContext!
-//        
-//        let fetchRequest = NSFetchRequest(entityName: "Group")
-//        var error: NSError?
-//        
-//        let fetchedResults = managedContext.executeFetchRequest(fetchRequest, error: &error) as! [NSManagedObject]?
-//        
-//        if let results = fetchedResults {
-//            println("Fetched \(results.count) Groups from Core Data:")
-//        }
-//        else {
-//            println("Could not fetch \(error), \(error!.userInfo)")
-//        }
-//        
-//        return fetchedResults!
-//        
-//    }
-    
-    func getTopLevelGroup(group: Group) -> Group {
-        
-        // Get parent of this group
-        if let parentGroup = group[PARENT_GROUP_KEY] as? Group {
-            
-            // Fetch the full object from the local datastore
-            parentGroup.fetchFromLocalDatastore()
-            
-            // Recursive call to this function
-            return self.getTopLevelGroup(parentGroup)
-        }
-        
-        // If no parent, he is the top level, return it
-        return group
-    }
-    
-    
-    
-    
-//    func fetchAndPinAllGroups() {
-//        
-//        let query = Group.query()
-//        query.includeKey(PARENT_GROUP_KEY)
-//        query.findObjectsInBackgroundWithBlock({(objects:[AnyObject]!, error:NSError!) in
-//            if (error == nil) {
-//                println("Fetched \(objects.count) group objects")
-//                dispatch_async(dispatch_get_main_queue()) {
-//                    
-//                    println("Pinnning group objects")
-//                    PFObject.pinAll(objects)
-//                    println("Done pinning group objects")
-//                }
-//            }
-//        })
-//    }
-    
-    
     // MARK: - Push Data
     
     func addGroupButtonClicked() {
@@ -341,29 +238,30 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler:{ (alertAction:UIAlertAction!) in
             let textField = alert.textFields![0] as! UITextField
             let groupname = textField.text
-            println(groupname)
-            
+            println("User wants to create new group named: \(groupname)")
+
+            // Build new Group
             var newGroup = Group()
-            newGroup[NAME_KEY] = groupname
-            
-            // TODO: be able to add a new group with a nil parent group
-//            newGroup[PARENT_GROUP_KEY] = self.currentGroup
-//            newGroup.saveInBackgroundWithBlock {
-//                (success: Bool, error: NSError!) -> Void in
-//                if (success) {
-//                    println("Successfully saved new group: \(groupname)")
-//                    
-//                    // FIXME
-////                    CoreDataManager.addNewGroup(group)
-//                    
-////                    self.groupArray.append(newGroup)
-////                    newGroup.pin()
-////                    self.tableView.reloadData()
-//                }
-//                else {
-//                    println("Failed to save new group: \(groupname)")
-//                }
-//            }
+            if let name = textField.text,
+                parentGroupId = self.group?.pfId {
+
+                newGroup["name"] = name
+                newGroup["parentGroupId"] = parentGroupId
+
+                // Save it to the Network
+                NetworkController.sharedInstance.saveNewGroup(newGroup, completionHandler: {
+                    (group) -> Void in
+                    
+                    // On success, save it to Core Data
+                    CoreDataManager.sharedInstance.saveNewGroups([group], completion: {
+                        (newMgdGroups) -> Void in
+                        
+                        // Add the newly created Group to this view's list
+                        self.mgdGroups.extend(newMgdGroups)
+                        self.tableView.reloadData()
+                    })
+                })
+            }
         }))
         
         self.presentViewController(alert, animated: true, completion: nil)
