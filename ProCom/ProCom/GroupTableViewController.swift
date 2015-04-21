@@ -56,20 +56,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         
         self.fetchConvos()
         
-        // Groups from Core Data
-        self.groupActivityIndicator.startAnimating()
-        CoreDataManager.sharedInstance.fetchGroups(forGroup: self.group) {
-            (groups: [ManagedGroup]) in
-            
-            println("Received from CoreDataManager: \(groups.count) groups")
-            self.groupActivityIndicator.stopAnimating()
-            
-            // Assign these groups and reload TableView
-            self.mgdGroups = groups
-            self.tableView.reloadData()
-            
-            //TODO: now go check the network
-        }
+        self.fetchGroups()
         
         
         // Add an 'add group' button to navbar
@@ -95,12 +82,14 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
                 (convos: [Convo]) in
                 
                 // Received new convos from the network
-                println("GroupTableView received \(newConvos.count) new convos from network")
+                println("GroupTableView received \(convos.count) new Convos from network")
                 
                 
                 // Save new Convos to Core Data
                 CoreDataManager.sharedInstance.saveNewConvos(convos, completion: {
                     (newMgdConvos: [ManagedConvo]) -> Void in
+                    
+                    println("Finished saving new convos to Core Data. Now adding to TableView")
                     
                     // Add new *converted* Convos to the TableView Data Source
                     self.mgdConvos.extend(newMgdConvos)
@@ -111,41 +100,51 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
             })
         }
     }
-        
-    // MARK: - Convos (Network and Core Data)
     
-//    func fetchConvos(user: PFUser, completionBlock: () -> Void) {
-//        // Fetch a user's subscribed conversations
-//        
-//        // Get all from Core Data
-//        var coreConvos: [NSManagedObject] = self.fetchConvosFromCoreData(user)
-//        
-//        // Get all from Network that are NOT in Core Data, and put them into Core
-//        self.fetchConvosFromNetworkAndSaveToCoreData(user, existingConvos: coreConvos)
-//        
-//        completionBlock()
-//    }
-//    
-//    func fetchConvosFromCoreData(user: PFUser) -> [NSManagedObject] {
-//        // Return all Convos saved in Core Data
-//        
-//        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-//        let managedContext = appDelegate.managedObjectContext!
-//        
-//        let fetchRequest = NSFetchRequest(entityName: "Convo")
-//        var error: NSError?
-//        
-//        let fetchedResults = managedContext.executeFetchRequest(fetchRequest, error: &error) as! [NSManagedObject]?
-//        
-//        if let results = fetchedResults {
-//            println("Fetched \(results.count) Convos from Core Data:")
-//        }
-//        else {
-//            println("Could not fetch \(error), \(error!.userInfo)")
-//        }
-//        
-//        return fetchedResults!
-//    }
+    func fetchGroups() {
+        // Groups from Core Data
+        self.groupActivityIndicator.startAnimating()
+        CoreDataManager.sharedInstance.fetchGroups(forGroup: self.group) {
+            (groups: [ManagedGroup]) in
+            
+            println("Received from CoreDataManager: \(groups.count) groups")
+            //            self.groupActivityIndicator.stopAnimating()
+            
+            // Assign these groups and reload TableView
+            self.mgdGroups = groups
+            self.tableView.reloadData()
+            
+            // Look for new Groups on the network (in the background)
+            
+            let groupId: String = self.group.pfId
+
+            var existingGroupIds = [String]()
+            for group in self.mgdGroups {
+                existingGroupIds.append(group.pfId)
+            }
+            
+            
+            println("Going to fetch new Groups from Network under groupId=\(groupId) and existing groupIds=\(existingGroupIds)\n")
+            NetworkController.sharedInstance.fetchNewGroups(groupId!, existingGroupIds: existingGroupIds, completion: {
+                (groups: [Group]) in
+                
+                // Received new convos from the network
+                println("GroupTableView received \(groups.count) new Groups from Network\nGoing to save in Core Data")
+                
+                // Save new Convos to Core Data
+                CoreDataManager.sharedInstance.saveNewGroups(groups, completion: {
+                    (newMgdGroups: [ManagedGroup]) -> Void in
+                    
+                    println("Saved new groups in Core Data")
+                    // Add new *converted* Groups to the TableView Data Source
+                    self.mgdGroups.extend(newMgdGroups)
+                    self.tableView.reloadData()
+                })
+                
+                self.groupActivityIndicator.stopAnimating()
+            })
+        }
+    }
     
     func fetchConvosFromNetworkAndSaveToCoreData(user: PFUser, existingConvos: [NSManagedObject]) {
         // Get all unfetched convos from the Network and save them to Core Data

@@ -42,23 +42,33 @@ class CoreDataManager: NSObject {
         completion(convos: convos)
     }
     
-    func saveNewConvo(name: String, pfId: String, parentGroupId: String) {
+    func saveNewConvos(convos: [Convo], completion: (newMgdConvos: [ManagedConvo]) -> Void) {
+        
+        var mgdConvos = [ManagedConvo]()
         
         if let entity = NSEntityDescription.entityForName("Convo", inManagedObjectContext: self.managedObjectContext!) {
 
-            var mgdConvo = ManagedConvo(entity: entity, insertIntoManagedObjectContext: self.managedObjectContext)
+            for pfConvo in convos {
+                var mgdConvo = ManagedConvo(entity: entity, insertIntoManagedObjectContext: self.managedObjectContext)
+                
+                mgdConvo.name = pfConvo.name
+                mgdConvo.pfId = pfConvo.pfId
+                mgdConvo.parentGroupId = pfConvo.parentGroupId
+                
+                mgdConvos.append(mgdConvo)
+            }
             
-            mgdConvo.name = name
-            mgdConvo.pfId = pfId
-            mgdConvo.parentGroupId = parentGroupId
             
             var error: NSError?
             self.managedObjectContext?.save(&error)
             
             if error != nil {
-                println("Error saving Convo to Core Data: \(error?.localizedDescription)")
+                println("Error saving Convos to Core Data: \(error?.localizedDescription)")
             }
         }
+        
+        
+        completion(newMgdConvos: mgdConvos)
     }
     
     //MARK: - Group
@@ -85,15 +95,21 @@ class CoreDataManager: NSObject {
         completion(groups: groups)
     }
     
-    func saveNewGroup(name: String, pfId: String, parentGroupId: String) {
+    func saveNewGroups(groups: [Group], completion: (newMgdGroups: [ManagedGroup]) -> Void) {
+        
+        var mgdGroups = [ManagedGroup]()
         
         if let entity = NSEntityDescription.entityForName("Group", inManagedObjectContext: self.managedObjectContext!) {
             
-            var mgdGroup = ManagedConvo(entity: entity, insertIntoManagedObjectContext: self.managedObjectContext)
-            
-            mgdGroup.name = name
-            mgdGroup.pfId = pfId
-            mgdGroup.parentGroupId = parentGroupId
+            for pfGroup in groups {
+                var mgdGroup = ManagedGroup(entity: entity, insertIntoManagedObjectContext: self.managedObjectContext)
+                
+                mgdGroup.name = pfGroup.name
+                mgdGroup.pfId = pfGroup.pfId
+                mgdGroup.parentGroupId = pfGroup.parentGroupId
+                
+                mgdGroups.append(mgdGroup)
+            }
             
             var error: NSError?
             self.managedObjectContext?.save(&error)
@@ -102,5 +118,7 @@ class CoreDataManager: NSObject {
                 println("Error saving Group to Core Data: \(error?.localizedDescription)")
             }
         }
+        
+        completion(newMgdGroups: mgdGroups)
     }
 }

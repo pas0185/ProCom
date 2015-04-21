@@ -45,4 +45,28 @@ class NetworkController: NSObject {
             }
         })
     }
+    
+    func fetchNewGroups(groupId: String, existingGroupIds: [String], completion: (newGroups: [Group]) -> Void) {
+        
+        var groups = [Group]()
+        
+        // Build Group Query...
+        let groupQuery = Group.query()
+        groupQuery.whereKey("parentGroupId", equalTo: groupId)
+        groupQuery.whereKey(OBJECT_ID_KEY, notContainedIn: existingGroupIds)
+        
+        // Send the query
+        groupQuery.findObjectsInBackgroundWithBlock({
+            (objects: [AnyObject]!, error: NSError!) -> Void in
+            
+            if (error == nil) {
+                println("Fetched \(objects.count) new Groups from Network")
+                
+                groups = objects as! [Group]
+                completion(newGroups: groups)
+            }
+        })
+        
+        
+    }
 }

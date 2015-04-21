@@ -17,6 +17,19 @@ let kPFACLPermissions = "permissionsById"
 
 class Convo: PFObject, PFSubclassing {
     
+    // Properties that ManagedConvo class uses during conversion
+    var pfId: String {
+        return self.objectId
+    }
+    var parentGroupId: String {
+        return self.objectForKey("parentGroupId") as! String
+    }
+    var name: String {
+        return self.objectForKey("name") as! String
+    }
+    
+    
+    
     class func parseClassName() -> String! {
         return CONVO_CLASS
     }

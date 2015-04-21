@@ -11,10 +11,37 @@ import CoreData
 
 class Group: PFObject, PFSubclassing {
     
+    
+    // Properties that ManagedConvo class uses during conversion
+    var pfId: String {
+        return self.objectId
+    }
+    
+    var parentGroupId: String {
+        
+        get {
+            return self.objectForKey("parentGroupId") as! String
+        }
+        set {
+            self.setObject(newValue, forKey: "name")
+        }
+    }
+    
+    var name: String {
+        get {
+            return self.objectForKey("name") as! String
+        }
+        set {
+            self.setObject(newValue, forKey: "name")
+        }
+    }
+    
+    
+    
+    
     var subGroups: [Group] = []
     var subConvos: [Convo] = []
     
-    var name: String?
     var parentId: String?
     
     // MARK: - Initialization
@@ -31,14 +58,18 @@ class Group: PFObject, PFSubclassing {
     }
     
     init(name: String) {
-        self.name = name
         super.init()
+        
+        self.name = name
+
     }
     
     init(name: String, parentId: String) {
+        super.init()
+        
         self.name = name
         self.parentId = parentId
-        super.init()
+
     }
     
     class func parseClassName() -> String! {
