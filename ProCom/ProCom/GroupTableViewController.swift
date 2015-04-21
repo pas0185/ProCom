@@ -11,16 +11,11 @@ import CoreData
 
 class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
 
+    var group: ManagedGroup?
     
     var mgdGroups = [ManagedGroup]()
     var mgdConvos = [ManagedConvo]()
-    var group: ManagedGroup?
     
-    
-//    var currentGroup: Group? = nil
-//    var groupArray: [Group] = []
-//    var convoArray: [Convo] = []
-
     var groupActivityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
     var convoActivityIndicator = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.Gray)
     
@@ -30,12 +25,8 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     
     init(group: ManagedGroup?) {
         super.init(style: UITableViewStyle.Grouped)
-        if group != nil {
-            self.group = group!
-        }
-        else {
-            //TODO: Assign some default home Group object
-        }
+
+        self.group = group
     }
     
     override init(style: UITableViewStyle) {
@@ -58,7 +49,6 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         
         self.fetchGroups()
         
-        
         // Add an 'add group' button to navbar
         var addButton: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "addGroupButtonClicked")
         self.navigationItem.rightBarButtonItem = addButton
@@ -71,7 +61,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         CoreDataManager.sharedInstance.fetchConvos(forGroup: self.group) {
             (convos: [ManagedConvo]) in
             
-            println("Received from CoreDataManager: \(convos.count) convos")
+            println("Received from CoreDataManager: \(convos.count) Convos")
             
             // Assign these convos and reload TableView
             self.mgdConvos = convos
@@ -83,7 +73,6 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
                 
                 // Received new convos from the network
                 println("GroupTableView received \(convos.count) new Convos from network")
-                
                 
                 // Save new Convos to Core Data
                 CoreDataManager.sharedInstance.saveNewConvos(convos, completion: {
@@ -108,15 +97,18 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
             (groups: [ManagedGroup]) in
             
             println("Received from CoreDataManager: \(groups.count) groups")
-            //            self.groupActivityIndicator.stopAnimating()
             
             // Assign these groups and reload TableView
             self.mgdGroups = groups
             self.tableView.reloadData()
             
             // Look for new Groups on the network (in the background)
-            
-            let groupId: String = self.group.pfId
+
+            var groupId: String = "0"
+            if let g = self.group {
+                groupId = g.pfId
+            }
+//            let groupId: String = self.group!.pfId
 
             var existingGroupIds = [String]()
             for group in self.mgdGroups {
@@ -125,7 +117,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
             
             
             println("Going to fetch new Groups from Network under groupId=\(groupId) and existing groupIds=\(existingGroupIds)\n")
-            NetworkController.sharedInstance.fetchNewGroups(groupId!, existingGroupIds: existingGroupIds, completion: {
+            NetworkController.sharedInstance.fetchNewGroups(groupId, existingGroupIds: existingGroupIds, completion: {
                 (groups: [Group]) in
                 
                 // Received new convos from the network

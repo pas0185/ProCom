@@ -31,19 +31,29 @@ class NetworkController: NSObject {
         for convo in existingConvos {
             existingConvoIds.append(convo.pfId)
         }
+        println("Existing Convo IDs being excluded from query: \(existingConvoIds)")
         convoQuery.whereKey(OBJECT_ID_KEY, notContainedIn: existingConvoIds)
         
-        // Send the query
-        convoQuery.findObjectsInBackgroundWithBlock({
-            (objects: [AnyObject]!, error: NSError!) -> Void in
-            
-            if (error == nil) {
-                println("Fetched \(objects.count) convos from Network")
+        
+        if let groupId = group?.pfId {
+            println("Convo predicate from Network: parent group ID = \(groupId)")
+            convoQuery.whereKey("parentGroupId", equalTo: groupId)
+        
+            // Send the Convo query
+            convoQuery.findObjectsInBackgroundWithBlock({
+                (objects: [AnyObject]!, error: NSError!) -> Void in
                 
-                convos = objects as! [Convo]
-                completion(newConvos: convos)
-            }
-        })
+                if (error == nil) {
+                    println("Fetched \(objects.count) convos from Network")
+                    
+                    convos = objects as! [Convo]
+                    completion(newConvos: convos)
+                }
+            })
+        }
+        else {
+            println("Could not perform Convo Network fetch for empty groupId")
+        }
     }
     
     func fetchNewGroups(groupId: String, existingGroupIds: [String], completion: (newGroups: [Group]) -> Void) {

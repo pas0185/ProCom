@@ -28,18 +28,23 @@ class CoreDataManager: NSObject {
         if let groupId = group?.pfId {
             println("Convo predicate from core: parent group ID = \(groupId)")
             fetchRequest.predicate  = NSPredicate(format: "parentGroupId == %@", groupId)
+            
+            var error: NSError?
+            
+            // Send fetch request
+            convos = managedObjectContext!.executeFetchRequest(fetchRequest, error: &error) as! [ManagedConvo]
+            
+            if error != nil {
+                println(error!.localizedDescription)
+            }
+            
+            // Notify the fetch is finished to the completion block
+            completion(convos: convos)
+
         }
-        var error: NSError?
-        
-        // Send fetch request
-        convos = managedObjectContext!.executeFetchRequest(fetchRequest, error: &error) as! [ManagedConvo]
-        
-        if error != nil {
-            println(error!.localizedDescription)
+        else {
+            println("CoreDataManager could not fetch any Convos for the given group:\(group)")
         }
-        
-        // Notify the fetch is finished to the completion block
-        completion(convos: convos)
     }
     
     func saveNewConvos(convos: [Convo], completion: (newMgdConvos: [ManagedConvo]) -> Void) {
@@ -73,14 +78,20 @@ class CoreDataManager: NSObject {
     
     //MARK: - Group
     func fetchGroups(forGroup group: ManagedGroup?, completion: (groups: [ManagedGroup]) -> Void) {
-        // Return all Groups saved in Core Data
+        // Return children Groups of the parameter Group
+        //      if received nil group; fetch the 'home' one with an ID of 0
         
         var groups = [ManagedGroup]()
         
         var fetchRequest = NSFetchRequest(entityName: "Group")
         if let groupId = group?.pfId {
+            // Was provided a valid group, get all Groups that have it as their parent
             println("Group predicate from core: parent group ID = \(groupId)")
             fetchRequest.predicate  = NSPredicate(format: "parentGroupId == %@", groupId)
+        }
+        else {
+            // Was not provided a valid group, get 'home' group
+            fetchRequest.predicate  = NSPredicate(format: "parentGroupId == 0")
         }
         var error: NSError?
         
