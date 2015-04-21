@@ -242,7 +242,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
 
             // Build new Group
             var newGroup = Group()
-            if let name = textField.text,
+            if let name = groupname,
                 parentGroupId = self.group?.pfId {
 
                 newGroup["name"] = name
@@ -282,29 +282,29 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         alert.addAction(UIAlertAction(title: "Ok", style: .Default, handler:{ (alertAction:UIAlertAction!) in
             let textField = alert.textFields![0] as! UITextField
             let convoName = textField.text
-            println(convoName)
+            println("User wants to create a convo named: \(convoName)")
             
+            // Build new Convo
             var newConvo = Convo()
-            
-            newConvo[NAME_KEY] = convoName
-//            newConvo[GROUP_KEY] = self.currentGroup
-            var relation = newConvo.relationForKey(USERS_KEY)
-            relation.addObject(PFUser.currentUser())
-            
-            newConvo.saveInBackgroundWithBlock {
-                (success: Bool, error: NSError!) -> Void in
-                if (success) {
-                    println("Successfully saved new convo: \(convoName)")
-                    // FIXME
-                    // CoreDataManager.addNewConvo(convo)
+            if let name = convoName,
+                parentGroupId = self.group?.pfId {
                     
-//                    self.convoArray.append(newConvo)
-//                    newConvo.pin()
-//                    self.tableView.reloadData()
-                }
-                else {
-                    println("Failed to save new convo: \(convoName)")
-                }
+                    newConvo["name"] = name
+                    newConvo["parentGroupId"] = parentGroupId
+                    
+                    // Save it to the Network
+                    NetworkController.sharedInstance.saveNewConvo(newConvo, completionHandler: {
+                        (convo) -> Void in
+                        
+                        // On success, save it to Core Data
+                        CoreDataManager.sharedInstance.saveNewConvos([convo], completion: {
+                            (newMgdConvos) -> Void in
+                            
+                            // Add the newly created Group to this view's list
+                            self.mgdConvos.extend(newMgdConvos)
+                            self.tableView.reloadData()
+                        })
+                    })
             }
         }))
         

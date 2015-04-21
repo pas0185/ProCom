@@ -56,16 +56,16 @@ class NetworkController: NSObject {
         }
     }
     
-    func saveNewGroup(group: Group, completionHandler: (group: Group) -> Void) {
-
-        group.saveInBackgroundWithBlock {
+    func saveNewConvo(convo: Convo, completionHandler: (convo: Convo) -> Void) {
+        
+        convo.saveInBackgroundWithBlock {
             (success: Bool, error: NSError!) -> Void in
             if (success) {
-                println("Successfully saved new group: \(group)")
-                completionHandler(group: group)
+                println("Successfully saved new convo to Network: \(convo)")
+                completionHandler(convo: convo)
             }
             else {
-                println("Failed to save new group: \(group)")
+                println("Failed to save new convo to Network: \(convo)")
             }
         }
     }
@@ -90,5 +90,19 @@ class NetworkController: NSObject {
                 completion(newGroups: groups)
             }
         })
+    }
+    
+    func saveNewGroup(group: Group, completionHandler: (group: Group) -> Void) {
+        
+        group.saveInBackgroundWithBlock {
+            (success: Bool, error: NSError!) -> Void in
+            if (success) {
+                println("Successfully saved new group to Network: \(group)")
+                completionHandler(group: group)
+            }
+            else {
+                println("Failed to save new group to Network: \(group)")
+            }
+        }
     }
 }
