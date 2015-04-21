@@ -16,4 +16,9 @@
 @dynamic pfId;
 @dynamic parentGroupId;
 
+- (NSString *)getChannelName
+{
+    return [NSString stringWithFormat:@"channel%@", self.pfId];
+}
+
 @end

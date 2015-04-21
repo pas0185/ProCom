@@ -68,7 +68,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
             self.tableView.reloadData()
             
             // Look for new convos on the network (in the background)
-            NetworkController.sharedInstance.fetchNewConvos(forGroup: self.group, existingConvos: convos, user: PFUser.currentUser(), completion: {
+            NetworkManager.sharedInstance.fetchNewConvos(forGroup: self.group, existingConvos: convos, user: PFUser.currentUser(), completion: {
                 (convos: [Convo]) in
                 
                 // Received new convos from the network
@@ -117,7 +117,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
             
             
             println("Going to fetch new Groups from Network under groupId=\(groupId) and existing groupIds=\(existingGroupIds)\n")
-            NetworkController.sharedInstance.fetchNewGroups(groupId, existingGroupIds: existingGroupIds, completion: {
+            NetworkManager.sharedInstance.fetchNewGroups(groupId, existingGroupIds: existingGroupIds, completion: {
                 (groups: [Group]) in
                 
                 // Received new convos from the network
@@ -249,7 +249,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
                 newGroup["parentGroupId"] = parentGroupId
 
                 // Save it to the Network
-                NetworkController.sharedInstance.saveNewGroup(newGroup, completionHandler: {
+                NetworkManager.sharedInstance.saveNewGroup(newGroup, completion: {
                     (group) -> Void in
                     
                     // On success, save it to Core Data
@@ -293,7 +293,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
                     newConvo["parentGroupId"] = parentGroupId
                     
                     // Save it to the Network
-                    NetworkController.sharedInstance.saveNewConvo(newConvo, completionHandler: {
+                    NetworkManager.sharedInstance.saveNewConvo(newConvo, completion: {
                         (convo) -> Void in
                         
                         // On success, save it to Core Data
@@ -397,11 +397,11 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
             
             // Seleted a Convo
             
-//            var convo = self.mgdConvos[indexPath.row] as! Convo
-//            println("Convo was selected: \(convo)")
-//            var convoView = BlurbTableViewController(convo: convo)
+            var selectedConvo = self.mgdConvos[indexPath.row]
+
+            var convoView = BlurbTableViewController(convo: selectedConvo)
             
-//            self.navigationController?.pushViewController(convoView, animated: true)
+            self.navigationController!.pushViewController(convoView, animated: true)
         }
         
         tableView.deselectRowAtIndexPath(indexPath, animated: true)

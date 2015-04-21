@@ -170,8 +170,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
             if let actualConvo = convoQuery.getObjectWithId(convo as! String) as? Convo {
                 // You got it?
                 println("\(actualConvo)")
-                var blurbViewControlerr = BlurbTableViewController(convo: actualConvo)
-                self.navController?.pushViewController(blurbViewControlerr, animated: true)
+
+                
+                // TODO: Fix loading the Blurb View from the remote notification reception
+//                var blurbViewControlerr = BlurbTableViewController(convo: actualConvo)
+//                self.navController?.pushViewController(blurbViewControlerr, animated: true)
                 return
             }
         

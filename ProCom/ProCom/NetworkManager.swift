@@ -1,5 +1,5 @@
 //
-//  NetworkController.swift
+//  NetworkManager.swift
 //  ProCom
 //
 //  Created by Patrick Sheehan on 4/20/15.
@@ -8,14 +8,15 @@
 
 import UIKit
 
-private let _NetworkControllerInstance = NetworkController()
+private let _NetworkManagerInstance = NetworkManager()
 
-class NetworkController: NSObject {
+class NetworkManager: NSObject {
     
-    class var sharedInstance: NetworkController {
-        return _NetworkControllerInstance
+    class var sharedInstance: NetworkManager {
+        return _NetworkManagerInstance
     }
     
+    //MARK: - Convos
     func fetchNewConvos(forGroup group: ManagedGroup?, existingConvos: [ManagedConvo], user: PFUser, completion: (newConvos: [Convo]) -> Void) {
         
         var convos = [Convo]()
@@ -56,13 +57,13 @@ class NetworkController: NSObject {
         }
     }
     
-    func saveNewConvo(convo: Convo, completionHandler: (convo: Convo) -> Void) {
+    func saveNewConvo(convo: Convo, completion: (convo: Convo) -> Void) {
         
         convo.saveInBackgroundWithBlock {
             (success: Bool, error: NSError!) -> Void in
             if (success) {
                 println("Successfully saved new convo to Network: \(convo)")
-                completionHandler(convo: convo)
+                completion(convo: convo)
             }
             else {
                 println("Failed to save new convo to Network: \(convo)")
@@ -70,6 +71,7 @@ class NetworkController: NSObject {
         }
     }
     
+    //MARK: - Groups
     func fetchNewGroups(groupId: String, existingGroupIds: [String], completion: (newGroups: [Group]) -> Void) {
         
         var groups = [Group]()
@@ -92,17 +94,67 @@ class NetworkController: NSObject {
         })
     }
     
-    func saveNewGroup(group: Group, completionHandler: (group: Group) -> Void) {
+    func saveNewGroup(group: Group, completion: (group: Group) -> Void) {
         
         group.saveInBackgroundWithBlock {
             (success: Bool, error: NSError!) -> Void in
             if (success) {
                 println("Successfully saved new group to Network: \(group)")
-                completionHandler(group: group)
+                completion(group: group)
             }
             else {
                 println("Failed to save new group to Network: \(group)")
             }
         }
+    }
+    
+    //MARK: - Blurbs
+    func fetchNewBlurbs(convoId: String, user: PFUser, completion: (newBlurbs: [Blurb]) -> Void) {
+        
+        // Fetch new Blurbs from the Network
+        
+        var blurbs = [Blurb]()
+
+        // Build Parse PFQuery
+        let queryBlurb = Blurb.query()
+        queryBlurb.includeKey("userId")
+        queryBlurb.includeKey("createdAt")
+        queryBlurb.whereKey("convoId", equalTo: convoId)
+
+//        if let myDate = lastMessageTime{
+//            queryBlurb.whereKey("createdAt", greaterThan: myDate)
+//            println("Query for grabbing new objects was excecuted with this date: \(myDate)")
+//        }
+
+        queryBlurb.orderByAscending("createdAt")
+
+        // Fetch all blurbs for this convo
+        queryBlurb.findObjectsInBackgroundWithBlock({
+            (array: [AnyObject]!, error: NSError!) -> Void in
+
+            if (error == nil) {
+                println("Fetched \(array.count) Blurbs from the Network")
+
+                blurbs = array as! [Blurb]
+                completion(newBlurbs: blurbs)
+            }
+        })
+    }
+    
+    func saveNewBlurb(blurb: Blurb, completion: (blurb: Blurb) -> Void) {
+        
+        // Save new Blurb to the Network
+        blurb.saveInBackgroundWithBlock {
+            (success: Bool, error: NSError!) -> Void in
+            if (success) {
+                println("Blurb successfully saved to network: \(blurb)")
+                
+                completion(blurb: blurb)
+                
+            } else {
+                println("There was a problem sending the message")
+            }
+        }
+        
     }
 }

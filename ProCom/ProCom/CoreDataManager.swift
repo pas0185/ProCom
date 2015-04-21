@@ -76,7 +76,7 @@ class CoreDataManager: NSObject {
         completion(newMgdConvos: mgdConvos)
     }
     
-    //MARK: - Group
+    //MARK: - Groups
     func fetchGroups(forGroup group: ManagedGroup?, completion: (groups: [ManagedGroup]) -> Void) {
         // Return children Groups of the parameter Group
         //      if received nil group; fetch the 'home' one with an ID of 0
@@ -132,4 +132,32 @@ class CoreDataManager: NSObject {
         
         completion(newMgdGroups: mgdGroups)
     }
+    
+    //MARK: - Blurbs
+    func fetchBlurbs(convoId: String, completion: (blurbs: [ManagedBlurb]) -> Void) {
+        // Return Blurbs with the parameter ConvoId
+        
+        var blurbs = [ManagedBlurb]()
+        
+        
+        // TODO: Fetch Blurbs from Core Data
+        
+        
+        // Notify the fetch is finished to the completion block
+        completion(blurbs: blurbs)
+    }
+    
+    func saveNewBlurbs(blurbs: [Blurb], completion: (newMgdBlurbs: [ManagedBlurb]) -> Void) {
+        
+        var mgdBlurbs = [ManagedBlurb]()
+        
+        
+        // TODO: Save Blurbs to Core Data
+        
+        
+        
+        // Notify the save is finished to the completion block
+        completion(newMgdBlurbs: mgdBlurbs)
+    }
+    
 }

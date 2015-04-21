@@ -10,9 +10,15 @@ import UIKit
 
 class BlurbTableViewController: JSQMessagesViewController {
     
-    var user: PFUser?
+    var mgdBlurbs = [ManagedBlurb]()
+    var convo: ManagedConvo?
+    
+//    var user: PFUser?
     var blurbs: [Blurb] = []
-    var convo: Convo?
+//    var convo: Convo?
+    
+    
+    
     var refreshControl:UIRefreshControl!
     var lastMessageTime: NSDate?
     var notificationTime = NSDate()
@@ -22,7 +28,7 @@ class BlurbTableViewController: JSQMessagesViewController {
     var outgoingBubbleImageView = JSQMessagesBubbleImageFactory.outgoingMessageBubbleImageViewWithColor(UIColor(red: 148/255, green: 34/255, blue: 50/255.0, alpha: 1))
     var incomingBubbleImageView = JSQMessagesBubbleImageFactory.incomingMessageBubbleImageViewWithColor(UIColor.grayColor())
     
-    init(convo: Convo) {
+    init(convo: ManagedConvo) {
         super.init(nibName: nil, bundle: nil)
         
         self.convo = convo
@@ -36,17 +42,16 @@ class BlurbTableViewController: JSQMessagesViewController {
         super.init(coder: aDecoder)
     }
     
-    //#MARK: - Loading Views
+    //MARK: - Loading Views
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.sender = PFUser.currentUser().username!
        
-        
-        if let c = convo as Convo? {
-            self.fetchBlurbsForConvo(c)
-        }
+        self.automaticallyScrollsToMostRecentMessage = true
+        collectionView.collectionViewLayout.springinessEnabled = true
+
         
         //refreshing the blurbs
         self.refreshControl = UIRefreshControl()
@@ -60,12 +65,16 @@ class BlurbTableViewController: JSQMessagesViewController {
         self.navigationItem.rightBarButtonItem = settingButton
     }
     
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-        collectionView.collectionViewLayout.springinessEnabled = true
+    override func viewWillAppear(animated: Bool) {
+        
+        self.fetchBlurbs()
     }
     
-    //#MARK: - User Controls
+    func didReceiveRemoteNotification(userInfo: [NSObject: AnyObject]) {
+        self.fetchBlurbs()
+    }
+    
+    //MARK: - User Controls
     
     func refresh(sender:AnyObject)
     {
@@ -75,133 +84,109 @@ class BlurbTableViewController: JSQMessagesViewController {
     }
     
     func settingsButtonClicked(){
-        var settingsPage = ConvoSettingsViewController(convo: convo!)
-        self.navigationController!.pushViewController(settingsPage, animated: true)
+        // TODO: fix settings page configuration
+//        var settingsPage = ConvoSettingsViewController(convo: convo!)
+//        self.navigationController!.pushViewController(settingsPage, animated: true)
     }
     
-    //#MARK: - Blurb handling
+    //MARK: - Blurb handling
     
-    func fetchBlurbsForConvo(convo: Convo) {
+    func fetchBlurbs() {
         
-        
-        
-        automaticallyScrollsToMostRecentMessage = true
-        
-        if (PFUser.currentUser() != nil) {
-    
-            let queryBlurb = Blurb.query()
-            queryBlurb.includeKey("userId")
-            queryBlurb.includeKey("createdAt")
+        if let convoId = self.convo?.pfId {
             
-            queryBlurb.whereKey("convoId", equalTo: convo)
-            
-            if let myDate = lastMessageTime{
-                queryBlurb.whereKey("createdAt", greaterThan: myDate)
-                println("Query for grabbing new objects was excecuted with this date: \(myDate)")
-            }
-            
-            queryBlurb.orderByAscending("createdAt")
-            
-            //TODO: Save in local core datastore
-            
-            
-            // Fetch all blurbs for this convo
-            queryBlurb.findObjectsInBackgroundWithBlock({
-                (array: [AnyObject]!, error: NSError!) -> Void in
+            // CoreData fetching blurbs
+            CoreDataManager.sharedInstance.fetchBlurbs(convoId, completion: {
+                (blurbs) -> Void in
                 
-                if (error == nil) {
-                    println("blurb query fetched \(array.count) objects")
+                println("Fetched \(blurbs.count) Blurbs from Core Data")
+                self.mgdBlurbs = blurbs
+                
+                // Networking fetching Blurbs
+                NetworkManager.sharedInstance.fetchNewBlurbs(convoId, user: PFUser.currentUser(), completion: {
+                    (blurbs: [Blurb]) in
                     
-                    println("Pinnning blurb objects")
-                    PFObject.pinAll(array)
-                    println("Done pinning blurb objects")
+                    // Received new Blurbs from the network
+                    println("BlurbTableView received \(blurbs.count) new Blurbs from Network")
+                    
+                    // Save new Blurbs to Core Data
+                    CoreDataManager.sharedInstance.saveNewBlurbs(blurbs, completion: {
+                        (newMgdBlurbs: [ManagedBlurb]) -> Void in
+                        
+                        println("Finished saving \(newMgdBlurbs.count) new Blurbs to Core Data. Now adding to TableView")
+                        
+                        // Add new *converted* Convos to the TableView Data Source
+                        self.mgdBlurbs.extend(newMgdBlurbs)
+                        
+                        self.finishReceivingMessage()
+                        self.collectionView.reloadData()
+                        
+                    })
+                })
+            })
+              
+        }
+    }
+    
+    func sendMessage(text: String) {
+        
+        if let convoId = self.convo?.pfId,
+            user = PFUser.currentUser() {
+        
+            // Create a Blurb
+            var blurb = Blurb()
+            blurb["convoId"] = convoId
+            blurb["text"] = text
+            blurb["userId"] = user
+            
                 
-                    var fetchedBlurbs = array as! [Blurb]
-                    println("casted to blurbs count = \(fetchedBlurbs.count)")
-                
-                    self.handleTheseBlurbs(fetchedBlurbs)
-                }
+            NetworkManager.sharedInstance.saveNewBlurb(blurb, completion: {
+                (blurb) -> Void in
+                self.finishSendingMessage()
+                self.collectionView.reloadData()
+
+
+                println("Notifying other members that new message was sent")
+                self.pushNotifyOtherMembers(text)
             })
         }
     }
     
-    func handleTheseBlurbs(someBlurbs: [Blurb]) {
-        println("I'm handling \(someBlurbs.count) blurbs")
+    func pushNotifyOtherMembers(message: String) {
         
-        var localLastMessageTime: NSDate?
-        
-        for b in someBlurbs {
-            //TODO: Compare for most recent message time
-            //            if b.createdAt < lastMessageTime
-            //            {
-            //
-            //            }
-            self.blurbs.append(b)
-        }
-        
-        
-        
-        lastMessageTime = someBlurbs.last?.createdAt
-        println("The last message was \(lastMessageTime)")
-        self.finishReceivingMessage()
-        self.collectionView.reloadData()
-    }
-    
-    func didReceiveRemoteNotification(userInfo: [NSObject: AnyObject]) {
-        self.fetchBlurbsForConvo(self.convo!)
-        self.finishReceivingMessage()
-        self.collectionView.reloadData()
-    }
-    
-    
-    func sendMessage(text: String) {
-        
-        var blurb = Blurb(message: text, user: PFUser.currentUser(), convo: self.convo!)
-        
-       blurb.saveInBackgroundWithBlock {
-            (success: Bool, error: NSError!) -> Void in
-            if (success) {
-                println("Blurb successfully saved: \(text)")
-                self.finishSendingMessage()
-                self.collectionView.reloadData()
+        if let c = self.convo {
+            
+            if let channel = c.getChannelName() {
+                let data = [
+                    "content-available" : 1,
+                    "badge" : "Increment",
+                    "alert" : PFUser.currentUser().username + " in " + c.name + " says: " + message,
+                    "senderObjectId" : PFUser.currentUser().objectId,
+                    "convoObject" : c.pfId,
+                    "sound": "default"
+                    ]
                 
-                self.pushNotifyOtherMembers(text, currentConvo: self.convo?.objectForKey(NAME_KEY) as! String, username: PFUser.currentUser().username)
+                println("Sending PFPush for new message: \(message)")
                 
-            } else {
-                println("There was a problem sending the message")
+                let push = PFPush()
+                push.setChannel(channel)
+                push.setData(data as [NSObject : AnyObject])
+                push.sendPushInBackgroundWithBlock {
+                    (success: Bool, error: NSError!) -> Void in
+                    if (success) {
+                        println("successfully notified other members")
+                    }
+                    else {
+                        println("failed to send push notification to other members")
+                    }
+                }
             }
-        }
-    }
-    
-    func pushNotifyOtherMembers(message: String, currentConvo: String, username: String) {
-        
-        if let channel = self.convo?.getChannelName() {
-            let data = [
-                "content-available" : 1,
-                "badge" : "Increment",
-                "alert" : username + " in " + currentConvo + " says: " + message,
-                "senderObjectId" : PFUser.currentUser().objectId,
-                "convoObject" : self.convo!.objectId,
-                "sound": "default"
-                ]
-            
-            println("\(blurbs.last?.objectId as String!)")
-            
-            let push = PFPush()
-            push.setChannel(channel)
-            push.setData(data as [NSObject : AnyObject])
-            push.sendPushInBackgroundWithBlock {
-                (success: Bool, error: NSError!) -> Void in
-                if (success) {
-                    println("successfully notified other members")
-                }
-                else {
-                    println("failed to send push notification to other members")
-                }
+            else {
+                println("failed to send push notification to other members; failed to get channel name for convo")
             }
         }
         else {
-            println("failed to send push notification to other members; failed to get channel name for convo")
+            println("Failed to push notify other members, Convo object not found for this view")
         }
     }
 

@@ -29,4 +29,6 @@
 - (void)addBlurbs:(NSSet *)values;
 - (void)removeBlurbs:(NSSet *)values;
 
+- (NSString *)getChannelName;
+
 @end
