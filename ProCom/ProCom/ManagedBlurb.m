@@ -21,12 +21,24 @@
 
 #pragma mark - JSQMessageData Methods
 
-- (NSString *)sender {
+- (NSString *)senderDisplayName {
     return self.username;
 }
 
 - (NSDate *)date {
     return self.createdAt;
+}
+
+- (NSString *)senderId {
+    return self.userId;
+}
+
+- (NSUInteger)messageHash {
+    return 0;
+}
+
+- (BOOL)isMediaMessage {
+    return false;
 }
 
 @end

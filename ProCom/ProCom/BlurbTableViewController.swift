@@ -12,19 +12,16 @@ class BlurbTableViewController: JSQMessagesViewController {
     
     var mgdBlurbs = [ManagedBlurb]()
     var convo: ManagedConvo?
-    
-//    var user: PFUser?
-//    var blurbs: [Blurb] = []
-//    var convo: Convo?
-    
+
     var refreshControl:UIRefreshControl!
     var lastMessageTime: NSDate?
     var notificationTime = NSDate()
     
     var refreshTime = NSTimer()
-    var avatars = Dictionary<String, UIImage>()
-    var outgoingBubbleImageView = JSQMessagesBubbleImageFactory.outgoingMessageBubbleImageViewWithColor(UIColor(red: 148/255, green: 34/255, blue: 50/255.0, alpha: 1))
-    var incomingBubbleImageView = JSQMessagesBubbleImageFactory.incomingMessageBubbleImageViewWithColor(UIColor.grayColor())
+    var avatars = [String: JSQMessagesAvatarImage]()
+
+    var outgoingBubbleImageView = JSQMessagesBubbleImageFactory().outgoingMessagesBubbleImageWithColor(UIColor(red: 148/255, green: 34/255, blue: 50/255.0, alpha: 1))
+    var incomingBubbleImageView = JSQMessagesBubbleImageFactory().outgoingMessagesBubbleImageWithColor(UIColor.grayColor())
     
     init(convo: ManagedConvo) {
         super.init(nibName: nil, bundle: nil)
@@ -45,7 +42,7 @@ class BlurbTableViewController: JSQMessagesViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.sender = PFUser.currentUser().username!
+        self.senderId = PFUser.currentUser()!.objectId!
        
         self.automaticallyScrollsToMostRecentMessage = true
         collectionView.collectionViewLayout.springinessEnabled = true
@@ -61,15 +58,22 @@ class BlurbTableViewController: JSQMessagesViewController {
         var settingsImage = UIImage(named: "settingsicon.png")
         var settingButton: UIBarButtonItem = UIBarButtonItem(image: settingsImage, style: .Plain, target: self, action: "settingsButtonClicked")
         self.navigationItem.rightBarButtonItem = settingButton
+        
+        
+        println("In Blurb View's viewDidLoad()")
     }
     
     override func viewWillAppear(animated: Bool) {
         
         self.fetchBlurbs()
+        
+        println("In Blurb View's viewWillAppear()")
     }
     
     func didReceiveRemoteNotification(userInfo: [NSObject: AnyObject]) {
         self.fetchBlurbs()
+        
+        println("In Blurb View's didRecieveRemoteNotification")
     }
     
     //MARK: - User Controls
@@ -79,6 +83,8 @@ class BlurbTableViewController: JSQMessagesViewController {
         println("refresh called")
         self.collectionView.reloadData()
         self.refreshControl?.endRefreshing()
+        
+        println("In Blurb View's refreshing")
     }
     
     func settingsButtonClicked(){
@@ -90,6 +96,8 @@ class BlurbTableViewController: JSQMessagesViewController {
     //MARK: - Blurb handling
     
     func fetchBlurbs() {
+        
+        println("In Blurb View's fetchblurbs")
         
         if let convoId = self.convo?.pfId {
             
@@ -130,9 +138,14 @@ class BlurbTableViewController: JSQMessagesViewController {
                 })
             })
         }
+        
+        
     }
     
     func sendMessage(text: String) {
+        
+        
+        println("In Blurb View's sendMessage")
         
         if let convoId = self.convo?.pfId {
             
@@ -159,17 +172,18 @@ class BlurbTableViewController: JSQMessagesViewController {
     
     func pushNotifyOtherMembers(message: String) {
         
+        println("In Blurb View's notify")
+        
         if let c = self.convo {
             
             if let channel = c.getChannelName() {
-                let data = [
-                    "content-available" : 1,
-                    "badge" : "Increment",
-                    "alert" : PFUser.currentUser()!.username! + " in " + c.name + " says: " + message,
-                    "senderObjectId" : PFUser.currentUser()!.objectId,
-                    "convoObject" : c.pfId,
-                    "sound": "default"
-                    ]
+                let data = NSMutableDictionary()
+                data.setObject(1, forKey: "content-available")
+                data.setObject("Increment", forKey: "badge")
+                data.setObject(PFUser.currentUser()!.username! + " in " + c.name + " says: " + message, forKey: "alert")
+                data.setObject(PFUser.currentUser()!.objectId!, forKey: "senderObjectId")
+                data.setObject(c.pfId, forKey: "convoObject" )
+                data.setObject("default", forKey: "sound")
                 
                 println("Sending PFPush for new message: \(message)")
                 
@@ -199,12 +213,15 @@ class BlurbTableViewController: JSQMessagesViewController {
     
     func setupAvatarImage(name: String, imageUrl: String?, incoming: Bool) {
         
+        
+        println("In Blurb View's setupAvatarImage")
+        
         if let stringUrl = imageUrl {
             if let url = NSURL(string: stringUrl) {
                 if let data = NSData(contentsOfURL: url) {
                     let image = UIImage(data: data)
                     let diameter = incoming ? UInt(collectionView.collectionViewLayout.incomingAvatarViewSize.width) : UInt(collectionView.collectionViewLayout.outgoingAvatarViewSize.width)
-                    let avatarImage = JSQMessagesAvatarFactory.avatarWithImage(image, diameter: diameter)
+                    let avatarImage = JSQMessagesAvatarImageFactory.avatarImageWithImage(image, diameter: diameter)
                     avatars[name] = avatarImage
                     return
                 }
@@ -216,6 +233,10 @@ class BlurbTableViewController: JSQMessagesViewController {
     }
     
     func setupAvatarColor(name: String, incoming: Bool) {
+        
+        
+        println("In Blurb View's avatarColor")
+        
         let diameter = incoming ? UInt(collectionView.collectionViewLayout.incomingAvatarViewSize.width) : UInt(collectionView.collectionViewLayout.outgoingAvatarViewSize.width)
         
         let rgbValue = name.hash
@@ -225,13 +246,17 @@ class BlurbTableViewController: JSQMessagesViewController {
         let color = UIColor(red: r, green: g, blue: b, alpha: 0.5)
         
         let nameLength = count(name)
-        let initials : String? = name.substringToIndex(advance(sender.startIndex, min(2, nameLength)))
-        let userImage = JSQMessagesAvatarFactory.avatarWithUserInitials(initials, backgroundColor: color, textColor: UIColor.blackColor(), font: UIFont.systemFontOfSize(CGFloat(13)), diameter: diameter)
+        let initials : String? = name.substringToIndex(advance(PFUser.currentUser()!.username!.startIndex, min(2, nameLength)))
+        let userImage = JSQMessagesAvatarImageFactory.avatarImageWithUserInitials(initials, backgroundColor: color, textColor: UIColor.blackColor(), font: UIFont.systemFontOfSize(CGFloat(13)), diameter: diameter)
         
         avatars[name] = userImage
     }
     
+    
     func receivedMessagePressed(sender: UIBarButtonItem) {
+        
+        
+        println("In Blurb View's recivedMessage")
         // Simulate reciving message
         showTypingIndicator = !showTypingIndicator
         scrollToBottomAnimated(true)
@@ -243,6 +268,9 @@ class BlurbTableViewController: JSQMessagesViewController {
 
     override func didPressSendButton(button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: NSDate!) {
         
+        
+        println("In Blurb View's sendbutton")
+        
         JSQSystemSoundPlayer.jsq_playMessageSentSound()
         self.sendMessage(text)
         finishSendingMessage()
@@ -250,40 +278,53 @@ class BlurbTableViewController: JSQMessagesViewController {
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, messageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageData! {
         
+        
+        println("In Blurb View's messageData")
+        
         return self.mgdBlurbs[indexPath.item]
     }
     
-
-    override func collectionView(collectionView: JSQMessagesCollectionView!, bubbleImageViewForItemAtIndexPath indexPath: NSIndexPath!) -> UIImageView! {
-
+    
+    override func collectionView(collectionView: JSQMessagesCollectionView!, messageBubbleImageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageBubbleImageDataSource! {
+        
+        
+        println("In Blurb View's messageBubble")
+        
         let blurb = self.mgdBlurbs[indexPath.item]
-
+        
         if blurb.userId == PFUser.currentUser()!.objectId {
-            return UIImageView(image: outgoingBubbleImageView.image, highlightedImage: outgoingBubbleImageView.highlightedImage)
+            return outgoingBubbleImageView
         }
         
-        return UIImageView(image: incomingBubbleImageView.image, highlightedImage: incomingBubbleImageView.highlightedImage)
+        return incomingBubbleImageView
     }
     
-    override func collectionView(collectionView: JSQMessagesCollectionView!, avatarImageViewForItemAtIndexPath indexPath: NSIndexPath!) -> UIImageView! {
+    override func collectionView(collectionView: JSQMessagesCollectionView!, avatarImageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageAvatarImageDataSource! {
+        
+        
+        println("In Blurb View's avatar image at path")
         
         let blurb = self.mgdBlurbs[indexPath.item]
-        let avatar = avatars[blurb.username]
-        
-        return UIImageView(image: avatar)
-        
-        
-//        else {
-//            setupAvatarImage(blurb.sender(), imageUrl: nil /*blurb.imageUrl()*/, incoming: true)
-//            return UIImageView(image:avatars[blurb.sender()])
-//        }
+        if let avatar = avatars[blurb.username]{
+            return avatar
+        }
+        else {
+            setupAvatarImage(blurb.username, imageUrl: nil /*blurb.imageUrl()*/, incoming: true)
+            return avatars[blurb.username]
+        }
+
     }
     
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
+        println("In Blurb View's number of blurbs")
         return self.mgdBlurbs.count
     }
 
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+        
+        
+        println("In Blurb View's cell for item at index path")
         
         let cell = super.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as! JSQMessagesCollectionViewCell
         cell.textView.textColor = UIColor.whiteColor()
@@ -299,6 +340,10 @@ class BlurbTableViewController: JSQMessagesViewController {
     
     // View  usernames above bubbles
     override func collectionView(collectionView: JSQMessagesCollectionView!, attributedTextForMessageBubbleTopLabelAtIndexPath indexPath: NSIndexPath!) -> NSAttributedString! {
+        
+        
+        println("In Blurb View's attributed text")
+        
         let blurb = self.mgdBlurbs[indexPath.row];
         
         // Sent by me, skip
@@ -320,6 +365,9 @@ class BlurbTableViewController: JSQMessagesViewController {
     
     //Decideds where the blurb should be located ie. left or right side of the view
     override func collectionView(collectionView: JSQMessagesCollectionView!, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout!, heightForMessageBubbleTopLabelAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
+        
+        
+        println("In Blurb View's height for message")
 
         if let blurb = self.mgdBlurbs[indexPath.item] as ManagedBlurb? {
             
@@ -341,5 +389,4 @@ class BlurbTableViewController: JSQMessagesViewController {
         
         return kJSQMessagesCollectionViewCellLabelHeightDefault
     }
-    
 }

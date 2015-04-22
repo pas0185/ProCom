@@ -30,7 +30,7 @@ class Convo: PFObject, PFSubclassing {
     
     
     
-    class func parseClassName() -> String! {
+    class func parseClassName() -> String {
         return CONVO_CLASS
     }
     
