@@ -10,9 +10,9 @@ import UIKit
 
 class ConvoSettingsViewController: UIViewController {
 
-    var userConvo: Convo?
+    var userConvo: ManagedConvo?
     
-    init(convo: Convo) {
+    init(convo: ManagedConvo) {
         super.init(nibName: nil, bundle: nil)
         self.userConvo = convo
     }
@@ -60,7 +60,7 @@ class ConvoSettingsViewController: UIViewController {
             let username = textField.text
             println(username)
             
-            if let convoId = self.userConvo?.objectId as String? {
+            if let convoId = self.userConvo?.objectID as! String? {
                 
                 self.addUserToConvo(username, convoId: convoId)
             }
@@ -76,7 +76,6 @@ class ConvoSettingsViewController: UIViewController {
         PFCloud.callFunctionInBackground("addUserToConvoByUsername", withParameters: ["username": username,
             "convoId": convoId]) {
                 (result, error) -> Void in
-//                (result: AnyObject!, error: NSError!) -> Void in
                 if error != nil {
                     println("Failed to add user" + error!.localizedDescription)
 

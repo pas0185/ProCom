@@ -89,8 +89,8 @@ class BlurbTableViewController: JSQMessagesViewController {
     
     func settingsButtonClicked(){
         // TODO: fix settings page configuration
-//        var settingsPage = ConvoSettingsViewController(convo: convo!)
-//        self.navigationController!.pushViewController(settingsPage, animated: true)
+        var settingsPage = ConvoSettingsViewController(convo: convo!)
+        self.navigationController!.pushViewController(settingsPage, animated: true)
     }
     
     //MARK: - Blurb handling

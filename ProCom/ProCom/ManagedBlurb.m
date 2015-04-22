@@ -34,7 +34,7 @@
 }
 
 - (NSUInteger)messageHash {
-    return 0;
+    return self.text.hash;
 }
 
 - (BOOL)isMediaMessage {
