@@ -235,7 +235,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
     
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
         
-        return FBAppCall.handleOpenURL(url, sourceApplication: sourceApplication)
+        return FBAppCall.handleOpenURL(url, sourceApplication:sourceApplication, withSession:PFFacebookUtils.session())
     }
     
     func applicationWillResignActive(application: UIApplication) {
@@ -253,6 +253,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
     }
 
     func applicationDidBecomeActive(application: UIApplication) {
+        
+         FBAppCall.handleDidBecomeActiveWithSession(PFFacebookUtils.session())
+        
         let current: PFInstallation = PFInstallation.currentInstallation()
             if (current.badge != 0) {
                 current.badge = 0
