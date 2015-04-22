@@ -1,0 +1,17 @@
+# Uncomment this line to define a global platform for your project
+# platform :ios, '6.0'
+
+target 'ProCom' do
+
+pod 'Facebook-iOS-SDK'
+pod 'Parse', '1.7.1'
+pod 'ParseUI'
+pod 'JSQMessagesViewController', '7.0.1'
+pod 'ParseFacebookUtils', '1.7.1'
+
+end
+
+target 'ProComTests' do
+
+end
+

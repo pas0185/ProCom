@@ -19,7 +19,7 @@ class Convo: PFObject, PFSubclassing {
     
     // Properties that ManagedConvo class uses during conversion
     var pfId: String {
-        return self.objectId
+        return self.objectId!
     }
     var parentGroupId: String {
         return self.objectForKey("parentGroupId") as! String
@@ -69,7 +69,7 @@ class Convo: PFObject, PFSubclassing {
     func getChannelName() -> String! {
         
         let objectId = self.objectId
-        var channel = "channel" + objectId
+        var channel = "channel" + objectId!
         return channel
     }
     

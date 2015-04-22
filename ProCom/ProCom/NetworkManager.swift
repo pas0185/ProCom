@@ -25,7 +25,7 @@ class NetworkManager: NSObject {
         let convoQuery = Convo.query()
         
         // For all that the user belongs to...
-        convoQuery.whereKey(USERS_KEY, equalTo: user)
+        convoQuery!.whereKey(USERS_KEY, equalTo: user)
         
         // ...That we don't have yet
         var existingConvoIds: [String] = []
@@ -33,19 +33,19 @@ class NetworkManager: NSObject {
             existingConvoIds.append(convo.pfId)
         }
         println("Existing Convo IDs being excluded from query: \(existingConvoIds)")
-        convoQuery.whereKey(OBJECT_ID_KEY, notContainedIn: existingConvoIds)
+        convoQuery!.whereKey(OBJECT_ID_KEY, notContainedIn: existingConvoIds)
         
         
         if let groupId = group?.pfId {
             println("Convo predicate from Network: parent group ID = \(groupId)")
-            convoQuery.whereKey("parentGroupId", equalTo: groupId)
+            convoQuery!.whereKey("parentGroupId", equalTo: groupId)
         
             // Send the Convo query
-            convoQuery.findObjectsInBackgroundWithBlock({
-                (objects: [AnyObject]!, error: NSError!) -> Void in
+            convoQuery!.findObjectsInBackgroundWithBlock({
+                (objects, error) -> Void in
                 
                 if (error == nil) {
-                    println("Fetched \(objects.count) convos from Network")
+                    println("Fetched \(objects!.count) convos from Network")
                     
                     convos = objects as! [Convo]
                     completion(newConvos: convos)
@@ -60,7 +60,7 @@ class NetworkManager: NSObject {
     func saveNewConvo(convo: Convo, completion: (convo: Convo) -> Void) {
         
         convo.saveInBackgroundWithBlock {
-            (success: Bool, error: NSError!) -> Void in
+            (success, error) -> Void in
             if (success) {
                 println("Successfully saved new convo to Network: \(convo)")
                 completion(convo: convo)
@@ -78,15 +78,15 @@ class NetworkManager: NSObject {
         
         // Build Group Query...
         let groupQuery = Group.query()
-        groupQuery.whereKey("parentGroupId", equalTo: groupId)
-        groupQuery.whereKey(OBJECT_ID_KEY, notContainedIn: existingGroupIds)
+        groupQuery!.whereKey("parentGroupId", equalTo: groupId)
+        groupQuery!.whereKey(OBJECT_ID_KEY, notContainedIn: existingGroupIds)
         
         // Send the query
-        groupQuery.findObjectsInBackgroundWithBlock({
-            (objects: [AnyObject]!, error: NSError!) -> Void in
+        groupQuery!.findObjectsInBackgroundWithBlock({
+            (objects, error) -> Void in
             
             if (error == nil) {
-                println("Fetched \(objects.count) new Groups from Network")
+                println("Fetched \(objects!.count) new Groups from Network")
                 
                 groups = objects as! [Group]
                 completion(newGroups: groups)
@@ -97,7 +97,7 @@ class NetworkManager: NSObject {
     func saveNewGroup(group: Group, completion: (group: Group) -> Void) {
         
         group.saveInBackgroundWithBlock {
-            (success: Bool, error: NSError!) -> Void in
+            (success, error) -> Void in
             if (success) {
                 println("Successfully saved new group to Network: \(group)")
                 completion(group: group)
@@ -117,23 +117,23 @@ class NetworkManager: NSObject {
 
         // Build Parse PFQuery
         let blurbQuery = Blurb.query()
-        blurbQuery.includeKey("createdAt")
-        blurbQuery.whereKey("convoId", equalTo: convoId)
-        blurbQuery.whereKey("objectId", notContainedIn: existingBlurbIds)
+        blurbQuery!.includeKey("createdAt")
+        blurbQuery!.whereKey("convoId", equalTo: convoId)
+        blurbQuery!.whereKey("objectId", notContainedIn: existingBlurbIds)
 
 //        if let myDate = lastMessageTime{
 //            queryBlurb.whereKey("createdAt", greaterThan: myDate)
 //            println("Query for grabbing new objects was excecuted with this date: \(myDate)")
 //        }
 
-        blurbQuery.orderByAscending("createdAt")
+        blurbQuery!.orderByAscending("createdAt")
 
         // Fetch all blurbs for this convo
-        blurbQuery.findObjectsInBackgroundWithBlock({
-            (array: [AnyObject]!, error: NSError!) -> Void in
+        blurbQuery!.findObjectsInBackgroundWithBlock({
+            (array, error) -> Void in
 
             if (error == nil) {
-                println("Fetched \(array.count) Blurbs from the Network")
+                println("Fetched \(array!.count) Blurbs from the Network")
 
                 blurbs = array as! [Blurb]
                 completion(newBlurbs: blurbs)
@@ -146,12 +146,12 @@ class NetworkManager: NSObject {
         var blurb = Blurb()
         blurb["text"] = text
         blurb["convoId"] = convoId
-        blurb["userId"] = PFUser.currentUser().objectId
-        blurb["username"] = PFUser.currentUser().username
+        blurb["userId"] = PFUser.currentUser()!.objectId
+        blurb["username"] = PFUser.currentUser()!.username
         
         // Save new Blurb to the Network
         blurb.saveInBackgroundWithBlock {
-            (success: Bool, error: NSError!) -> Void in
+            (success, error) -> Void in
             if (success) {
                 println("Blurb successfully saved to network: \(blurb)")
                 

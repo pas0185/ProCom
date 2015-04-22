@@ -165,8 +165,8 @@ class BlurbTableViewController: JSQMessagesViewController {
                 let data = [
                     "content-available" : 1,
                     "badge" : "Increment",
-                    "alert" : PFUser.currentUser().username + " in " + c.name + " says: " + message,
-                    "senderObjectId" : PFUser.currentUser().objectId,
+                    "alert" : PFUser.currentUser()!.username! + " in " + c.name + " says: " + message,
+                    "senderObjectId" : PFUser.currentUser()!.objectId,
                     "convoObject" : c.pfId,
                     "sound": "default"
                     ]
@@ -177,7 +177,7 @@ class BlurbTableViewController: JSQMessagesViewController {
                 push.setChannel(channel)
                 push.setData(data as [NSObject : AnyObject])
                 push.sendPushInBackgroundWithBlock {
-                    (success: Bool, error: NSError!) -> Void in
+                    (success, error) -> Void in
                     if (success) {
                         println("successfully notified other members")
                     }
@@ -241,8 +241,8 @@ class BlurbTableViewController: JSQMessagesViewController {
         println("Camera pressed!")
     }
 
-    override func didPressSendButton(button: UIButton!, withMessageText text: String!, sender: String!, date: NSDate!) {
-
+    override func didPressSendButton(button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: NSDate!) {
+        
         JSQSystemSoundPlayer.jsq_playMessageSentSound()
         self.sendMessage(text)
         finishSendingMessage()
@@ -253,11 +253,12 @@ class BlurbTableViewController: JSQMessagesViewController {
         return self.mgdBlurbs[indexPath.item]
     }
     
+
     override func collectionView(collectionView: JSQMessagesCollectionView!, bubbleImageViewForItemAtIndexPath indexPath: NSIndexPath!) -> UIImageView! {
 
         let blurb = self.mgdBlurbs[indexPath.item]
 
-        if blurb.userId == PFUser.currentUser().objectId {
+        if blurb.userId == PFUser.currentUser()!.objectId {
             return UIImageView(image: outgoingBubbleImageView.image, highlightedImage: outgoingBubbleImageView.highlightedImage)
         }
         
@@ -267,7 +268,7 @@ class BlurbTableViewController: JSQMessagesViewController {
     override func collectionView(collectionView: JSQMessagesCollectionView!, avatarImageViewForItemAtIndexPath indexPath: NSIndexPath!) -> UIImageView! {
         
         let blurb = self.mgdBlurbs[indexPath.item]
-        let avatar = avatars[blurb.sender()]
+        let avatar = avatars[blurb.username]
         
         return UIImageView(image: avatar)
         
@@ -301,19 +302,19 @@ class BlurbTableViewController: JSQMessagesViewController {
         let blurb = self.mgdBlurbs[indexPath.row];
         
         // Sent by me, skip
-        if blurb.userId == PFUser.currentUser().objectId {
+        if blurb.userId == PFUser.currentUser()!.objectId {
             return nil;
         }
         
         // Same as previous sender, skip
         if indexPath.item > 0 {
             let previousblurb = self.mgdBlurbs[indexPath.item - 1];
-            if previousblurb.sender() == blurb.sender() {
+            if previousblurb.userId == blurb.userId {
                 return nil;
             }
         }
         
-        return NSAttributedString(string:blurb.sender())
+        return NSAttributedString(string:blurb.username)
     }
     
     
@@ -323,14 +324,14 @@ class BlurbTableViewController: JSQMessagesViewController {
         if let blurb = self.mgdBlurbs[indexPath.item] as ManagedBlurb? {
             
             // Sent by me, skip
-            if blurb.sender() == PFUser.currentUser().username {
+            if blurb.userId == PFUser.currentUser()!.objectId {
                 return CGFloat(0.0);
             }
             
             // Same as previous sender, skip
             if indexPath.item > 0 {
                 if let previousblurb = self.mgdBlurbs[indexPath.item - 1] as ManagedBlurb? {
-                    if previousblurb.sender() == blurb.sender() {
+                    if previousblurb.userId == blurb.userId {
                         return CGFloat(0.0);
                     }
                 }

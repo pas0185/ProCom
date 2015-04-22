@@ -74,15 +74,17 @@ class ConvoSettingsViewController: UIViewController {
     
     func addUserToConvo(username: String, convoId: String) {
         PFCloud.callFunctionInBackground("addUserToConvoByUsername", withParameters: ["username": username,
-            "convoId": convoId], block: {
-                (result: AnyObject!, error: NSError!) -> Void in
-                if error == nil {
-                    println("Successfully added user!")
+            "convoId": convoId]) {
+                (result, error) -> Void in
+//                (result: AnyObject!, error: NSError!) -> Void in
+                if error != nil {
+                    println("Failed to add user" + error!.localizedDescription)
+
                 }
                 else {
-                    println("Failed to add user" + error.localizedDescription)
+                    println("Successfully added user!")
                 }
-        })
+        }
     }
     
 

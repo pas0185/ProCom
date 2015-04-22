@@ -166,8 +166,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
         if let convo: AnyObject = userInfo["convoObject"] {
             println("Convo from push notification = \(convo)")
         
-            var convoQuery = Convo.query()
-            if let actualConvo = convoQuery.getObjectWithId(convo as! String) as? Convo {
+            let convoQuery = Convo.query()
+            if let actualConvo = convoQuery!.getObjectWithId(convo as! String) as? Convo {
                 // You got it?
                 println("\(actualConvo)")
 
@@ -188,7 +188,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
         
         if let senderObjectId = userInfo["senderObjectId"] as? String {
             
-            if PFUser.currentUser().objectId == senderObjectId {
+            if PFUser.currentUser()!.objectId == senderObjectId {
                 // Don't do the notification thing
                 println("Remote notification received from the user that sent it (in AppDelegate)")
             }
@@ -216,7 +216,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
         // Asynchronous
         else {
             PFUser.logInWithUsernameInBackground(username, password: password) {
-                (user: PFUser!, error: NSError!) -> Void in
+                (user, error) -> Void in
                 if (user != nil) {
                     println("Successfully logged in \(username)")
                 }

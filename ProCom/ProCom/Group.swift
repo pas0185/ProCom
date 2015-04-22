@@ -14,7 +14,7 @@ class Group: PFObject, PFSubclassing {
     
     // Properties that ManagedConvo class uses during conversion
     var pfId: String {
-        return self.objectId
+        return self.objectId!
     }
     
     var parentGroupId: String {
@@ -35,8 +35,6 @@ class Group: PFObject, PFSubclassing {
             self.setObject(newValue, forKey: "name")
         }
     }
-    
-    
     
     
     var subGroups: [Group] = []
@@ -72,95 +70,95 @@ class Group: PFObject, PFSubclassing {
 
     }
     
-    class func parseClassName() -> String! {
+    class func parseClassName() -> String {
         return "Group"
     }
     
-    func getSubGroups() -> [Group] {
-        
-        var query = Group.query()
-        query.fromLocalDatastore()
-        
-        query.whereKey(PARENT_GROUP_KEY, equalTo: self)
-        var subGroups: [Group] = query.findObjects() as! [Group]
-        println("\(subGroups.count) groups in the selected group")
-        
-        return subGroups
-    }
-    
-    func getSubConvos() -> [Convo] {
-        
-        var query = Convo.query()
-        query.fromLocalDatastore()
-        
-        query.whereKey(GROUP_KEY, equalTo: self)
-        var subConvos: [Convo] = query.findObjects() as! [Convo]
-        println("\(subConvos.count) convos in the selected group")
-        
-        
-        return subConvos
-    }
+//    func getSubGroups() -> [Group] {
+//        
+//        var query = Group.query()
+//        query!.fromLocalDatastore()
+//        
+//        query!.whereKey(PARENT_GROUP_KEY, equalTo: self)
+//        var subGroups: [Group] = query!.findObjects() as! [Group]
+//        println("\(subGroups.count) groups in the selected group")
+//        
+//        return subGroups
+//    }
+//    
+//    func getSubConvos() -> [Convo] {
+//        
+//        var query = Convo.query()
+//        query!.fromLocalDatastore()
+//        
+//        query.whereKey(GROUP_KEY, equalTo: self)
+//        var subConvos: [Convo] = query.findObjects() as! [Convo]
+//        println("\(subConvos.count) convos in the selected group")
+//        
+//        
+//        return subConvos
+//    }
     
     // MARK: - Networking
     
-    func saveToNetwork() {
-        
-        var groupObject = PFObject(className: "Group")
-        groupObject["name"] = self.name
-        groupObject["parent"] = self.parentId
-        groupObject.saveInBackgroundWithBlock {
-            (success: Bool, error: NSError!) -> Void in
-            if (success) {
-                NSLog("Saved new group to the network")
-            }
-            else {
-                NSLog("Failed to save new group: %@", error.description)
-            }
-        }
-    }
-    
-    // MARK: - Core Data
-    
-    func saveToCore() {
-        
-        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
-        
-        let managedContext = appDelegate.managedObjectContext!
-        
-        let entity = NSEntityDescription.entityForName("Group", inManagedObjectContext: managedContext)
-        
-        let mgdGroup = ManagedGroup(entity: entity!, insertIntoManagedObjectContext: managedContext)
-        
-        self.assignValuesToManagedObject(mgdGroup)
-                
-        var error: NSError?
-        if !managedContext.save(&error) {
-            println("Could not save \(error), \(error?.userInfo)")
-        }
-    }
-    
-    func assignValuesToManagedObject(mgdGroup: ManagedGroup) {
-        mgdGroup.pfId = self.objectId
-        mgdGroup.name = self[NAME_KEY] as! String
-        
-        // TODO: parentGroup, childBlurbs
-    }
-    
-    class func groupsFromNSManagedObjects(objects: [NSManagedObject]) -> [Group] {
-        
-        var groups: [Group] = []
-        
-        for obj in objects {
-            var group = Group()
-
-            group.setValue(obj.valueForKey(NAME_KEY), forKey: NAME_KEY)
-            
-            // TODO: parent group
-            
-            groups.append(group)
-        }
-        
-        return groups
-    }
-    
+//    func saveToNetwork() {
+//        
+//        var groupObject = PFObject(className: "Group")
+//        groupObject["name"] = self.name
+//        groupObject["parent"] = self.parentId
+//        groupObject.saveInBackgroundWithBlock {
+//            (success: Bool, error: NSError!) -> Void in
+//            if (success) {
+//                NSLog("Saved new group to the network")
+//            }
+//            else {
+//                NSLog("Failed to save new group: %@", error.description)
+//            }
+//        }
+//    }
+//    
+//    // MARK: - Core Data
+//    
+//    func saveToCore() {
+//        
+//        let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+//        
+//        let managedContext = appDelegate.managedObjectContext!
+//        
+//        let entity = NSEntityDescription.entityForName("Group", inManagedObjectContext: managedContext)
+//        
+//        let mgdGroup = ManagedGroup(entity: entity!, insertIntoManagedObjectContext: managedContext)
+//        
+//        self.assignValuesToManagedObject(mgdGroup)
+//                
+//        var error: NSError?
+//        if !managedContext.save(&error) {
+//            println("Could not save \(error), \(error?.userInfo)")
+//        }
+//    }
+//    
+//    func assignValuesToManagedObject(mgdGroup: ManagedGroup) {
+//        mgdGroup.pfId = self.objectId
+//        mgdGroup.name = self[NAME_KEY] as! String
+//        
+//        // TODO: parentGroup, childBlurbs
+//    }
+//    
+//    class func groupsFromNSManagedObjects(objects: [NSManagedObject]) -> [Group] {
+//        
+//        var groups: [Group] = []
+//        
+//        for obj in objects {
+//            var group = Group()
+//
+//            group.setValue(obj.valueForKey(NAME_KEY), forKey: NAME_KEY)
+//            
+//            // TODO: parent group
+//            
+//            groups.append(group)
+//        }
+//        
+//        return groups
+//    }
+//    
 }

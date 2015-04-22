@@ -8,12 +8,12 @@
 
 import UIKit
 
-class Blurb: PFObject {
+class Blurb: PFObject, PFSubclassing {
 
     
     // Computed properties
     var pfId: String {
-        return self.objectId
+        return self.objectId!
     }
     
     var convoId: String {
@@ -32,8 +32,7 @@ class Blurb: PFObject {
         return self["username"] as! String
     }
     
-    
-    class func parseClassName() -> String! {
+    class func parseClassName() -> String {
         return "Blurb"
     }
     
@@ -46,14 +45,5 @@ class Blurb: PFObject {
     
     override init() {
         super.init()
-    }
-
-    init(message: String, user: PFUser, convo: Convo) {
-        super.init()
-
-        self[TEXT] = message
-        self[USERNAME] = user.username
-        self[CONVO_ID] = convo
-        self[USER_ID] = user
     }
 }

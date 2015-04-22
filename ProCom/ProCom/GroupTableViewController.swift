@@ -68,7 +68,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
             self.tableView.reloadData()
             
             // Look for new convos on the network (in the background)
-            NetworkManager.sharedInstance.fetchNewConvos(forGroup: self.group, existingConvos: convos, user: PFUser.currentUser(), completion: {
+            NetworkManager.sharedInstance.fetchNewConvos(forGroup: self.group, existingConvos: convos, user: PFUser.currentUser()!, completion: {
                 (convos: [Convo]) in
                 
                 // Received new convos from the network
@@ -138,58 +138,58 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         }
     }
     
-    func fetchConvosFromNetworkAndSaveToCoreData(user: PFUser, existingConvos: [NSManagedObject]) {
-        // Get all unfetched convos from the Network and save them to Core Data
-        
-        let convoQuery = Convo.query()
-        convoQuery.whereKey(USERS_KEY, equalTo: user)
-        
-        // Don't fetch Convos we already have
-        var existingConvoIds: [String] = []
-        for convo in existingConvos as! [ManagedConvo] {
-            existingConvoIds.append(convo.pfId)
-        }
-        convoQuery.whereKey(OBJECT_ID_KEY, notContainedIn: existingConvoIds)
-        
-        convoQuery.includeKey(GROUP_KEY)
-        
-        convoQuery.findObjectsInBackgroundWithBlock ({
-            (objects: [AnyObject]!, error: NSError!) -> Void in
-            
-            if (error == nil) {
-                println("Fetched \(objects.count) convos from Network")
-                dispatch_async(dispatch_get_main_queue()) {
-                    
-                    PFObject.pinAll(objects)
-
-                    let currentInstallation = PFInstallation.currentInstallation()
-                    
-                    var convos = objects as! [Convo]
-                    
-                    for convo in convos {
-                        convo.saveToCore()
-
-                        if let parentGroup = convo.objectForKey("groupId") as? Group {
-                            
-                            parentGroup.saveToCore()
-                        }
-
-                        if let channelName = convo.getChannelName() {
-                            println("Subscribing to convo channel: \(channelName)")
-                            currentInstallation.addUniqueObject(channelName, forKey: "channels")
-                        }
-                    }
-                    currentInstallation.saveInBackgroundWithBlock(nil)
-                    
-                    var coreConvos = Convo.convosFromNSManagedObjects(existingConvos)
-                    convos.extend(coreConvos)
-                    
-                    // Now go fetch the groups for the new convos
-//                    self.fetchGroups(convos)
-                }
-            }
-        })
-    }
+//    func fetchConvosFromNetworkAndSaveToCoreData(user: PFUser, existingConvos: [NSManagedObject]) {
+//        // Get all unfetched convos from the Network and save them to Core Data
+//        
+//        let convoQuery = Convo.query()
+//        convoQuery!.whereKey(USERS_KEY, equalTo: user)
+//        
+//        // Don't fetch Convos we already have
+//        var existingConvoIds: [String] = []
+//        for convo in existingConvos as! [ManagedConvo] {
+//            existingConvoIds.append(convo.pfId)
+//        }
+//        convoQuery!.whereKey(OBJECT_ID_KEY, notContainedIn: existingConvoIds)
+//        
+//        convoQuery!.includeKey(GROUP_KEY)
+//        
+//        convoQuery!.findObjectsInBackgroundWithBlock ({
+//            (objects, error) -> Void in
+//            
+//            if (error == nil) {
+//                println("Fetched \(objects!.count) convos from Network")
+//                dispatch_async(dispatch_get_main_queue()) {
+//                    
+//                    PFObject.pinAll(objects)
+//
+//                    let currentInstallation = PFInstallation.currentInstallation()
+//                    
+//                    var convos = objects as! [Convo]
+//                    
+//                    for convo in convos {
+//                        convo.saveToCore()
+//
+//                        if let parentGroup = convo.objectForKey("groupId") as? Group {
+//                            
+//                            parentGroup.saveToCore()
+//                        }
+//
+//                        if let channelName = convo.getChannelName() {
+//                            println("Subscribing to convo channel: \(channelName)")
+//                            currentInstallation.addUniqueObject(channelName, forKey: "channels")
+//                        }
+//                    }
+//                    currentInstallation.saveInBackgroundWithBlock(nil)
+//                    
+//                    var coreConvos = Convo.convosFromNSManagedObjects(existingConvos)
+//                    convos.extend(coreConvos)
+//                    
+//                    // Now go fetch the groups for the new convos
+////                    self.fetchGroups(convos)
+//                }
+//            }
+//        })
+//    }
     
     // MARK: - Push Data
     
@@ -313,7 +313,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     
     func sendPushToMembers() {
         var query = PFInstallation.query()
-        query.whereKey("deviceType", equalTo: "ios")
+        query!.whereKey("deviceType", equalTo: "ios")
         var error = NSErrorPointer()
         PFPush.sendPushMessageToQuery(query, withMessage: "TEST MESSAGE", error: error)
         
