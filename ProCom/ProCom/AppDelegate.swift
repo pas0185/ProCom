@@ -38,9 +38,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
         // Push notifications
         self.setupPushNotifications(application)
         
+        // Setup Facebook
+        PFAnalytics.trackAppOpenedWithLaunchOptionsInBackground(launchOptions, block: nil)
+        PFFacebookUtils.initializeFacebook()
+
+        
         // Configure main view
         self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
         self.window?.makeKeyAndVisible()
+        
 
         self.navController = UINavigationController()
         self.window?.rootViewController = navController
@@ -247,7 +253,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
     }
 
     func applicationDidBecomeActive(application: UIApplication) {
-     
+        let current: PFInstallation = PFInstallation.currentInstallation()
+            if (current.badge != 0) {
+                current.badge = 0
+                current.save()
+            }
     }
 
     func applicationWillTerminate(application: UIApplication) {

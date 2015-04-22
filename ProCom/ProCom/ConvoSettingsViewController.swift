@@ -60,7 +60,7 @@ class ConvoSettingsViewController: UIViewController {
             let username = textField.text
             println(username)
             
-            if let convoId = self.userConvo?.objectID as! String? {
+            if let convoId = self.userConvo?.pfId as String!{
                 
                 self.addUserToConvo(username, convoId: convoId)
             }

@@ -59,6 +59,7 @@ class BlurbTableViewController: JSQMessagesViewController {
         var settingButton: UIBarButtonItem = UIBarButtonItem(image: settingsImage, style: .Plain, target: self, action: "settingsButtonClicked")
         self.navigationItem.rightBarButtonItem = settingButton
         
+        self.navigationItem.title = convo?.name
         
         println("In Blurb View's viewDidLoad()")
     }
