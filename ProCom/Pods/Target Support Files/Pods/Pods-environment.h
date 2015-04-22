@@ -14,33 +14,9 @@
 
 // Facebook-iOS-SDK
 #define COCOAPODS_POD_AVAILABLE_Facebook_iOS_SDK
-#define COCOAPODS_VERSION_MAJOR_Facebook_iOS_SDK 4
-#define COCOAPODS_VERSION_MINOR_Facebook_iOS_SDK 0
-#define COCOAPODS_VERSION_PATCH_Facebook_iOS_SDK 1
-
-// Facebook-iOS-SDK/CoreKit
-#define COCOAPODS_POD_AVAILABLE_Facebook_iOS_SDK_CoreKit
-#define COCOAPODS_VERSION_MAJOR_Facebook_iOS_SDK_CoreKit 4
-#define COCOAPODS_VERSION_MINOR_Facebook_iOS_SDK_CoreKit 0
-#define COCOAPODS_VERSION_PATCH_Facebook_iOS_SDK_CoreKit 1
-
-// Facebook-iOS-SDK/CoreKit/no-arc
-#define COCOAPODS_POD_AVAILABLE_Facebook_iOS_SDK_CoreKit_no_arc
-#define COCOAPODS_VERSION_MAJOR_Facebook_iOS_SDK_CoreKit_no_arc 4
-#define COCOAPODS_VERSION_MINOR_Facebook_iOS_SDK_CoreKit_no_arc 0
-#define COCOAPODS_VERSION_PATCH_Facebook_iOS_SDK_CoreKit_no_arc 1
-
-// Facebook-iOS-SDK/LoginKit
-#define COCOAPODS_POD_AVAILABLE_Facebook_iOS_SDK_LoginKit
-#define COCOAPODS_VERSION_MAJOR_Facebook_iOS_SDK_LoginKit 4
-#define COCOAPODS_VERSION_MINOR_Facebook_iOS_SDK_LoginKit 0
-#define COCOAPODS_VERSION_PATCH_Facebook_iOS_SDK_LoginKit 1
-
-// Facebook-iOS-SDK/ShareKit
-#define COCOAPODS_POD_AVAILABLE_Facebook_iOS_SDK_ShareKit
-#define COCOAPODS_VERSION_MAJOR_Facebook_iOS_SDK_ShareKit 4
-#define COCOAPODS_VERSION_MINOR_Facebook_iOS_SDK_ShareKit 0
-#define COCOAPODS_VERSION_PATCH_Facebook_iOS_SDK_ShareKit 1
+#define COCOAPODS_VERSION_MAJOR_Facebook_iOS_SDK 3
+#define COCOAPODS_VERSION_MINOR_Facebook_iOS_SDK 23
+#define COCOAPODS_VERSION_PATCH_Facebook_iOS_SDK 2
 
 // JSQMessagesViewController
 #define COCOAPODS_POD_AVAILABLE_JSQMessagesViewController
@@ -59,4 +35,16 @@
 #define COCOAPODS_VERSION_MAJOR_Parse 1
 #define COCOAPODS_VERSION_MINOR_Parse 7
 #define COCOAPODS_VERSION_PATCH_Parse 1
+
+// ParseFacebookUtils
+#define COCOAPODS_POD_AVAILABLE_ParseFacebookUtils
+#define COCOAPODS_VERSION_MAJOR_ParseFacebookUtils 1
+#define COCOAPODS_VERSION_MINOR_ParseFacebookUtils 7
+#define COCOAPODS_VERSION_PATCH_ParseFacebookUtils 1
+
+// ParseUI
+#define COCOAPODS_POD_AVAILABLE_ParseUI
+#define COCOAPODS_VERSION_MAJOR_ParseUI 1
+#define COCOAPODS_VERSION_MINOR_ParseUI 1
+#define COCOAPODS_VERSION_PATCH_ParseUI 3
 

@@ -38,7 +38,7 @@
 #import "JSQMessage.h"
 #import "JSQMessageData.h"
 
-#import "JSQMessagesAvatarFactory.h"
+#import <JSQSystemSoundPlayer/JSQSystemSoundPlayer.h> 
 #import "JSQMessagesBubbleImageFactory.h"
 #import "JSQMessagesTimestampFormatter.h"
 #import "JSQMessagesToolbarButtonFactory.h"

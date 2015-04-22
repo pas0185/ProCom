@@ -137,9 +137,9 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         
         let query = Group.query()
         query!.includeKey(PARENT_GROUP_KEY)
-        query!.findObjectsInBackgroundWithBlock({(objects:[AnyObject]!, error:NSError!) in
+        query!.findObjectsInBackgroundWithBlock({(objects, error) in
             if (error == nil) {
-                println("Fetched \(objects.count) group objects")
+                println("Fetched \(objects!.count) group objects")
                 dispatch_async(dispatch_get_main_queue()) {
                     
                     println("Pinnning group objects")
@@ -158,10 +158,10 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         convoQuery!.includeKey(GROUP_KEY)
         
         convoQuery!.findObjectsInBackgroundWithBlock ({
-            (objects: [AnyObject]!, error: NSError!) -> Void in
+            (objects, error) in
             
             if (error == nil) {
-                println("Fetched \(objects.count) convo objects from network")
+                println("Fetched \(objects!.count) convo objects from network")
                 dispatch_async(dispatch_get_main_queue()) {
                     
                     println("Pinnning convo objects")
@@ -272,7 +272,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
             // TODO: be able to add a new group with a nil parent group
             newGroup[PARENT_GROUP_KEY] = self.currentGroup
             newGroup.saveInBackgroundWithBlock {
-                (success: Bool, error: NSError!) -> Void in
+                (success, error) in
                 if (success) {
                     println("Successfully saved new group: \(groupname)")
                     self.groupArray.append(newGroup)
@@ -313,7 +313,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
             relation.addObject(PFUser.currentUser()!)
             
             newConvo.saveInBackgroundWithBlock {
-                (success: Bool, error: NSError!) -> Void in
+                (success, error) in
                 if (success) {
                     println("Successfully saved new convo: \(convoName)")
                     self.convoArray.append(newConvo)

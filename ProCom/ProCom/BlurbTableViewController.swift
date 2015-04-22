@@ -108,10 +108,10 @@ class BlurbTableViewController: JSQMessagesViewController {
             
             // Fetch all blurbs for this convo
             queryBlurb!.findObjectsInBackgroundWithBlock({
-                (array: [AnyObject]!, error: NSError!) -> Void in
+                (array, error) in
                 
                 if (error == nil) {
-                    println("blurb query fetched \(array.count) objects")
+                    println("blurb query fetched \(array!.count) objects")
                     
                     println("Pinnning blurb objects")
                     PFObject.pinAll(array)
@@ -160,13 +160,13 @@ class BlurbTableViewController: JSQMessagesViewController {
         var blurb = Blurb(message: text, user: PFUser.currentUser()!, convo: self.convo!)
         
        blurb.saveInBackgroundWithBlock {
-            (success: Bool, error: NSError!) -> Void in
+            (success, error) in
             if (success) {
                 println("Blurb successfully saved: \(text)")
                 self.finishSendingMessage()
                 self.collectionView.reloadData()
                 
-                self.pushNotifyOtherMembers(text, currentConvo: self.convo?.objectForKey(NAME_KEY) as! String, username: PFUser.currentUser().username)
+                self.pushNotifyOtherMembers(text, currentConvo: self.convo?.objectForKey(NAME_KEY) as! String, username: PFUser.currentUser()!.username!)
                 
             } else {
                 println("There was a problem sending the message")
@@ -175,16 +175,24 @@ class BlurbTableViewController: JSQMessagesViewController {
     }
     
     func pushNotifyOtherMembers(message: String, currentConvo: String, username: String) {
-        
+        let userId = PFUser.currentUser()?.objectId as String!
         if let channel = self.convo?.getChannelName() {
-            let data = [
-                "content-available" : 1,
-                "badge" : "Increment",
-                "alert" : username + " in " + currentConvo + " says: " + message,
-                "senderObjectId" : PFUser.currentUser()!.objectId,
-                "convoObject" : self.convo!.objectId,
-                "sound": "default"
-                ]
+            let data = NSMutableDictionary()
+            data.setObject(1, forKey: "content-available")
+            data.setObject("Increment", forKey: "badge")
+            data.setObject(username + " in " + currentConvo + " says: " + message, forKey: "alert")
+            data.setObject(userId, forKey: "senderObjectId")
+            data.setObject(self.convo!.objectId!, forKey: "convoObject")
+            data.setObject("default", forKey: "sound")
+//            
+//            let data = [
+//                "content-available" : 1,
+//                "badge" : "Increment",
+//                "alert" : username + " in " + currentConvo + " says: " + message,
+//                "senderObjectId" : PFUser.currentUser()!.objectId,
+//                "convoObject" : self.convo!.objectId,
+//                "sound": "default"
+//                ]
             
             println("\(blurbs.last?.objectId as String!)")
             
@@ -192,7 +200,7 @@ class BlurbTableViewController: JSQMessagesViewController {
             push.setChannel(channel)
             push.setData(data as [NSObject : AnyObject])
             push.sendPushInBackgroundWithBlock {
-                (success: Bool, error: NSError!) -> Void in
+                (success, error) in
                 if (success) {
                     println("successfully notified other members")
                 }

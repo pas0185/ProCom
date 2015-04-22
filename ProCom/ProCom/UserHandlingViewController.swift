@@ -7,8 +7,7 @@
 //
 
 import UIKit
-import ParseUI
-
+//import ParseUI
 
 class UserHandlingViewController: PFLogInViewController, PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate  {
 
@@ -17,10 +16,10 @@ class UserHandlingViewController: PFLogInViewController, PFLogInViewControllerDe
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        if (PFUser.currentUser() == nil)
-        {
-            println("Current user not signed in yet, present PFLogInViewController")
-            
+//        if (PFUser.currentUser() == nil)
+//        {
+//            println("Current user not signed in yet, present PFLogInViewController")
+        
             
             
             // Configure Login View Controller
@@ -57,15 +56,15 @@ class UserHandlingViewController: PFLogInViewController, PFLogInViewControllerDe
 //                | PFLogInFields.Facebook)
             
             
-        }
-        else
-        {
-            println("Current user is signed in, push group table view")
-            
-            self.dismissViewControllerAnimated(true, completion: nil)
-            var groupView = GroupTableViewController(group: nil)
-            self.navigationController?.pushViewController(groupView, animated: true)
-        }
+//        }
+//        else
+//        {
+//            println("Current user is signed in, push group table view")
+//            
+//            self.dismissViewControllerAnimated(true, completion: nil)
+//            var groupView = GroupTableViewController(group: nil)
+//            self.navigationController?.pushViewController(groupView, animated: true)
+//        }
         
     }
     

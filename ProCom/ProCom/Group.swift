@@ -50,12 +50,12 @@ class Group: PFObject, PFSubclassing {
         groupObject["name"] = self.name
         groupObject["parent"] = self.parentId
         groupObject.saveInBackgroundWithBlock {
-            (success: Bool, error: NSError!) -> Void in
+            (success, error) in
             if (success) {
                 NSLog("Saved new group to the network")
             }
             else {
-                NSLog("Failed to save new group: %@", error.description)
+                NSLog("Failed to save new group: %@", error!.description)
             }
         }
     }

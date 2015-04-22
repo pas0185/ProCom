@@ -8,7 +8,7 @@
 
 import UIKit
 import CoreData
-import ParseUI
+import Parse
 
 
 
@@ -292,8 +292,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
 
     func applicationDidBecomeActive(application: UIApplication) {
         FBAppCall.handleDidBecomeActiveWithSession(PFFacebookUtils.session())
-        
-        if let current: PFInstallation = PFInstallation.currentInstallation(){
+        PFInstallation.currentInstallation()
+        if let current = PFInstallation.currentInstallation() as PFInstallation? {
             if (current.badge != 0) {
             current.badge = 0
             current.save()
