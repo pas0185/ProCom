@@ -100,8 +100,15 @@ class BlurbTableViewController: JSQMessagesViewController {
                 println("Fetched \(blurbs.count) Blurbs from Core Data")
                 self.mgdBlurbs = blurbs
                 
+                
+                var existingBlurbIds = [String]()
+                for blurb in self.mgdBlurbs {
+                    existingBlurbIds.append(blurb.pfId)
+                }
+            
+                
                 // Networking fetching Blurbs
-                NetworkManager.sharedInstance.fetchNewBlurbs(convoId, user: PFUser.currentUser(), completion: {
+                NetworkManager.sharedInstance.fetchNewBlurbs(convoId, existingBlurbIds: existingBlurbIds, completion: {
                     (blurbs: [Blurb]) in
                     
                     // Received new Blurbs from the network
@@ -122,7 +129,6 @@ class BlurbTableViewController: JSQMessagesViewController {
                     })
                 })
             })
-              
         }
     }
     

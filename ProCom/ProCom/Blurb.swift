@@ -8,8 +8,31 @@
 
 import UIKit
 
-class Blurb: PFObject, JSQMessageData {
+class Blurb: PFObject {
 
+    
+    // Computed properties
+    var pfId: String {
+        return self.objectId
+    }
+    
+    var convoId: String {
+        return self["convoId"] as! String
+    }
+    
+    var text: String {
+        return self["text"] as! String
+    }
+    
+    var userId: String {
+        return self["userId"] as! String
+    }
+    
+    var username: String {
+        return self["username"] as! String
+    }
+    
+    
     class func parseClassName() -> String! {
         return "Blurb"
     }
@@ -33,21 +56,4 @@ class Blurb: PFObject, JSQMessageData {
         self[CONVO_ID] = convo
         self[USER_ID] = user
     }
-
-    func text() -> String! {
-        return self[TEXT] as! String
-    }
-    
-    func sender() -> String! {
-        return self[USERNAME] as! String
-    }
-    
-    func date() -> NSDate! {
-        return self["createdAt"] as! NSDate
-    }
-    
-//    func imageUrl() -> String? {
-//        return self.imagePathURL
-//    }
-    
 }

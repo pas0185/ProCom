@@ -14,6 +14,7 @@
 
 @interface ManagedBlurb : NSManagedObject<JSQMessageData>
 
+@property (nonatomic, retain) NSString * convoId;
 @property (nonatomic, retain) NSString * pfId;
 @property (nonatomic, retain) NSString * text;
 @property (nonatomic, retain) NSString * userId;

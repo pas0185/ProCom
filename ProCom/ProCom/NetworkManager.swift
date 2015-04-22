@@ -109,27 +109,28 @@ class NetworkManager: NSObject {
     }
     
     //MARK: - Blurbs
-    func fetchNewBlurbs(convoId: String, user: PFUser, completion: (newBlurbs: [Blurb]) -> Void) {
+    func fetchNewBlurbs(convoId: String, existingBlurbIds: [String], completion: (newBlurbs: [Blurb]) -> Void) {
         
         // Fetch new Blurbs from the Network
         
         var blurbs = [Blurb]()
 
         // Build Parse PFQuery
-        let queryBlurb = Blurb.query()
-        queryBlurb.includeKey("userId")
-        queryBlurb.includeKey("createdAt")
-        queryBlurb.whereKey("convoId", equalTo: convoId)
+        let blurbQuery = Blurb.query()
+        blurbQuery.includeKey("userId")
+        blurbQuery.includeKey("createdAt")
+        blurbQuery.whereKey("convoId", equalTo: convoId)
+        blurbQuery.whereKey("objectId", notContainedIn: existingBlurbIds)
 
 //        if let myDate = lastMessageTime{
 //            queryBlurb.whereKey("createdAt", greaterThan: myDate)
 //            println("Query for grabbing new objects was excecuted with this date: \(myDate)")
 //        }
 
-        queryBlurb.orderByAscending("createdAt")
+        blurbQuery.orderByAscending("createdAt")
 
         // Fetch all blurbs for this convo
-        queryBlurb.findObjectsInBackgroundWithBlock({
+        blurbQuery.findObjectsInBackgroundWithBlock({
             (array: [AnyObject]!, error: NSError!) -> Void in
 
             if (error == nil) {

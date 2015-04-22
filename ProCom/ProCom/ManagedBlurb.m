@@ -12,6 +12,7 @@
 
 @implementation ManagedBlurb
 
+@dynamic convoId;
 @dynamic pfId;
 @dynamic text;
 @dynamic createdAt;

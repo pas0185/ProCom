@@ -87,7 +87,7 @@ class CoreDataManager: NSObject {
         if let groupId = group?.pfId {
             // Was provided a valid group, get all Groups that have it as their parent
             println("Group predicate from core: parent group ID = \(groupId)")
-            fetchRequest.predicate  = NSPredicate(format: "parentGroupId == %@", groupId)
+            fetchRequest.predicate = NSPredicate(format: "parentGroupId == %@", groupId)
         }
         else {
             // Was not provided a valid group, get 'home' group
@@ -135,26 +135,54 @@ class CoreDataManager: NSObject {
     
     //MARK: - Blurbs
     func fetchBlurbs(convoId: String, completion: (blurbs: [ManagedBlurb]) -> Void) {
-        // Return Blurbs with the parameter ConvoId
+        
+        // Fetch Blurbs from Core Data
         
         var blurbs = [ManagedBlurb]()
         
+        var fetchRequest = NSFetchRequest(entityName: "Blurb")
+        println("Predicate for fetching Core Data Blurbs: convoID = \(convoId)")
+        fetchRequest.predicate = NSPredicate(format: "convoId == %@", convoId)
         
-        // TODO: Fetch Blurbs from Core Data
+        // Send fetch request
+        var error: NSError?
+        blurbs = managedObjectContext!.executeFetchRequest(fetchRequest, error: &error) as! [ManagedBlurb]
         
+        if error != nil {
+            println(error!.localizedDescription)
+        }
         
         // Notify the fetch is finished to the completion block
         completion(blurbs: blurbs)
     }
     
     func saveNewBlurbs(blurbs: [Blurb], completion: (newMgdBlurbs: [ManagedBlurb]) -> Void) {
+        // Save Blurbs to Core Data
         
         var mgdBlurbs = [ManagedBlurb]()
         
-        
-        // TODO: Save Blurbs to Core Data
-        
-        
+        if let entity = NSEntityDescription.entityForName("Blurb", inManagedObjectContext: self.managedObjectContext!) {
+            
+            for pfBlurb in blurbs {
+                var mgdBlurb = ManagedBlurb(entity: entity, insertIntoManagedObjectContext: self.managedObjectContext)
+                
+                mgdBlurb.convoId = pfBlurb.convoId
+                mgdBlurb.createdAt = pfBlurb.createdAt
+                mgdBlurb.pfId = pfBlurb.pfId
+                mgdBlurb.text = pfBlurb.text
+                mgdBlurb.userId = pfBlurb.userId
+                mgdBlurb.username = pfBlurb.username
+                
+                mgdBlurbs.append(mgdBlurb)
+            }
+            
+            var error: NSError?
+            self.managedObjectContext?.save(&error)
+            
+            if error != nil {
+                println("Error saving Blurb to Core Data: \(error?.localizedDescription)")
+            }
+        }
         
         // Notify the save is finished to the completion block
         completion(newMgdBlurbs: mgdBlurbs)
