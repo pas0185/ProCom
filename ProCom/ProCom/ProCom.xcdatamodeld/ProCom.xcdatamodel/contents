@@ -5,6 +5,8 @@
         <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="pfId" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="text" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="username" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <entity name="Convo" representedClassName="ManagedConvo" syncable="YES">
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
@@ -17,7 +19,7 @@
         <attribute name="pfId" optional="YES" attributeType="String" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Blurb" positionX="477" positionY="45" width="128" height="103"/>
+        <element name="Blurb" positionX="477" positionY="45" width="128" height="135"/>
         <element name="Convo" positionX="297" positionY="45" width="128" height="90"/>
         <element name="Group" positionX="108" positionY="47" width="128" height="90"/>
     </elements>

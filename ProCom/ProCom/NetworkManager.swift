@@ -141,7 +141,13 @@ class NetworkManager: NSObject {
         })
     }
     
-    func saveNewBlurb(blurb: Blurb, completion: (blurb: Blurb) -> Void) {
+    func saveNewBlurb(text: String, convoId: String, completion: (blurb: Blurb) -> Void) {
+        
+        var blurb = Blurb()
+        blurb["text"] = text
+        blurb["convoId"] = convoId
+        blurb["userId"] = PFUser.currentUser().objectId
+        blurb["username"] = PFUser.currentUser().username
         
         // Save new Blurb to the Network
         blurb.saveInBackgroundWithBlock {

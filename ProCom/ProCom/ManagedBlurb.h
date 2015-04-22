@@ -8,14 +8,16 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
+#import "JSQMessageData.h"
 
 @class ManagedConvo;
 
-@interface ManagedBlurb : NSManagedObject
+@interface ManagedBlurb : NSManagedObject<JSQMessageData>
 
 @property (nonatomic, retain) NSString * pfId;
 @property (nonatomic, retain) NSString * text;
+@property (nonatomic, retain) NSString * userId;
+@property (nonatomic, retain) NSString * username;
 @property (nonatomic, retain) NSDate * createdAt;
-@property (nonatomic, retain) ManagedConvo *convo;
 
 @end

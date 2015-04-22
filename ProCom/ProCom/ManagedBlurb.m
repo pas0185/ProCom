@@ -15,6 +15,21 @@
 @dynamic pfId;
 @dynamic text;
 @dynamic createdAt;
-@dynamic convo;
+@dynamic userId;
+@dynamic username;
+
+#pragma mark - JSQMessageData Methods
+
+- (NSString *)text {
+    return self.text;
+}
+
+- (NSString *)sender {
+    return self.username;
+}
+
+- (NSDate *)date {
+    return self.createdAt;
+}
 
 @end
