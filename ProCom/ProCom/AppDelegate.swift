@@ -95,16 +95,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
                                 if error == nil {
                                     println("DATA FOR IMAGE: \(data)")
                                     var picture = PFFile(data: data)
-                                    PFUser.currentUser().setObject(picture, forKey: "profilePicture")
-                                    PFUser.currentUser().save()
+                                    PFUser.currentUser()!.setObject(picture, forKey: "profilePicture")
+                                    PFUser.currentUser()!.save()
                                 }
                                 else {
                                     println("Error: \(error.localizedDescription)")
                                 }
                             })
-                            PFUser.currentUser().setValue(name, forKey: "username")
-                            PFUser.currentUser().setValue(email, forKey: "email")
-                            PFUser.currentUser().save()
+                            PFUser.currentUser()!.setValue(name, forKey: "username")
+                            PFUser.currentUser()!.setValue(email, forKey: "email")
+                            PFUser.currentUser()!.save()
                         }
                     })
                 }
@@ -214,7 +214,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
             //TODO: Reload the view controller
             
             var convoQuery = Convo.query()
-            if let actualConvo = convoQuery.getObjectWithId(convo as! String) as? Convo {
+            if let actualConvo = convoQuery!.getObjectWithId(convo as! String) as? Convo {
                 // You got it?
                 println("\(actualConvo)")
                 var blurbViewControler = BlurbTableViewController(convo: actualConvo)
@@ -232,7 +232,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
         
         if let senderObjectId = userInfo["senderObjectId"] as? String {
             
-            if PFUser.currentUser().objectId == senderObjectId {
+            if PFUser.currentUser()!.objectId == senderObjectId {
                 // Don't do the notification thing
                 println("Remote notification received from the user that sent it (in AppDelegate)")
             }
@@ -244,32 +244,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
 
     }
     
-    func signInUser(username: String, password: String, synchronous: Bool) {
-        
-        // Synchronous
-        if synchronous {
-            var user = PFUser.logInWithUsername(username, password: password)
-            if (user != nil) {
-                println("Successfully logged in \(username)")
-            }
-            else {
-                println("Failed to log in \(username)")
-            }
-        }
-            
-        // Asynchronous
-        else {
-            PFUser.logInWithUsernameInBackground(username, password: password) {
-                (user: PFUser!, error: NSError!) -> Void in
-                if (user != nil) {
-                    println("Successfully logged in \(username)")
-                }
-                else {
-                    println("Failed to log in \(username)")
-                }
-            }
-        }
-    }
+//    func signInUser(username: String, password: String, synchronous: Bool) {
+//        
+//        // Synchronous
+//        if synchronous {
+//            var user = PFUser.logInWithUsername(username, password: password)
+//            if (user != nil) {
+//                println("Successfully logged in \(username)")
+//            }
+//            else {
+//                println("Failed to log in \(username)")
+//            }
+//        }
+//            
+//        // Asynchronous
+//        else {
+//            PFUser.logInWithUsernameInBackground(username, password: password) {
+//                (user: PFUser!, error: NSError!) -> Void in
+//                if (user != nil) {
+//                    println("Successfully logged in \(username)")
+//                }
+//                else {
+//                    println("Failed to log in \(username)")
+//                }
+//            }
+//        }
+//    }
     
     func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
             return FBAppCall.handleOpenURL(url, sourceApplication:sourceApplication,

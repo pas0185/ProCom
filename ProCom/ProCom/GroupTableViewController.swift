@@ -41,7 +41,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
 
                 self.groupActivityIndicator.startAnimating()
                 self.fetchAndPinAllGroups()
-                self.fetchAndPinConvosForUser(user)
+                self.fetchAndPinConvosForUser(user!)
             }
             
         }
@@ -136,8 +136,8 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     func fetchAndPinAllGroups() {
         
         let query = Group.query()
-        query.includeKey(PARENT_GROUP_KEY)
-        query.findObjectsInBackgroundWithBlock({(objects:[AnyObject]!, error:NSError!) in
+        query!.includeKey(PARENT_GROUP_KEY)
+        query!.findObjectsInBackgroundWithBlock({(objects:[AnyObject]!, error:NSError!) in
             if (error == nil) {
                 println("Fetched \(objects.count) group objects")
                 dispatch_async(dispatch_get_main_queue()) {
@@ -154,10 +154,10 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         // Fetch a user's subscribed conversations from the network
         
         let convoQuery = Convo.query()
-        convoQuery.whereKey(USERS_KEY, equalTo: user)
-        convoQuery.includeKey(GROUP_KEY)
+        convoQuery!.whereKey(USERS_KEY, equalTo: user)
+        convoQuery!.includeKey(GROUP_KEY)
         
-        convoQuery.findObjectsInBackgroundWithBlock ({
+        convoQuery!.findObjectsInBackgroundWithBlock ({
             (objects: [AnyObject]!, error: NSError!) -> Void in
             
             if (error == nil) {
@@ -310,7 +310,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
             newConvo[NAME_KEY] = convoName
             newConvo[GROUP_KEY] = self.currentGroup
             var relation = newConvo.relationForKey(USERS_KEY)
-            relation.addObject(PFUser.currentUser())
+            relation.addObject(PFUser.currentUser()!)
             
             newConvo.saveInBackgroundWithBlock {
                 (success: Bool, error: NSError!) -> Void in
@@ -331,7 +331,7 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
     
     func sendPushToMembers() {
         var query = PFInstallation.query()
-        query.whereKey("deviceType", equalTo: "ios")
+        query!.whereKey("deviceType", equalTo: "ios")
         var error = NSErrorPointer()
         PFPush.sendPushMessageToQuery(query, withMessage: "TEST MESSAGE", error: error)
         

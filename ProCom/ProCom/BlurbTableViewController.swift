@@ -40,7 +40,7 @@ class BlurbTableViewController: JSQMessagesViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.sender = PFUser.currentUser().username!
+        self.sender = PFUser.currentUser()!.username!
        
         
         if let c = convo as Convo? {
@@ -91,23 +91,23 @@ class BlurbTableViewController: JSQMessagesViewController {
         if (PFUser.currentUser() != nil) {
     
             let queryBlurb = Blurb.query()
-            queryBlurb.includeKey("userId")
-            queryBlurb.includeKey("createdAt")
+            queryBlurb!.includeKey("userId")
+            queryBlurb!.includeKey("createdAt")
             
-            queryBlurb.whereKey("convoId", equalTo: convo)
+            queryBlurb!.whereKey("convoId", equalTo: convo)
             
             if let myDate = lastMessageTime{
-                queryBlurb.whereKey("createdAt", greaterThan: myDate)
+                queryBlurb!.whereKey("createdAt", greaterThan: myDate)
                 println("Query for grabbing new objects was excecuted with this date: \(myDate)")
             }
             
-            queryBlurb.orderByAscending("createdAt")
+            queryBlurb!.orderByAscending("createdAt")
             
             //TODO: Save in local core datastore
             
             
             // Fetch all blurbs for this convo
-            queryBlurb.findObjectsInBackgroundWithBlock({
+            queryBlurb!.findObjectsInBackgroundWithBlock({
                 (array: [AnyObject]!, error: NSError!) -> Void in
                 
                 if (error == nil) {
@@ -157,7 +157,7 @@ class BlurbTableViewController: JSQMessagesViewController {
     
     func sendMessage(text: String) {
         
-        var blurb = Blurb(message: text, user: PFUser.currentUser(), convo: self.convo!)
+        var blurb = Blurb(message: text, user: PFUser.currentUser()!, convo: self.convo!)
         
        blurb.saveInBackgroundWithBlock {
             (success: Bool, error: NSError!) -> Void in
@@ -181,7 +181,7 @@ class BlurbTableViewController: JSQMessagesViewController {
                 "content-available" : 1,
                 "badge" : "Increment",
                 "alert" : username + " in " + currentConvo + " says: " + message,
-                "senderObjectId" : PFUser.currentUser().objectId,
+                "senderObjectId" : PFUser.currentUser()!.objectId,
                 "convoObject" : self.convo!.objectId,
                 "sound": "default"
                 ]
@@ -289,7 +289,7 @@ class BlurbTableViewController: JSQMessagesViewController {
         let cell = super.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as! JSQMessagesCollectionViewCell
         
         let blurb = self.blurbs[indexPath.row]
-        if blurb.sender() as NSString == PFUser.currentUser().username {
+        if blurb.sender() as NSString == PFUser.currentUser()!.username {
             cell.textView.textColor = UIColor.whiteColor()
         } else {
             cell.textView.textColor = UIColor.whiteColor()
@@ -307,7 +307,7 @@ class BlurbTableViewController: JSQMessagesViewController {
         let blurb = blurbs[indexPath.row];
         
         // Sent by me, skip
-        if blurb.sender() == PFUser.currentUser().username {
+        if blurb.sender() == PFUser.currentUser()!.username {
             return nil;
         }
         
@@ -329,7 +329,7 @@ class BlurbTableViewController: JSQMessagesViewController {
         if let blurb = blurbs[indexPath.item] as Blurb? {
             
             // Sent by me, skip
-            if blurb.sender() == PFUser.currentUser().username {
+            if blurb.sender() == PFUser.currentUser()!.username {
                 return CGFloat(0.0);
             }
             

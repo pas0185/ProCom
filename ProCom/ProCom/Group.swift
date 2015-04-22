@@ -40,7 +40,7 @@ class Group: PFObject, PFSubclassing {
         super.init()
     }
     
-    class func parseClassName() -> String! {
+    class func parseClassName() -> String {
         return "Group"
     }
     
@@ -63,10 +63,10 @@ class Group: PFObject, PFSubclassing {
     func getSubGroups() -> [Group] {
         
         var query = Group.query()
-        query.fromLocalDatastore()
+        query!.fromLocalDatastore()
         
-        query.whereKey(PARENT_GROUP_KEY, equalTo: self)
-        var subGroups: [Group] = query.findObjects() as! [Group]
+        query!.whereKey(PARENT_GROUP_KEY, equalTo: self)
+        var subGroups: [Group] = query!.findObjects() as! [Group]
         println("\(subGroups.count) groups in the selected group")
         
         return subGroups
@@ -75,10 +75,10 @@ class Group: PFObject, PFSubclassing {
     func getSubConvos() -> [Convo] {
         
         var query = Convo.query()
-        query.fromLocalDatastore()
+        query!.fromLocalDatastore()
         
-        query.whereKey(GROUP_KEY, equalTo: self)
-        var subConvos: [Convo] = query.findObjects() as! [Convo]
+        query!.whereKey(GROUP_KEY, equalTo: self)
+        var subConvos: [Convo] = query!.findObjects() as! [Convo]
         println("\(subConvos.count) convos in the selected group")
         
         

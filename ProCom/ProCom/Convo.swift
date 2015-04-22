@@ -10,7 +10,7 @@ import UIKit
 
 class Convo: PFObject, PFSubclassing {
     
-    class func parseClassName() -> String! {
+    class func parseClassName() -> String {
         return CONVO_CLASS
     }
     
@@ -21,7 +21,7 @@ class Convo: PFObject, PFSubclassing {
     func getChannelName() -> String! {
         
         let objectId = self.objectId
-        var channel = "channel" + objectId
+        var channel = "channel" + objectId!
         return channel
     }
 }
