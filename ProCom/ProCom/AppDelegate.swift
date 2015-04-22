@@ -10,8 +10,9 @@ import UIKit
 import CoreData
 import ParseUI
 
+
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var navController: UINavigationController?
@@ -51,6 +52,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
         self.navController = UINavigationController()
         self.window?.rootViewController = navController
         
+        
         var replyAction : UIMutableUserNotificationAction = UIMutableUserNotificationAction()
         replyAction.identifier = "REPLY_ACTION"
         replyAction.title = "Yes, I need!"
@@ -61,68 +63,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
 
         println("LAUNCH OPTIONS: \(launchOptions)")
         
-        if (PFUser.currentUser() == nil) {
-            
-            var logInController = PFLogInViewController()
-            logInController.delegate = self
-            
-            var signUpController = PFSignUpViewController()
-            signUpController.delegate = self
-            logInController.signUpController = signUpController
-            
-//            logInController.signUpController.delegate = self
-            
-            self.navController?.presentViewController(logInController, animated: true, completion: nil)
-        }
-        else {
-            self.navController?.pushViewController(GroupTableViewController(group: nil), animated: true)
-        }
+        
+        // Display UserAccess View to Login and push initial Group view
+        self.navController?.pushViewController(UserAccessViewController(), animated: true)
 
         
         return true
-    }
-    
-    // MARK: - PFLogInViewControllerDelegate
-    func logInViewController(logInController: PFLogInViewController!, shouldBeginLogInWithUsername username: String!, password: String!) -> Bool {
-        
-        println("Should begin login with username, password. Will return true")
-        return true
-    }
-    
-    func logInViewController(logInController: PFLogInViewController!, didLogInUser user: PFUser!) {
-        println("logInViewController did log in user, dismiss this VC")
-        logInController.dismissViewControllerAnimated(true, completion: nil)
-        
-        // TODO: smoother transition to this on login
-        self.navController?.pushViewController(GroupTableViewController(group: nil), animated: true)
-    }
-    
-    func logInViewController(logInController: PFLogInViewController!, didFailToLogInWithError error: NSError!) {
-        
-        println("Failed to log in user: \(error.localizedDescription)")
-    }
-    
-    // MARK: - PFSignUpViewControllerDelegate
-    func signUpViewController(signUpController: PFSignUpViewController!, shouldBeginSignUp info: [NSObject : AnyObject]!) -> Bool {
-        println("Should beging signup")
-        return true
-    }
-    
-    func signUpViewController(signUpController: PFSignUpViewController!, didSignUpUser user: PFUser!) {
-        
-        println("Did sign up user")
-        
-        signUpController.dismissViewControllerAnimated(true, completion: nil)
-        
-        if self.navController?.presentedViewController != nil {
-            self.navController?.dismissViewControllerAnimated(true, completion: nil)
-        }
-        
-        self.navController?.pushViewController(GroupTableViewController(group: nil), animated: true)
-    }
-    
-    func signUpViewController(signUpController: PFSignUpViewController!, didFailToSignUpWithError error: NSError!) {
-        println("Failed to sign up user \(error.localizedDescription)")
     }
     
     // MARK: - Push Notifications
@@ -254,7 +200,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDele
 
     func applicationDidBecomeActive(application: UIApplication) {
         
-         FBAppCall.handleDidBecomeActiveWithSession(PFFacebookUtils.session())
+        FBAppEvents.activateApp()
+        FBAppCall.handleDidBecomeActiveWithSession(PFFacebookUtils.session())
         
         let current: PFInstallation = PFInstallation.currentInstallation()
             if (current.badge != 0) {
