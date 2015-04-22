@@ -182,7 +182,7 @@ class CoreDataManager: NSObject {
             if error != nil {
                 println("Error saving Blurb to Core Data: \(error?.localizedDescription)")
             }
-        }
+    }
         
         // Notify the save is finished to the completion block
         completion(newMgdBlurbs: mgdBlurbs)

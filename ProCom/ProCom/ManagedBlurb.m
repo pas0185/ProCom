@@ -21,10 +21,6 @@
 
 #pragma mark - JSQMessageData Methods
 
-- (NSString *)text {
-    return self.text;
-}
-
 - (NSString *)sender {
     return self.username;
 }

@@ -117,7 +117,6 @@ class NetworkManager: NSObject {
 
         // Build Parse PFQuery
         let blurbQuery = Blurb.query()
-        blurbQuery.includeKey("userId")
         blurbQuery.includeKey("createdAt")
         blurbQuery.whereKey("convoId", equalTo: convoId)
         blurbQuery.whereKey("objectId", notContainedIn: existingBlurbIds)
