@@ -1,0 +1,14 @@
+{
+    "applications": {
+        "ProCom": {
+            "applicationId": "n3twpTW37Eh9SkLFRWM41bjmw2IoYPdb2dh3OAQC", 
+            "masterKey": "qxdgg9g217pS6pNChW8zCdWiWErtVUoBgDcFpWRS"
+        }, 
+        "_default": {
+            "link": "ProCom"
+        }
+    }, 
+    "global": {
+        "parseVersion": "1.3.5"
+    }
+}

@@ -8,28 +8,230 @@
 
 import UIKit
 import CoreData
+import ParseUI
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, PFLogInViewControllerDelegate, PFSignUpViewControllerDelegate {
 
     var window: UIWindow?
+    var navController: UINavigationController?
+    
+    func setParseAppIdAndClientKey() {
+        if let dictionary = NSDictionary(contentsOfFile: NSBundle.mainBundle().pathForResource("Keys", ofType: "plist")!) {
+            var appId = dictionary.objectForKey("PARSE_APPLICATION_ID") as! String
+            var clientKey = dictionary.objectForKey("PARSE_CLIENT_KEY") as! String
+            
+            Parse.setApplicationId(appId, clientKey: clientKey)
+        }
+    }
     
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
-        // Override point for customization after application launch.
         
-        var convoView: ConvoTableViewController = ConvoTableViewController()
+        // Parse setup
+        Group.registerSubclass()
+        Convo.registerSubclass()
+        Blurb.registerSubclass()
+        Parse.enableLocalDatastore()
         
-        if let window = self.window {
-            window.rootViewController = convoView
+        self.setParseAppIdAndClientKey()
+        
+        // Push notifications
+        self.setupPushNotifications(application)
+        
+        // Configure main view
+        self.window = UIWindow(frame: UIScreen.mainScreen().bounds)
+        self.window?.makeKeyAndVisible()
+
+        self.navController = UINavigationController()
+        self.window?.rootViewController = navController
+        
+        var replyAction : UIMutableUserNotificationAction = UIMutableUserNotificationAction()
+        replyAction.identifier = "REPLY_ACTION"
+        replyAction.title = "Yes, I need!"
+        
+        replyAction.activationMode = UIUserNotificationActivationMode.Foreground
+        replyAction.authenticationRequired = false
+
+
+        println("LAUNCH OPTIONS: \(launchOptions)")
+        
+        if (PFUser.currentUser() == nil) {
+            
+            var logInController = PFLogInViewController()
+            logInController.delegate = self
+            
+            var signUpController = PFSignUpViewController()
+            signUpController.delegate = self
+            logInController.signUpController = signUpController
+            
+//            logInController.signUpController.delegate = self
+            
+            self.navController?.presentViewController(logInController, animated: true, completion: nil)
         }
-        
-        // TODO: learn how to use managed object context if it can help later
-        //        controller.managedObjectContext = self.managedObjectContext
+        else {
+            self.navController?.pushViewController(GroupTableViewController(group: nil), animated: true)
+        }
 
         
         return true
     }
+    
+    // MARK: - PFLogInViewControllerDelegate
+    func logInViewController(logInController: PFLogInViewController!, shouldBeginLogInWithUsername username: String!, password: String!) -> Bool {
+        
+        println("Should begin login with username, password. Will return true")
+        return true
+    }
+    
+    func logInViewController(logInController: PFLogInViewController!, didLogInUser user: PFUser!) {
+        println("logInViewController did log in user, dismiss this VC")
+        logInController.dismissViewControllerAnimated(true, completion: nil)
+        
+        // TODO: smoother transition to this on login
+        self.navController?.pushViewController(GroupTableViewController(group: nil), animated: true)
+    }
+    
+    func logInViewController(logInController: PFLogInViewController!, didFailToLogInWithError error: NSError!) {
+        
+        println("Failed to log in user: \(error.localizedDescription)")
+    }
+    
+    // MARK: - PFSignUpViewControllerDelegate
+    func signUpViewController(signUpController: PFSignUpViewController!, shouldBeginSignUp info: [NSObject : AnyObject]!) -> Bool {
+        println("Should beging signup")
+        return true
+    }
+    
+    func signUpViewController(signUpController: PFSignUpViewController!, didSignUpUser user: PFUser!) {
+        
+        println("Did sign up user")
+        
+        signUpController.dismissViewControllerAnimated(true, completion: nil)
+        
+        if self.navController?.presentedViewController != nil {
+            self.navController?.dismissViewControllerAnimated(true, completion: nil)
+        }
+        
+        self.navController?.pushViewController(GroupTableViewController(group: nil), animated: true)
+    }
+    
+    func signUpViewController(signUpController: PFSignUpViewController!, didFailToSignUpWithError error: NSError!) {
+        println("Failed to sign up user \(error.localizedDescription)")
+    }
+    
+    // MARK: - Push Notifications
+    func setupPushNotifications(application: UIApplication) {
+        
+        // Register for Push Notitications
+    
+        if NSProcessInfo().isOperatingSystemAtLeastVersion(NSOperatingSystemVersion(majorVersion: 8, minorVersion: 0, patchVersion: 0)) {
+            println("iOS >= 8.0.0")
+            let types:UIUserNotificationType = (.Alert | .Badge | .Sound)
+            let settings:UIUserNotificationSettings = UIUserNotificationSettings(forTypes: types, categories: nil)
+            
+            application.registerUserNotificationSettings(settings)
+            application.registerForRemoteNotifications()
+            
+        }
+        else {
+            println("iOS < 8.0.0")
+            application.registerForRemoteNotificationTypes(.Alert | .Badge | .Sound)
+        }
+    }
+    
+    func application(application: UIApplication, didRegisterUserNotificationSettings notificationSettings: UIUserNotificationSettings) {
+        // Register to receive notifications
+        application.registerForRemoteNotifications()
+    }
+    
+    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+        
+        let currentInstallation = PFInstallation.currentInstallation()
+        
+        currentInstallation.setDeviceTokenFromData(deviceToken)
+        currentInstallation.saveInBackgroundWithBlock { (succeeded, e) -> Void in
+            
+            println("Successfully registered for remote notifications with device token")
+        }
+    }
+    
+    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
+        println("failed to register for remote notifications:  \(error)")
+    }
+    
+    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject]) {
+        println("didReceiveRemoteNotification in app delegate")
+        
+        println("User Info: \(userInfo)")
+        if let convo: AnyObject = userInfo["convoObject"] {
+            println("Convo from push notification = \(convo)")
+        
+            var convoQuery = Convo.query()
+            if let actualConvo = convoQuery.getObjectWithId(convo as! String) as? Convo {
+                // You got it?
+                println("\(actualConvo)")
 
+                
+                // TODO: Fix loading the Blurb View from the remote notification reception
+//                var blurbViewControlerr = BlurbTableViewController(convo: actualConvo)
+//                self.navController?.pushViewController(blurbViewControlerr, animated: true)
+                return
+            }
+        
+        }
+        
+        
+        if let viewController = self.navController?.topViewController as? BlurbTableViewController {
+            println("Top view is blurb table view. Need to refresh for new message from push notification")
+            viewController.didReceiveRemoteNotification(userInfo)
+        }
+        
+        if let senderObjectId = userInfo["senderObjectId"] as? String {
+            
+            if PFUser.currentUser().objectId == senderObjectId {
+                // Don't do the notification thing
+                println("Remote notification received from the user that sent it (in AppDelegate)")
+            }
+            else {
+                println("Received remote notification in AppDelegate from a different user")
+                PFPush.handlePush(userInfo)
+            }
+        }
+
+    }
+    
+    func signInUser(username: String, password: String, synchronous: Bool) {
+        
+        // Synchronous
+        if synchronous {
+            var user = PFUser.logInWithUsername(username, password: password)
+            if (user != nil) {
+                println("Successfully logged in \(username)")
+            }
+            else {
+                println("Failed to log in \(username)")
+            }
+        }
+            
+        // Asynchronous
+        else {
+            PFUser.logInWithUsernameInBackground(username, password: password) {
+                (user: PFUser!, error: NSError!) -> Void in
+                if (user != nil) {
+                    println("Successfully logged in \(username)")
+                }
+                else {
+                    println("Failed to log in \(username)")
+                }
+            }
+        }
+    }
+    
+    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject?) -> Bool {
+        
+        return FBAppCall.handleOpenURL(url, sourceApplication: sourceApplication)
+    }
+    
     func applicationWillResignActive(application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
@@ -45,7 +247,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     func applicationDidBecomeActive(application: UIApplication) {
-        // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+     
     }
 
     func applicationWillTerminate(application: UIApplication) {
@@ -59,7 +261,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     lazy var applicationDocumentsDirectory: NSURL = {
         // The directory the application uses to store the Core Data store file. This code uses a directory named "com.abraid.ProCom" in the application's documents Application Support directory.
         let urls = NSFileManager.defaultManager().URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask)
-        return urls[urls.count-1] as NSURL
+        return urls[urls.count-1] as! NSURL
     }()
 
     lazy var managedObjectModel: NSManagedObjectModel = {
@@ -82,7 +284,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             dict[NSLocalizedDescriptionKey] = "Failed to initialize the application's saved data"
             dict[NSLocalizedFailureReasonErrorKey] = failureReason
             dict[NSUnderlyingErrorKey] = error
-            error = NSError(domain: "YOUR_ERROR_DOMAIN", code: 9999, userInfo: dict)
+            error = NSError(domain: "YOUR_ERROR_DOMAIN", code: 9999, userInfo: dict as [NSObject : AnyObject])
             // Replace this with code to handle the error appropriately.
             // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
             NSLog("Unresolved error \(error), \(error!.userInfo)")
