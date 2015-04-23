@@ -18,6 +18,7 @@
 @dynamic createdAt;
 @dynamic userId;
 @dynamic username;
+@dynamic profilePic;
 
 #pragma mark - JSQMessageData Methods
 
@@ -36,6 +37,14 @@
 - (NSUInteger)messageHash {
     return self.text.hash;
 }
+- (NSString *) userPic{
+    PFUser *currentUser = [PFUser user];
+    [currentUser fetchIfNeeded];
+    NSString *profilePic = currentUser[@"profilePicture"];
+    self.profilePic = profilePic;
+    return self.profilePic;
+}
+
 
 - (BOOL)isMediaMessage {
     return false;

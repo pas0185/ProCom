@@ -310,7 +310,7 @@ class BlurbTableViewController: JSQMessagesViewController {
             return avatar
         }
         else {
-            setupAvatarImage(blurb.username, imageUrl: nil /*blurb.imageUrl()*/, incoming: true)
+            setupAvatarImage(blurb.username, imageUrl: nil /*blurb.profilePic*/, incoming: true)
             return avatars[blurb.username]
         }
 
