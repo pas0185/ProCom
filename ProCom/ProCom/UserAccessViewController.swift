@@ -20,25 +20,35 @@ class UserAccessViewController: UIViewController, PFLogInViewControllerDelegate,
             var logInViewController:PFLogInViewController = PFLogInViewController()
             logInViewController.fields = (PFLogInFields.Facebook | PFLogInFields.LogInButton | PFLogInFields.PasswordForgotten | PFLogInFields.UsernameAndPassword | PFLogInFields.SignUpButton)
             logInViewController.delegate = self
-//            
-//            let permissions = []
-//            PFFacebookUtils.logInWithPermissions(permissions as [AnyObject], block: {
-//                (user, error) in
-//                if let user = user {
-//                    if user.isNew {
-//                        println("User signed up and logged in through Facebook!")
-//                        let facebookID = permissions["id"]
-//                        let name = permissions["name"]
-//                        let email = permissions["email"]
-//                        let pictureURL = "http://graph.facebook.com/\(facebookID)/picture?type=large"
-//                    } else {
-//                        println("User logged in through Facebook!")
-//                    }
-//                } else {
-//                    println("Uh oh. The user cancelled the Facebook login.")
-//                }
-//            })
-            
+    
+            if(logInViewController.logInView.facebookButton == nil)
+            {
+                let permissions = ["user_about_me"]
+                PFFacebookUtils.logInWithPermissions(permissions) {
+                    (user, error) in
+                    if (user == nil) {
+                        if (error == nil) {
+                            println("User cancelled FB login")
+                        }else{
+                            println("FB login error: \(error)")
+                        }
+                    } else if user!.isNew {
+                        self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
+                        var gtView = GroupTableViewController(group: nil)
+                        self.navigationController?.setViewControllers([gtView], animated: true)
+                        println("User signed up and logged in with Facebook")
+                        
+                        
+                    } else {
+                        self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
+                        var gtView = GroupTableViewController(group: nil)
+                        self.navigationController?.setViewControllers([gtView], animated: true)
+                        println("User logged in via Facebook")
+                        
+                    }
+                }
+
+            }
             
             self.navigationController?.presentViewController(logInViewController, animated:true, completion: nil)
         }
