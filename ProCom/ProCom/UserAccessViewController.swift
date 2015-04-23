@@ -15,15 +15,30 @@ class UserAccessViewController: UIViewController, PFLogInViewControllerDelegate,
         super.viewDidLoad()
         
         if (PFUser.currentUser() == nil) {
+            let fbButton : FBSDKLoginButton = FBSDKLoginButton()
             // User is not signed in yet, display Log In View
             var logInViewController:PFLogInViewController = PFLogInViewController()
+            logInViewController.fields = (PFLogInFields.Facebook | PFLogInFields.LogInButton | PFLogInFields.PasswordForgotten | PFLogInFields.UsernameAndPassword | PFLogInFields.SignUpButton)
             logInViewController.delegate = self
+//            
+//            let permissions = []
+//            PFFacebookUtils.logInWithPermissions(permissions as [AnyObject], block: {
+//                (user, error) in
+//                if let user = user {
+//                    if user.isNew {
+//                        println("User signed up and logged in through Facebook!")
+//                        let facebookID = permissions["id"]
+//                        let name = permissions["name"]
+//                        let email = permissions["email"]
+//                        let pictureURL = "http://graph.facebook.com/\(facebookID)/picture?type=large"
+//                    } else {
+//                        println("User logged in through Facebook!")
+//                    }
+//                } else {
+//                    println("Uh oh. The user cancelled the Facebook login.")
+//                }
+//            })
             
-            var dismissButton = logInViewController.logInView.dismissButton
-            //        dismissButton.enabled = false
-            var fbButton = logInViewController.logInView.facebookButton
-            //        fbButton.enabled = true
-
             
             self.navigationController?.presentViewController(logInViewController, animated:true, completion: nil)
         }
@@ -41,55 +56,7 @@ class UserAccessViewController: UIViewController, PFLogInViewControllerDelegate,
     
     // MARK: - Facebook Setup
     
-    func loginWithFacebook(){
-        let permisions = ["user_about_me"]
-        PFFacebookUtils.logInWithPermissions(permisions, block: {
-            (user, error) -> Void in
-            if (user != nil) {
-                println("Uh oh. The user cancelled the Facebook login.")
-            } else if (user!.isNew) {
-                println("User signed up and logged in through Facebook!")
-            } else {
-                println("User logged in through Facebook!")
-            }
-        }
-    )
-    }
     
-    func loadData(){
-        if let session = PFFacebookUtils.session() {
-            if session.isOpen {
-                println("session is open")
-                FBRequestConnection.startForMeWithCompletionHandler({ (connection: FBRequestConnection!, result: AnyObject!, error: NSError!) -> Void in
-                     println("done me request")
-                if let dict = result as? Dictionary<String, AnyObject>{
-                    let name:String = dict["name"] as AnyObject? as! String
-                    let facebookID:String = dict["id"] as AnyObject? as! String
-                    let email:String = dict["email"] as AnyObject? as! String
-                    let pictureURL = "https://graph.facebook.com/\(facebookID)/picture?type=large&return_ssl_resources=1"
-                    var URLRequest = NSURL(string: pictureURL)
-                    var URLRequestNeeded = NSURLRequest(URL: URLRequest!)
-                    
-                    NSURLConnection.sendAsynchronousRequest(URLRequestNeeded, queue: NSOperationQueue.mainQueue(), completionHandler: {(response: NSURLResponse!,data: NSData!, error: NSError!) -> Void in
-                        if error == nil {
-                            println("DATA FOR IMAGE: \(data)")
-                            var picture = PFFile(data: data)
-                            PFUser.currentUser()!.setObject(picture, forKey: "profilePicture")
-                            PFUser.currentUser()!.save()
-                        }
-                        else {
-                            println("Error: \(error.localizedDescription)")
-                        }
-                        })
-                        PFUser.currentUser()!.setValue(name, forKey: "username")
-                        PFUser.currentUser()!.setValue(email, forKey: "email")
-                        PFUser.currentUser()!.save()
-                    }
-                }
-                )
-            }
-        }
-    }
     
     // MARK: - PFLogInViewControllerDelegate
     func logInViewController(logInController: PFLogInViewController!, shouldBeginLogInWithUsername username: String!, password: String!) -> Bool {

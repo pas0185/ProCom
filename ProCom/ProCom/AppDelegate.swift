@@ -200,7 +200,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationDidBecomeActive(application: UIApplication) {
         
-        FBAppEvents.activateApp()
+        FBSDKAppEvents.activateApp()
         FBAppCall.handleDidBecomeActiveWithSession(PFFacebookUtils.session())
         
         let current: PFInstallation = PFInstallation.currentInstallation()

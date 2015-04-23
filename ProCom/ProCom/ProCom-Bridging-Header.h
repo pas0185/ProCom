@@ -2,6 +2,8 @@
 #import <FacebookSDK/FacebookSDK.h>
 #import <Parse/PFObject+Subclass.h>
 #import <ParseFacebookUtils/PFFacebookUtils.h>
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+#import <FBSDKLoginKit/FBSDKLoginKit.h>
 
 
 #import <JSQMessagesViewController/JSQMessages.h>

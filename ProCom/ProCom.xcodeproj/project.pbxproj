@@ -228,7 +228,6 @@
 		E27B3FDF1A8D75B800AE18C5 /* ProCom */ = {
 			isa = PBXGroup;
 			children = (
-				CB130FCE1AE82DDB00406C07 /* UserAccessViewController.swift */,
 				CBA7D49F1A92D0120065AB70 /* ProCom-Bridging-Header.h */,
 				E27B3FE21A8D75B800AE18C5 /* AppDelegate.swift */,
 				1559537C1AAF87DB005777A4 /* Constants.swift */,
@@ -236,6 +235,7 @@
 				15B6BF111AE58B8A0040F4C4 /* NetworkManager.swift */,
 				15E8C5DB1AD65DF900AF91EF /* Parse Network Models */,
 				15E8C5DA1AD65DE900AF91EF /* Core Data Models */,
+				CB130FCE1AE82DDB00406C07 /* UserAccessViewController.swift */,
 				539D3B191A8FDE6D0093533F /* GroupTableViewController.swift */,
 				CBF01B511A9AE53300364AB6 /* BlurbTableViewController.swift */,
 				CB8A0C461AD47B95001B6AF4 /* ConvoSettingsViewController.swift */,
