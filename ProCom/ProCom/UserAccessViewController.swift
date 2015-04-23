@@ -21,35 +21,6 @@ class UserAccessViewController: UIViewController, PFLogInViewControllerDelegate,
             logInViewController.fields = (PFLogInFields.Facebook | PFLogInFields.LogInButton | PFLogInFields.PasswordForgotten | PFLogInFields.UsernameAndPassword | PFLogInFields.SignUpButton)
             logInViewController.delegate = self
     
-            if(logInViewController.logInView.facebookButton == nil)
-            {
-                let permissions = ["user_about_me"]
-                PFFacebookUtils.logInWithPermissions(permissions) {
-                    (user, error) in
-                    if (user == nil) {
-                        if (error == nil) {
-                            println("User cancelled FB login")
-                        }else{
-                            println("FB login error: \(error)")
-                        }
-                    } else if user!.isNew {
-                        self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
-                        var gtView = GroupTableViewController(group: nil)
-                        self.navigationController?.setViewControllers([gtView], animated: true)
-                        println("User signed up and logged in with Facebook")
-                        
-                        
-                    } else {
-                        self.navigationController?.dismissViewControllerAnimated(true, completion: nil)
-                        var gtView = GroupTableViewController(group: nil)
-                        self.navigationController?.setViewControllers([gtView], animated: true)
-                        println("User logged in via Facebook")
-                        
-                    }
-                }
-
-            }
-            
             self.navigationController?.presentViewController(logInViewController, animated:true, completion: nil)
         }
         else {
@@ -77,6 +48,39 @@ class UserAccessViewController: UIViewController, PFLogInViewControllerDelegate,
     
     func logInViewController(logInController: PFLogInViewController!, didLogInUser user: PFUser!) {
         println("logInViewController did log in user, dismiss this VC")
+        
+        if !PFFacebookUtils.session()!.isOpen {
+            println("PFFacebookUtils.session().isOpen: false")
+            PFFacebookUtils.session()!.handleDidBecomeActive()
+        }
+        
+        var request = FBRequest.requestForMe()
+        request.startWithCompletionHandler() {
+            (connection: FBRequestConnection!, result: AnyObject!, error: NSError!) -> Void in
+            
+            if error == nil {
+                
+                let parseUser = PFUser.currentUser()
+                let userData = result as! NSDictionary
+                println("\(userData)")
+                
+                let name = userData["name"] as! String
+                let facebookID = userData["id"] as! String
+                let avatar = "https://graph.facebook.com/\(facebookID)/picture"
+                
+                parseUser?.setObject(name, forKey: "username")
+                parseUser?.setObject(facebookID, forKey: "fbId")
+                parseUser?.setObject(avatar, forKey: "profilePicture")
+                
+                parseUser?.save()
+                
+            }
+                
+            else {
+                println("Facebook Request \(error)")
+                println("error.userInfo: \(error.userInfo)")
+            }
+        }
         
         logInController.dismissViewControllerAnimated(true, completion: nil)
         
