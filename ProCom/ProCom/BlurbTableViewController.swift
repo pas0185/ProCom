@@ -214,8 +214,7 @@ class BlurbTableViewController: JSQMessagesViewController {
     
     func setupAvatarImage(name: String, imageUrl: String?, incoming: Bool) {
         
-        
-        println("In Blurb View's setupAvatarImage")
+        println("setupAvatarImage received: \nname: \(name)\nimageURL: \(imageUrl)\nincoming: \(incoming)")
         
         if let stringUrl = imageUrl {
             if let url = NSURL(string: stringUrl) {
@@ -269,9 +268,6 @@ class BlurbTableViewController: JSQMessagesViewController {
 
     override func didPressSendButton(button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: NSDate!) {
         
-        
-        println("In Blurb View's sendbutton")
-        
         JSQSystemSoundPlayer.jsq_playMessageSentSound()
         self.sendMessage(text)
         finishSendingMessage()
@@ -279,17 +275,11 @@ class BlurbTableViewController: JSQMessagesViewController {
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, messageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageData! {
         
-        
-        println("In Blurb View's messageData")
-        
         return self.mgdBlurbs[indexPath.item]
     }
     
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, messageBubbleImageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageBubbleImageDataSource! {
-        
-        
-        println("In Blurb View's messageBubble")
         
         let blurb = self.mgdBlurbs[indexPath.item]
         
@@ -302,30 +292,24 @@ class BlurbTableViewController: JSQMessagesViewController {
     
     override func collectionView(collectionView: JSQMessagesCollectionView!, avatarImageDataForItemAtIndexPath indexPath: NSIndexPath!) -> JSQMessageAvatarImageDataSource! {
         
-        
-        println("In Blurb View's avatar image at path")
-        
         let blurb = self.mgdBlurbs[indexPath.item]
         if let avatar = avatars[blurb.username]{
             return avatar
         }
         else {
-            setupAvatarImage(blurb.username, imageUrl: nil /*blurb.profilePic*/, incoming: true)
+            var picURL = blurb.userPic()
+            println("Found facebook pic URL for blurb: \(picURL)")
+            setupAvatarImage(blurb.username, imageUrl: picURL, incoming: true)
             return avatars[blurb.username]
         }
-
     }
     
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         
-        println("In Blurb View's number of blurbs")
         return self.mgdBlurbs.count
     }
 
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        
-        
-        println("In Blurb View's cell for item at index path")
         
         let cell = super.collectionView(collectionView, cellForItemAtIndexPath: indexPath) as! JSQMessagesCollectionViewCell
         cell.textView.textColor = UIColor.whiteColor()
@@ -341,9 +325,6 @@ class BlurbTableViewController: JSQMessagesViewController {
     
     // View  usernames above bubbles
     override func collectionView(collectionView: JSQMessagesCollectionView!, attributedTextForMessageBubbleTopLabelAtIndexPath indexPath: NSIndexPath!) -> NSAttributedString! {
-        
-        
-        println("In Blurb View's attributed text")
         
         let blurb = self.mgdBlurbs[indexPath.row];
         
@@ -366,9 +347,6 @@ class BlurbTableViewController: JSQMessagesViewController {
     
     //Decideds where the blurb should be located ie. left or right side of the view
     override func collectionView(collectionView: JSQMessagesCollectionView!, layout collectionViewLayout: JSQMessagesCollectionViewFlowLayout!, heightForMessageBubbleTopLabelAtIndexPath indexPath: NSIndexPath!) -> CGFloat {
-        
-        
-        println("In Blurb View's height for message")
 
         if let blurb = self.mgdBlurbs[indexPath.item] as ManagedBlurb? {
             

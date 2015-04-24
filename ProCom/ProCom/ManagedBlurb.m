@@ -18,13 +18,9 @@
 @dynamic createdAt;
 @dynamic userId;
 @dynamic username;
-@dynamic profilePic;
+//@dynamic profilePic;
 
 #pragma mark - JSQMessageData Methods
-
-- (NSString *)senderDisplayName {
-    return self.username;
-}
 
 - (NSDate *)date {
     return self.createdAt;
@@ -34,17 +30,20 @@
     return self.userId;
 }
 
+#pragma mark - Helper Methods
+
+- (NSString *)senderDisplayName {
+    return self.username;
+}
+
 - (NSUInteger)messageHash {
     return self.text.hash;
 }
-- (NSString *) userPic{
-    PFUser *currentUser = [PFUser user];
-    [currentUser fetchIfNeeded];
-    NSString *profilePic = currentUser[@"profilePicture"];
-    self.profilePic = profilePic;
-    return self.profilePic;
-}
 
+- (NSString *) userPic {
+    NSString *profilePicURL = currentUser[@"profilePicture"];
+    return profilePicURL;
+}
 
 - (BOOL)isMediaMessage {
     return false;

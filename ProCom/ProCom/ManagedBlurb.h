@@ -20,6 +20,8 @@
 @property (nonatomic, retain) NSString * userId;
 @property (nonatomic, retain) NSString * username;
 @property (nonatomic, retain) NSDate * createdAt;
-@property (nonatomic, retain) NSString * profilePic;
+//@property (nonatomic, retain) NSString * profilePic;
+
+- (NSString *) userPic;
 
 @end
