@@ -21,7 +21,7 @@ class BlurbTableViewController: JSQMessagesViewController {
     var avatars = [String: JSQMessagesAvatarImage]()
 
     var outgoingBubbleImageView = JSQMessagesBubbleImageFactory().outgoingMessagesBubbleImageWithColor(UIColor(red: 148/255, green: 34/255, blue: 50/255.0, alpha: 1))
-    var incomingBubbleImageView = JSQMessagesBubbleImageFactory().outgoingMessagesBubbleImageWithColor(UIColor.grayColor())
+    var incomingBubbleImageView = JSQMessagesBubbleImageFactory().incomingMessagesBubbleImageWithColor(UIColor.grayColor())
     
     init(convo: ManagedConvo) {
         super.init(nibName: nil, bundle: nil)
@@ -61,31 +61,22 @@ class BlurbTableViewController: JSQMessagesViewController {
         
         self.navigationItem.title = convo?.name
         
-        println("In Blurb View's viewDidLoad()")
     }
     
     override func viewWillAppear(animated: Bool) {
-        
         self.fetchBlurbs()
-        
-        println("In Blurb View's viewWillAppear()")
     }
     
     func didReceiveRemoteNotification(userInfo: [NSObject: AnyObject]) {
         self.fetchBlurbs()
-        
-        println("In Blurb View's didRecieveRemoteNotification")
     }
     
     //MARK: - User Controls
     
     func refresh(sender:AnyObject)
     {
-        println("refresh called")
         self.collectionView.reloadData()
         self.refreshControl?.endRefreshing()
-        
-        println("In Blurb View's refreshing")
     }
     
     func settingsButtonClicked(){
@@ -97,9 +88,6 @@ class BlurbTableViewController: JSQMessagesViewController {
     //MARK: - Blurb handling
     
     func fetchBlurbs() {
-        
-        println("In Blurb View's fetchblurbs")
-        
         if let convoId = self.convo?.pfId {
             
             // CoreData fetching blurbs
@@ -145,9 +133,6 @@ class BlurbTableViewController: JSQMessagesViewController {
     
     func sendMessage(text: String) {
         
-        
-        println("In Blurb View's sendMessage")
-        
         if let convoId = self.convo?.pfId {
             
             // Push new Blurb to the Network
@@ -172,8 +157,6 @@ class BlurbTableViewController: JSQMessagesViewController {
     }
     
     func pushNotifyOtherMembers(message: String) {
-        
-        println("In Blurb View's notify")
         
         if let c = self.convo {
             
@@ -213,9 +196,6 @@ class BlurbTableViewController: JSQMessagesViewController {
     //#MARK: - Setting up Blurbs
     
     func setupAvatarImage(name: String, imageUrl: String?, incoming: Bool) {
-        
-        println("setupAvatarImage received: \nname: \(name)\nimageURL: \(imageUrl)\nincoming: \(incoming)")
-        
         if let stringUrl = imageUrl {
             if let url = NSURL(string: stringUrl) {
                 if let data = NSData(contentsOfURL: url) {
@@ -233,9 +213,6 @@ class BlurbTableViewController: JSQMessagesViewController {
     }
     
     func setupAvatarColor(name: String, incoming: Bool) {
-        
-        
-        println("In Blurb View's avatarColor")
         
         let diameter = incoming ? UInt(collectionView.collectionViewLayout.incomingAvatarViewSize.width) : UInt(collectionView.collectionViewLayout.outgoingAvatarViewSize.width)
         
@@ -255,7 +232,6 @@ class BlurbTableViewController: JSQMessagesViewController {
     
     func receivedMessagePressed(sender: UIBarButtonItem) {
         
-        println("In Blurb View's recivedMessage")
         // Simulate reciving message
         showTypingIndicator = !showTypingIndicator
         scrollToBottomAnimated(true)
