@@ -45,17 +45,22 @@ class GroupTableViewController: UITableViewController, UIAlertViewDelegate {
         
         super.viewDidLoad()
         
+        // Fetch Data
         self.fetchConvos()
-        
         self.fetchGroups()
         
-        // Add an 'add group' button to navbar
+        // Logo on Navigation Bar
+        let image = UIImage(named: "parlé-logo")
+        let imageView = UIImageView(image: image)
+        navigationItem.titleView = imageView
+        
+        // Bar button for New Group
         var addButton: UIBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "addGroupButtonClicked")
         self.navigationItem.rightBarButtonItem = addButton
-        
     }
     
     func fetchConvos() {
+        
         // Convos from Core Data
         self.convoActivityIndicator.startAnimating()
         CoreDataManager.sharedInstance.fetchConvos(forGroup: self.group) {

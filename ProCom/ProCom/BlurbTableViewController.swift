@@ -255,7 +255,6 @@ class BlurbTableViewController: JSQMessagesViewController {
     
     func receivedMessagePressed(sender: UIBarButtonItem) {
         
-        
         println("In Blurb View's recivedMessage")
         // Simulate reciving message
         showTypingIndicator = !showTypingIndicator
