@@ -3,17 +3,17 @@
     {
       "idiom" : "universal",
       "scale" : "1x",
-      "filename" : "parlé-logo@1x.png"
+      "filename" : "parlé-logo-50x22.png"
     },
     {
       "idiom" : "universal",
       "scale" : "2x",
-      "filename" : "parlé-logo@2x.png"
+      "filename" : "parlé-logo-100x44.png"
     },
     {
       "idiom" : "universal",
       "scale" : "3x",
-      "filename" : "parlé-logo@3x.png"
+      "filename" : "parlé-logo-151x66.png"
     }
   ],
   "info" : {
