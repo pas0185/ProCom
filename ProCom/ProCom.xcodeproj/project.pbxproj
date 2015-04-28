@@ -25,7 +25,6 @@
 		539D3B1A1A8FDE6D0093533F /* GroupTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 539D3B191A8FDE6D0093533F /* GroupTableViewController.swift */; };
 		CB130FCF1AE82DDB00406C07 /* UserAccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB130FCE1AE82DDB00406C07 /* UserAccessViewController.swift */; };
 		CB8A0C471AD47B95001B6AF4 /* ConvoSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8A0C461AD47B95001B6AF4 /* ConvoSettingsViewController.swift */; };
-		CB8A0C4C1AD48137001B6AF4 /* settingsicon.png in Resources */ = {isa = PBXBuildFile; fileRef = CB8A0C4B1AD48137001B6AF4 /* settingsicon.png */; };
 		CBA7D4701A92BE600065AB70 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = CBA7D46E1A92BE4D0065AB70 /* libsqlite3.dylib */; };
 		CBA7D48B1A92C0B00065AB70 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBA7D4891A92C0910065AB70 /* SystemConfiguration.framework */; };
 		CBA7D48C1A92C0B00065AB70 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBA7D4871A92C0840065AB70 /* Security.framework */; };
@@ -39,6 +38,7 @@
 		CBA7D4941A92C0B00065AB70 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBA7D4771A92C02D0065AB70 /* AudioToolbox.framework */; };
 		CBA7D4A31A92D0820065AB70 /* ProCom-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = CBA7D49F1A92D0120065AB70 /* ProCom-Bridging-Header.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CBCBA2CE1AAA936D00B2E303 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBCBA2CD1AAA936D00B2E303 /* Social.framework */; };
+		CBD1E5FD1AEC396400AF31EA /* AppIcon in Resources */ = {isa = PBXBuildFile; fileRef = CBD1E5FC1AEC396400AF31EA /* AppIcon */; };
 		CBF01B521A9AE53300364AB6 /* BlurbTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF01B511A9AE53300364AB6 /* BlurbTableViewController.swift */; };
 		E27B3FE31A8D75B800AE18C5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E27B3FE21A8D75B800AE18C5 /* AppDelegate.swift */; };
 		E27B3FE61A8D75B800AE18C5 /* ProCom.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = E27B3FE41A8D75B800AE18C5 /* ProCom.xcdatamodeld */; };
@@ -77,7 +77,6 @@
 		B25AB3CEB0E23C8699A9423F /* Pods-ProCom.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ProCom.release.xcconfig"; path = "Pods/Target Support Files/Pods-ProCom/Pods-ProCom.release.xcconfig"; sourceTree = "<group>"; };
 		CB130FCE1AE82DDB00406C07 /* UserAccessViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserAccessViewController.swift; sourceTree = "<group>"; };
 		CB8A0C461AD47B95001B6AF4 /* ConvoSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConvoSettingsViewController.swift; sourceTree = "<group>"; };
-		CB8A0C4B1AD48137001B6AF4 /* settingsicon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = settingsicon.png; sourceTree = "<group>"; };
 		CBA7D46E1A92BE4D0065AB70 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		CBA7D4771A92C02D0065AB70 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		CBA7D4791A92C0370065AB70 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -91,6 +90,7 @@
 		CBA7D4891A92C0910065AB70 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		CBA7D49F1A92D0120065AB70 /* ProCom-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ProCom-Bridging-Header.h"; sourceTree = "<group>"; };
 		CBCBA2CD1AAA936D00B2E303 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		CBD1E5FC1AEC396400AF31EA /* AppIcon */ = {isa = PBXFileReference; lastKnownFileType = folder; path = AppIcon; sourceTree = SOURCE_ROOT; };
 		CBF01B511A9AE53300364AB6 /* BlurbTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlurbTableViewController.swift; sourceTree = "<group>"; };
 		E27B3FDD1A8D75B800AE18C5 /* ProCom.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ProCom.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E27B3FE11A8D75B800AE18C5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -180,7 +180,6 @@
 		CB8A0C481AD47E8D001B6AF4 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				CB8A0C4B1AD48137001B6AF4 /* settingsicon.png */,
 			);
 			name = Images;
 			sourceTree = "<group>";
@@ -247,6 +246,7 @@
 		E27B3FE01A8D75B800AE18C5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				CBD1E5FC1AEC396400AF31EA /* AppIcon */,
 				CB8A0C481AD47E8D001B6AF4 /* Images */,
 				CBA7D46D1A92BDF10065AB70 /* Frameworks */,
 				E27B3FEE1A8D75B800AE18C5 /* Images.xcassets */,
@@ -373,7 +373,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CB8A0C4C1AD48137001B6AF4 /* settingsicon.png in Resources */,
+				CBD1E5FD1AEC396400AF31EA /* AppIcon in Resources */,
 				159CCA691AD5788E00C16C25 /* Keys.plist in Resources */,
 				E27B3FEF1A8D75B800AE18C5 /* Images.xcassets in Resources */,
 			);
