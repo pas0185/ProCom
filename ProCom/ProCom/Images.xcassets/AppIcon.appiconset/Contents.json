@@ -1,6 +1,11 @@
 {
   "images" : [
     {
+<<<<<<< HEAD
+      "size" : "29x29",
+      "idiom" : "iphone",
+      "filename" : "AppIcon-58.png",
+=======
       "size" : "29x29",
       "idiom" : "iphone",
       "filename" : "Icon-Small.png",
@@ -10,23 +15,47 @@
       "size" : "29x29",
       "idiom" : "iphone",
       "filename" : "Icon-Small@2x.png",
+>>>>>>> origin/version-two-branch
       "scale" : "2x"
     },
     {
       "size" : "29x29",
       "idiom" : "iphone",
+<<<<<<< HEAD
+      "filename" : "AppIcon-87.png",
+=======
       "filename" : "Icon-Small@3x.png",
+>>>>>>> origin/version-two-branch
       "scale" : "3x"
     },
     {
       "size" : "40x40",
       "idiom" : "iphone",
+<<<<<<< HEAD
+      "filename" : "AppIcon-80.png",
+=======
       "filename" : "Icon-Small-40@2x.png",
+>>>>>>> origin/version-two-branch
       "scale" : "2x"
     },
     {
       "size" : "40x40",
       "idiom" : "iphone",
+<<<<<<< HEAD
+      "filename" : "AppIcon-120-1.png",
+      "scale" : "3x"
+    },
+    {
+      "size" : "60x60",
+      "idiom" : "iphone",
+      "filename" : "AppIcon-120.png",
+      "scale" : "2x"
+    },
+    {
+      "size" : "60x60",
+      "idiom" : "iphone",
+      "filename" : "AppIcon-180.png",
+=======
       "filename" : "Icon-Small-40@3x.png",
       "scale" : "3x"
     },
@@ -52,6 +81,7 @@
       "size" : "60x60",
       "idiom" : "iphone",
       "filename" : "Icon-60@3x.png",
+>>>>>>> origin/version-two-branch
       "scale" : "3x"
     },
     {

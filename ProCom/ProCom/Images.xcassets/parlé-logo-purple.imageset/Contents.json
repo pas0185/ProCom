@@ -1,0 +1,35 @@
+{
+  "images" : [
+    {
+      "idiom" : "universal",
+      "scale" : "1x",
+<<<<<<< HEAD:ProCom/ProCom/Images.xcassets/parlé-logo.imageset/Contents.json
+      "filename" : "iParle-Logo@22.png"
+=======
+      "filename" : "parlé-logo-50x22.png"
+>>>>>>> origin/version-two-branch:ProCom/ProCom/Images.xcassets/parlé-logo-purple.imageset/Contents.json
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "2x",
+<<<<<<< HEAD:ProCom/ProCom/Images.xcassets/parlé-logo.imageset/Contents.json
+      "filename" : "iParle-Logo@44.png"
+=======
+      "filename" : "parlé-logo-100x44.png"
+>>>>>>> origin/version-two-branch:ProCom/ProCom/Images.xcassets/parlé-logo-purple.imageset/Contents.json
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x",
+<<<<<<< HEAD:ProCom/ProCom/Images.xcassets/parlé-logo.imageset/Contents.json
+      "filename" : "iParle-Logo@66.png"
+=======
+      "filename" : "parlé-logo-151x66.png"
+>>>>>>> origin/version-two-branch:ProCom/ProCom/Images.xcassets/parlé-logo-purple.imageset/Contents.json
+    }
+  ],
+  "info" : {
+    "version" : 1,
+    "author" : "xcode"
+  }
+}

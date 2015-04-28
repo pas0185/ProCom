@@ -43,6 +43,8 @@
 	<string></string>
 	<key>UIMainStoryboardFile</key>
 	<string></string>
+	<key>UIPrerenderedIcon</key>
+	<false/>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
