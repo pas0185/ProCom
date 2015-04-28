@@ -37,6 +37,7 @@
 		CBA7D4931A92C0B00065AB70 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBA7D4791A92C0370065AB70 /* CFNetwork.framework */; };
 		CBA7D4941A92C0B00065AB70 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBA7D4771A92C02D0065AB70 /* AudioToolbox.framework */; };
 		CBA7D4A31A92D0820065AB70 /* ProCom-Bridging-Header.h in Headers */ = {isa = PBXBuildFile; fileRef = CBA7D49F1A92D0120065AB70 /* ProCom-Bridging-Header.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CBBCA6261AEC462200FB2B45 /* Image Resources in Resources */ = {isa = PBXBuildFile; fileRef = CBBCA6251AEC462100FB2B45 /* Image Resources */; };
 		CBCBA2CE1AAA936D00B2E303 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CBCBA2CD1AAA936D00B2E303 /* Social.framework */; };
 		CBD1E5FD1AEC396400AF31EA /* AppIcon in Resources */ = {isa = PBXBuildFile; fileRef = CBD1E5FC1AEC396400AF31EA /* AppIcon */; };
 		CBF01B521A9AE53300364AB6 /* BlurbTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF01B511A9AE53300364AB6 /* BlurbTableViewController.swift */; };
@@ -89,6 +90,7 @@
 		CBA7D4871A92C0840065AB70 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		CBA7D4891A92C0910065AB70 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		CBA7D49F1A92D0120065AB70 /* ProCom-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ProCom-Bridging-Header.h"; sourceTree = "<group>"; };
+		CBBCA6251AEC462100FB2B45 /* Image Resources */ = {isa = PBXFileReference; lastKnownFileType = folder; path = "Image Resources"; sourceTree = SOURCE_ROOT; };
 		CBCBA2CD1AAA936D00B2E303 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 		CBD1E5FC1AEC396400AF31EA /* AppIcon */ = {isa = PBXFileReference; lastKnownFileType = folder; path = AppIcon; sourceTree = SOURCE_ROOT; };
 		CBF01B511A9AE53300364AB6 /* BlurbTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlurbTableViewController.swift; sourceTree = "<group>"; };
@@ -177,13 +179,6 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		CB8A0C481AD47E8D001B6AF4 /* Images */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Images;
-			sourceTree = "<group>";
-		};
 		CBA7D46D1A92BDF10065AB70 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -246,8 +241,8 @@
 		E27B3FE01A8D75B800AE18C5 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				CBBCA6251AEC462100FB2B45 /* Image Resources */,
 				CBD1E5FC1AEC396400AF31EA /* AppIcon */,
-				CB8A0C481AD47E8D001B6AF4 /* Images */,
 				CBA7D46D1A92BDF10065AB70 /* Frameworks */,
 				E27B3FEE1A8D75B800AE18C5 /* Images.xcassets */,
 				E27B3FF01A8D75B800AE18C5 /* LaunchScreen.xib */,
@@ -374,6 +369,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CBD1E5FD1AEC396400AF31EA /* AppIcon in Resources */,
+				CBBCA6261AEC462200FB2B45 /* Image Resources in Resources */,
 				159CCA691AD5788E00C16C25 /* Keys.plist in Resources */,
 				E27B3FEF1A8D75B800AE18C5 /* Images.xcassets in Resources */,
 			);
